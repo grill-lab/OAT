@@ -1,0 +1,6 @@
+resources:
+  - orchestrator.yaml
+  - local_client.yaml
+  - functionalities.yaml
+  - neural_functionalities.yaml
+  - taskmap_generation.yaml

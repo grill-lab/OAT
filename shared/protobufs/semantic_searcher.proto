@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+message SemanticQuery {
+    string text = 1;
+}
+
+message ThemeDocument {
+    repeated string example_queries = 1;
+    string theme = 2;
+    string description = 3;
+    repeated string trivia = 4;
+    repeated string popular_tasks = 5; // popular tasks
+    repeated string clarifying_questions = 6;
+    repeated string curated_taskmaps = 7;
+}
+
+message ThemeMapping{
+    string theme_query = 1;
+    string theme = 2;
+}
+
+service SemanticSearcher{
+    rpc search_theme(SemanticQuery) returns (ThemeMapping) {}
+}

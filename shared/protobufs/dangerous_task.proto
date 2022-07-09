@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "taskmap.proto";
+
+message DangerousAssessment {
+  ////////////////////////////////////////////////////////////////////////////////
+  // Message contains the safety assessment of intended utterances.
+  ////////////////////////////////////////////////////////////////////////////////
+  bool is_dangerous = 1; //
+}
+
+
+service Dangerous {
+  rpc dangerous_task_check(TaskMap) returns (DangerousAssessment) {}
+  rpc dangerous_query_check(Session) returns (DangerousAssessment) {}
+}

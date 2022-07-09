@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-functionalities
+#  namespace: develop
+spec:
+  selector:
+    matchLabels:
+      grill_app: external_functionalities
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        grill_app: external_functionalities
+    spec:
+      containers:
+      - name: external-functionalities
+        imagePullPolicy: Never # makes sure to pull from the local docker registry
+        image: external_functionalities:latest
+        ports:
+          - containerPort: 8000
+        workingDir: /source # the directory to go to when ssh'ing in
+        volumeMounts:
+          - mountPath: /shared/file_system  # this takes the volume name defined bellow and mounts it in the pod
+            name: persistent-storage
+        env:
+          - name: CONTAINER_NAME
+            value: "external_functionalities"
+          - name: DATABASE_URL
+            value: "http://dynamodb-local:8000"
+      volumes:
+        - name: persistent-storage # this is taking the file system from minikube and giving it a volume name
+          hostPath:
+            path: /shared/file_system # this is actually in the minikube vm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-functionalities
+#  namespace: develop
+  labels:
+    grill_app: external-functionalities-service
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    grill_app: external_functionalities
+  type: LoadBalancer

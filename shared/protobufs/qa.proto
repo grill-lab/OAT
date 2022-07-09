@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+import "taskmap.proto";
+
+message QAQuery {
+  string text = 1;
+  int32 top_k = 2;
+  repeated ConversationTurn turns = 3;
+  repeated TaskMap candidates = 4;
+  TaskState state = 5;
+  TaskMap taskmap = 6;
+  TaskSelection task_selection = 7;
+
+}
+
+message DocumentList {
+  repeated Document sources = 1;
+}
+
+message Document {
+  string corpus = 1;
+}
+
+message QARequest {
+  QAQuery query = 1;
+  DocumentList list = 2;
+  string question_type = 4;
+}
+
+message QAResponse {
+  string text = 1;
+}
+
+message SentenceScoreRequest {
+  string query = 1;
+  string index_name = 2;
+}
+
+message SentenceScoreResponse {
+  repeated float scores = 1;
+  repeated int32 indexes = 2;
+}
+
+message SentenceIndexRequest {
+  repeated string str_list = 1;
+  string index_name = 2;
+}
+
+message SentenceIndexResponse {
+  string index_name = 1;
+}
+
+service SentenceScoring {
+  rpc score_sentences(SentenceScoreRequest) returns (SentenceScoreResponse) {}
+  rpc index_list(SentenceIndexRequest) returns (SentenceIndexResponse) {}
+}
+
+service QuestionAnswering{
+  rpc rewrite_query(Session) returns (QAQuery) {}
+  rpc domain_retrieve(QAQuery) returns (DocumentList) {}
+  rpc synth_response(QARequest) returns (QAResponse) {}
+}
+
+service TaskQuestionAnswering{
+  rpc rewrite_query(Session) returns (QAQuery) {}
+  rpc domain_retrieve(QAQuery) returns (DocumentList) {}
+  rpc synth_response(QARequest) returns (QAResponse) {}
+}

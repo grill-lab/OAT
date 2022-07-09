@@ -1,0 +1,47 @@
+syntax = "proto3";
+import "taskmap.proto";
+
+message IntentRequest {
+    string utterance = 1;
+    repeated ConversationTurn turns = 2;
+}
+
+message Attributes {
+    int32 hours = 1;
+    int32 minutes = 2;
+    int32 seconds = 3;
+    int32 step = 4;
+    int32 option = 5;
+    bool vague = 6;
+    string raw = 7;
+}
+
+message IntentClassification {
+    // theme_search, specific_search, general_question, next_page, previous_page, restart, choose_task
+    string classification = 1;
+    Attributes attributes = 3;
+}
+
+message QuestionClassificationRequest {
+    string utterance = 1;
+}
+
+message QuestionClassificationResponse {
+    string classification = 1;
+}
+
+message ScoreSentencesRequest {
+    repeated string sentences = 1;
+    string query = 2;
+}
+
+message ScoreSentencesResponse {
+    repeated int32 sorted_idxs = 1;
+    repeated float sorted_scores = 2;
+}
+
+service PhaseIntentClassifier{
+    rpc classify_intent(IntentRequest) returns (IntentClassification) {}
+    rpc classify_question(QuestionClassificationRequest) returns (QuestionClassificationResponse) {}
+    rpc score_sentences(ScoreSentencesRequest) returns (ScoreSentencesResponse) {}
+}

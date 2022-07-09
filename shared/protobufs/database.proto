@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+import "taskmap.proto";
+import "searcher.proto";
+import "theme.proto";
+import "semantic_searcher.proto";
+import "asr_parser.proto";
+/*
+Database will support 2 get/set operations:
+- Load/Save TaskMap
+- Load/Save Session
+ */
+
+message TaskMapRequest {
+  string id = 1;
+  TaskMap taskmap = 2;
+}
+
+
+message SessionRequest {
+  string id = 1;
+  Session session = 2;
+}
+
+message Void {}
+
+message QueryList{
+  repeated string queries = 1;
+}
+
+
+service Database{
+  rpc load_taskmap(TaskMapRequest) returns (TaskMap) {}
+  rpc save_taskmap(TaskMapRequest) returns (Void) {}
+
+  rpc load_session(SessionRequest) returns (Session) {}
+  rpc save_session(SessionRequest) returns (Void) {}
+
+  rpc save_search_logs(SearchLog) returns(Void) {}
+  rpc save_asr_logs(ASRLog) returns(Void) {}
+
+  rpc get_theme_results(ThemeRequest) returns(ThemeResults) {}
+
+  rpc get_theme(ThemeMapping) returns (ThemeMapping) {}
+  rpc get_queries(Void) returns (QueryList) {}
+}

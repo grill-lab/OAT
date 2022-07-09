@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "searcher.proto";
+
+message ThemeResults{
+  string theme_word = 1;
+  TaskMapList results = 2;
+
+  string description = 3;
+  repeated string trivia = 4;
+  repeated string popular_tasks = 5; // popular tasks
+  repeated string clarifying_questions = 6;
+}
+
+message ThemeRequest{
+  string theme_word = 1;
+}

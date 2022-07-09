@@ -1,0 +1,1 @@
+from .qa_policy import QAPolicy as DefaultPolicy

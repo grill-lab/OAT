@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+    <title>OAT - Open Assistant Toolkit</title>
+</head>
+
+<script src = "{{ url_for('static', filename= 'scripts.js') }}"></script>
+
+
+<body onload="assignID();">
+    <div class="row">
+        <div class="column">
+            <header>
+                <h1>Open Assistant Toolkit Dev. Chat</h1>
+            </header>
+
+            <section class="chat">
+                <p><strong>BOT</strong>: Welcome!</p>
+            </section>
+
+            <form autocomplete="off" onsubmit="call(); return false;">
+                <input autocomplete="false" name="hidden" type="text" style="display:none;"/>
+                <input id="IDField" name="userID" type="hidden"/>
+                <input id="inputText" type="text" placeholder="Say something nice" />
+                <button>Send</button>
+            </form>
+        </div>
+        <div class="column" id="screen_interface">
+            <div class="background"></div>
+            <div id="displaybox">
+                <h1 id="title">Welcome to OAT</h1>
+                <p> This screen is the multimodal mock display</p>
+                <p> Type something in the box to get started</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

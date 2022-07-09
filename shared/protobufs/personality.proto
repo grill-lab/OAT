@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message PersonalityRequest {
+  string utterance = 1;
+}
+
+message PersonalityResponse {
+  bool is_personalilty_question = 1;
+  string answer = 2;
+}
+
+service Personality{
+  rpc process_utterance(PersonalityRequest) returns (PersonalityResponse) {}
+}

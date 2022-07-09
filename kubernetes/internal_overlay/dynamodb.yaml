@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamodb-local
+#  namespace: develop
+spec:
+  selector:
+    matchLabels:
+      grill_app: dynamodb-local
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        grill_app: dynamodb-local
+    spec:
+      containers:
+        - name: dynamodb-local
+          image: amazon/dynamodb-local:latest
+          args: [ "-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "./data" ]
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - mountPath: /home/dynamodblocal/data  # this takes the volume name defined bellow and mounts it in the pod
+              name: persistent-storage
+      volumes:
+        - name: persistent-storage # this is taking the file system from minikube and giving it a volume name
+          hostPath:
+            path: /shared/file_system # this is actually in the minikube vm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynamodb-local
+#  namespace: develop
+  labels:
+    grill_app: dynamodb-local-service
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    grill_app: dynamodb-local
+  type: LoadBalancer

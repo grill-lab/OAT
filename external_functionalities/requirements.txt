@@ -1,0 +1,9 @@
+PyYAML==5.4.1
+watchtower==3.0.0
+boto3==1.23.10
+grpc-interceptor==0.14.1
+grpcio==1.46.3
+grpcio-tools==1.46.3
+awscli==1.24.10
+Flask==2.0.3
+requests==2.27.1

@@ -1,0 +1,14 @@
+who are you,0
+what are you,0
+made you,1
+created you,1
+built you,1
+what is your name,2
+what are you called,2
+do you have a name,2
+where do you live,3
+where are you from,3
+where were you built,3
+what do you think about,4
+are you better than,4
+are you better than,4

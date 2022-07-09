@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: local-client
+#  namespace: develop
+spec:
+  selector:
+    matchLabels:
+      grill_app: local-client
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        grill_app: local-client
+    spec:
+      containers:
+      - name: local-client
+        imagePullPolicy: Never # makes sure to pull from the local docker registry
+        image: local_client:latest
+        ports:
+        - containerPort: 8000
+        env:
+          - name: CONTAINER_NAME
+            value: "local_client"
+          - name: DISTRIBUTOR_URL
+            value: "http://orchestrator:8000"
+      volumes:
+        - name: persistent-storage # this is taking the file system from minikube and giving it a volume name
+          hostPath:
+            path: /shared/file_system # this is actually in the minikube vm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: local-client
+#  namespace: develop
+  labels:
+    grill_app: local-client-service
+spec:
+  ports:
+  - port: 9000
+    targetPort: 8000
+  selector:
+    grill_app: local-client
+  type: LoadBalancer

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+
+
+message ASRCandidate {
+
+  string utterance = 1;
+  float confidence = 2;
+
+  // this value represents the score of the model if the system as been "woke" by the user
+  // if the user is responding when prompt by the system, this value will be 0.0
+  // if the system has been activated by the ALEXA keyword, this value will represent the confidence of the system
+  float directedness = 3;
+
+  // list of tokens returned by the ASR system
+  repeated string tokens = 4;
+}
+
+
+message ASRInfo {
+
+  repeated ASRCandidate candidates = 1;
+
+  // Value in Decibels
+  float signal_to_noise_ratio = 2;
+
+}

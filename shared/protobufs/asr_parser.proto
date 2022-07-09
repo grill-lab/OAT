@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "taskmap.proto";
+
+message ASRResponse {
+  string utterance = 1;
+}
+
+
+message ASRLog{
+
+  string id = 7;
+
+  string context = 1;
+  repeated string candidates = 2;
+  repeated float scores = 3;
+
+  string alexa_utterance = 4;
+  string output_utterance = 6;
+
+  bool reranked = 5;
+}
+
+
+service ASRParser{
+  rpc rerank(Session) returns (ASRResponse) {}
+}

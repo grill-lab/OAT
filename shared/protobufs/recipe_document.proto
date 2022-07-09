@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+
+message RecipeDocument {
+    ////////////////////////////////////////////////////////////////////////////////
+    // Document message for storing extracted information from recipe webpages.
+    ////////////////////////////////////////////////////////////////////////////////
+    string doc_id = 1; // Unique identifier for each document.
+    string title = 2; // Title of task being completed.
+    string date = 3; // Date (format: YYYY-MM-DD) when recipe was published online.
+    string source_url = 4;  // URL that the recipe input data was extracted.
+    string author = 5; // Author of recipe.
+    string description = 6; // Textual description of the task.
+    repeated string image = 7;  // URL reference to images that provide an overview of recipe.
+    repeated string video = 8; // URL reference to videos that provide an overview of recipe.
+    int64 duration_minutes_prep = 9; // Expected time for user to spend for preparation of the recipe in minutes.
+    int64 duration_minutes_cooking = 10; // Expected time for user to spend cooking the recipe in minutes.
+    int64 duration_minutes_total = 11; // Expected end-to-end time for user to complete the recipe in minutes.
+    message Tag {
+        string text = 1; // Text description of tag.
+        string url = 2; // URL corresponding to tag.
+    }
+    repeated Tag tag = 12; // List of specific tags associated with the recipe (i.e. 'hard', 'healthy', 'vegan', etc.)
+    repeated string required_material_ingredient = 13; // List of required ingredients for recipe.
+    repeated string required_material_equipment = 14; // List of required equipment for recipe.
+    repeated string required_material_total = 15; // Aggregate list of all objects required to complete the recipe. t
+    message Serves {
+        int32 min = 1; // Minimum number this recipe can serve.
+        int32 max = 2; // Maximum number this recipe can serve.
+    }
+    Serves serves = 16; // Number of people that this task serves (if applicable).
+    string makes = 17; // Textual description of the outcome of the recipe, i.e. 12 cookies, 2 pizzas (if applicable).
+    int32 ranking_out_100 = 18; // Normalised ranking of recipe out of 100.
+    repeated string comment = 19; // Online comments associated with the recipe.
+    map<string, string> website_specific_data = 20; // Website-specific sections that are store: title -> text.
+    repeated RecipeStep step = 21; // Individual steps required to complete the recipe.
+}
+
+
+message RecipeStep {
+    ////////////////////////////////////////////////////////////////////////////////
+    // Unique action during recipe that progresses the recipe toward completion.
+    ////////////////////////////////////////////////////////////////////////////////
+    string text = 1; // Text representation of the step (raw text and metadata).
+    repeated string image = 2; // URL to image representation of the step.
+    string video = 3; // URL to video representation of the step.
+}

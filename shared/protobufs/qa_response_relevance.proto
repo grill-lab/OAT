@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message AssessmentRequest {
+    string question = 1;
+    string system_response = 2;
+}
+
+message RelevanceAssessment {
+    float score = 1; // how relevant answer is to query, 0 to 1
+    bool is_relevant = 2; // is the response relevant?
+}
+
+service ResponseRelevance{
+    rpc assess_response_relevance(AssessmentRequest) returns (RelevanceAssessment) {}
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message DomainSearchRequest{
+  string text = 1;
+}
+
+message DomainSearchResponse{
+  string domain = 1;
+  bool match = 2;
+}
+
+service QuerySearcher{
+  rpc search_query(DomainSearchRequest) returns (DomainSearchResponse) {}
+}

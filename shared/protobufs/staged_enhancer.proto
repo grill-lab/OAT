@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "taskmap.proto";
+
+enum StageState{
+  NONE = 0;
+  STARTED = 1;
+  ENDED = 2;
+}
+
+message StagedOutput{
+  string taskmap_id = 1;
+
+  StageState state = 2;
+  TaskMap taskmap = 3;
+}

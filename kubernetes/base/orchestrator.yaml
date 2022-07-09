@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orchestrator
+#  namespace: develop
+spec:
+  selector:
+    matchLabels:
+      grill_app: orchestrator
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        grill_app: orchestrator
+    spec:
+      containers:
+      - name: orchestrator
+        imagePullPolicy: Never # makes sure to pull from the local docker registry
+        image: orchestrator:latest
+        ports:
+          - containerPort: 8000
+        workingDir: /source # the directory to go to when ssh'ing in
+        volumeMounts:
+          - mountPath: /shared/file_system  # this takes the volume name defined bellow and mounts it in the pod
+            name: persistent-storage
+        env:
+          - name: CONTAINER_NAME
+            value: "orchestrator"
+          - name: FUNCTIONALITIES_URL
+            value: "functionalities:8000"
+          - name: EXTERNAL_FUNCTIONALITIES_URL
+            value: "external-functionalities:8000"
+          - name: NEURAL_FUNCTIONALITIES_URL
+            value: "neural-functionalities:8000"
+      volumes:
+        - name: persistent-storage # this is taking the file system from minikube and giving it a volume name
+          hostPath:
+            path: /shared/file_system # this is actually in the minikube vm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orchestrator
+#  namespace: develop
+  labels:
+    grill_app: orchestrator-service
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    grill_app: orchestrator
+  type: LoadBalancer

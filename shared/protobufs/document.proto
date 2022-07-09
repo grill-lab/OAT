@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+
+message CustomDocument {
+    ////////////////////////////////////////////////////////////////////////////////
+    // Document message for storing extracted information from webpages.
+    ////////////////////////////////////////////////////////////////////////////////
+    string doc_id = 1; // Unique identifier for each document.
+    string title = 2; // Title of task being completed.
+    string date = 3; // Date (format: YYYY-MM-DD) when published online.
+    string url = 4;  // URL that the input data was extracted.
+    string author = 5; // Author of content.
+    string description = 6; // Textual description of the task.
+    string image = 7;  // URL reference to image that provide an overview of task.
+    string video = 8; // URL reference to video that provide an overview of task.
+    int64 duration_minutes_total = 9; // Expected end-to-end time for user to complete the task in minutes.
+    message Tag {
+        string text = 1; // Text description of tag.
+        string url = 2; // URL corresponding to tag.
+    }
+    repeated Tag tag = 10; // List of specific tags associated with the recipe (i.e. 'hard', 'healthy', 'vegan', etc.)
+    repeated string requirement = 11; // Aggregate list of all objects required to complete the task.
+    string serves = 12; // Number of people that this task serves (if applicable).
+    int32 ranking_out_100 = 13; // Normalised ranking of task out of 100.
+    repeated Step step = 14; // Individual steps required to complete the task.
+}
+
+
+message Step {
+    ////////////////////////////////////////////////////////////////////////////////
+    // Unique action during task that progresses the task toward completion.
+    ////////////////////////////////////////////////////////////////////////////////
+    string text = 1; // Text representation of the step (raw text and metadata).
+    repeated string image = 2; // URL to image representation of the step.
+    string video = 3; // URL to video representation of the step.
+    string headline = 4; // Headline for step.
+}

@@ -1,0 +1,22 @@
+protobuf
+beautifulsoup4==4.8.0
+requests
+python-dateutil==2.8.0
+boto3
+pandas
+scikit-learn
+apache-beam==2.31.0
+pystream-protobuf==1.6.3
+pyyaml
+grequests==0.6.0
+google
+pyathena==2.3.1
+jsonlines
+faiss-cpu
+torch
+torchvision
+tqdm
+transformers==4.15.0
+sentencepiece
+pyserini==0.16.0
+# gevent

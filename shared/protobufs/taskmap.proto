@@ -1,0 +1,375 @@
+
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+import "asr_info.proto";
+import "semantic_searcher.proto";
+
+
+enum SessionState{
+    RUNNING = 0;
+    CLOSED = 1;
+    RESUMING = 2;
+}
+
+message Session {
+    /////////////////////////////////////
+    // Record of a user's interactions with the bot
+    ////////////////////////////////////
+
+    string session_id = 1;
+    repeated ConversationTurn turn = 2;
+    Task task = 3;
+    enum Domain {
+        UNKNOWN = 0;
+        COOKING = 1;
+        DIY = 2;
+    }
+    Domain domain = 4;
+    TaskSelection task_selection = 5;
+
+    bool has_list_permissions = 10;
+    bool headless = 6;
+    SessionState state = 7;
+
+//    bool resume_question_done = 8;
+    bool greetings = 9;
+    bool resume_task = 11;
+    ErrorCounter error_counter = 12;
+}
+
+message ErrorCounter {
+    // Record of no match or no input errors
+    int64 no_match_counter = 1;
+}
+
+message TaskState {
+    repeated string execution_list = 2;
+    int32 index_to_next = 1;
+    bool requirements_displayed = 5;
+    bool validation_options_displayed = 10;
+    int32 validation_page = 11;
+    bool execution_ingredients_displayed = 12;
+    bool execution_tutorial_displayed = 13;
+    int32 domain_interaction_counter = 15;
+
+    string elicitation_personality_prompt = 14;
+
+    bool final_question_done = 7;
+    string completed_response = 6;
+
+    bool transcript_sent = 8;
+
+    repeated string true_statements_ids = 3;
+    repeated string false_statements_ids = 4;
+    string condition_id_eval = 17;
+
+    repeated Timer user_timers = 9;
+    bool validation_courtesy = 16;
+
+    bool enhanced = 18;
+    bool extra_info_unresolved = 19;
+    bool joke_uttered = 20;
+}
+
+message TaskSelection {
+    repeated string elicitation_utterances = 1;
+    repeated TaskMap candidates = 2;
+    int32 elicitation_turns = 3;
+    bool preferences_elicited = 4;
+    int32 results_page = 5;
+    bool query_from_theme = 6;
+    ThemeDocument theme = 7;
+    bool theme_description_given = 8;
+}
+
+
+message Task {
+    //The task to be performed in this session
+    TaskMap taskmap = 1;
+    enum TaskPhase {
+        DOMAIN = 0;
+        PLANNING = 1;
+        // ELICITING = 5; // sub-phase of planning, not always triggered
+        VALIDATING = 2;
+        EXECUTING = 3;
+        CLOSING = 4;
+        // THEME = 6; // sub-phase of planning, not always triggered
+    }
+    TaskState state = 2;
+    TaskPhase phase = 3;
+
+}
+
+message ConversationTurn {
+    // A conversation turn consisting of 'utterances' from a user and a taskbot
+    string id = 3;
+
+    UserRequest user_request = 1;
+    AgentResponse agent_response = 2;
+}
+
+
+message UserRequest {
+    // Utterance from the user
+    google.protobuf.Timestamp time = 1; // The time of the creation of the request
+    User user_id = 2; // The ID of the client the request is sent from.
+    InputInteraction interaction = 3;
+}
+
+
+message AgentResponse {
+    // Utterance from the TaskBot
+    google.protobuf.Timestamp time = 1; // The time of the creation of the response.
+    User user_id = 2; // The ID of the client the request is sent from.
+    OutputInteraction interaction = 3;
+}
+
+message InputInteraction {
+    // Message sent to the agent.
+    string text = 1; // The text that is being sent to the Agent.
+    repeated string intents = 2; // Intent classification
+    repeated string params = 3; // Parameters coming from Semantic Parsing
+
+    ASRInfo asr_info = 4; // ASR Info coming from client if available
+}
+
+message User {
+    string user_id = 1;
+}
+
+message TaskMap {
+    ////////////////////////////////////////////////////////////////////////////////
+    // Aggregation of steps and metadata for a specific task.
+    ////////////////////////////////////////////////////////////////////////////////
+    // Unique identifier for each TaskMap within the TaskMap index.
+    string taskmap_id = 1;
+    // Title of task being completed.
+    string title = 2;
+    // Date (format: YYYY-MM-DD) when the TaskMap input data was created (for example when published online).
+    string date = 3;
+    // URL that the TaskMap input data was extracted.
+    string source_url = 4;
+
+    string description = 5; // Textual description of the task.
+
+    string voice_summary = 6; // similar to the description but even shorter
+
+    string thumbnail_url = 7; // URL reference to image of the task.
+
+    int64 active_time_minutes = 8; // Time required with focused user attention
+
+    int64 total_time_minutes = 9; // Expected time for user to complete task (seconds & nanoseconds).
+
+    int32 rating_out_100 = 10;
+
+    bool headless = 21;
+
+    repeated string tags = 11; // List of string that are specific tags associated with the TaskMap (i.e. 'hard', 'healthy', 'vegan', etc.)
+
+    // Number of people that this task serves (if applicable).
+    string serves = 13;
+
+    repeated ExtraInfo extra_information = 14; // Website-specific sections that are store: title -> text.
+
+    message FAQ {
+        string question = 1;
+        string answer = 2;
+    }
+    repeated FAQ faq = 15;
+
+    repeated Requirement requirement_list = 12;// Objects that represent the required tools/equipment to complete the task (i.e. 'oven', '100g of flour', etc.)
+    repeated Recommendation recommendation_list = 18;
+    repeated Condition condition_list = 19;
+    repeated ExecutionStep steps = 16;
+    repeated LogicNode logic_nodes_list = 28;
+    repeated Action actions_list = 29;
+
+    repeated Connection connection_list = 20;
+
+    string dataset = 22;
+
+    string author = 23;
+
+    int32 rating_count = 24;
+
+    string domain_name = 25;
+
+    string difficulty = 26;
+
+    int32 views = 27;
+}
+
+message Connection {
+    string id_from = 1;
+    string id_to = 2;
+}
+
+message Requirement {
+    string unique_id = 1;
+    enum RequirementType {
+        SOFTWARE = 0;
+        HARDWARE = 1;
+    }
+    RequirementType type = 3; // ingredient, material, environmental
+    string name = 4;  // free form name "all-purpose flour"
+    string amount = 5; // metric and quantity
+    string linked_taskmap_id = 6;
+}
+
+message Recommendation {
+    string unique_id = 1;
+    enum RecommendationType {
+        SAFETY = 0;
+        ENVIRONMENTAL = 1;
+    }
+    RecommendationType type = 3;
+    string text = 4;
+}
+
+message Condition {
+    string unique_id = 1;
+    string text = 3;
+
+    string default = 4;
+}
+
+message LogicNode {
+    string unique_id = 1;
+    string type = 2;
+}
+
+message Action {
+    string unique_id = 1;
+    string action_text = 2;
+}
+
+
+message ExecutionStep {
+    ////////////////////////////////////////////////////////////////////////////////
+    // Unique action during task execution that progresses the task toward completion.
+    ////////////////////////////////////////////////////////////////////////////////
+    // Text representation of the step (raw text and metadata).
+    string unique_id = 1;
+
+    OutputInteraction response = 3;
+    int32 active_duration_minutes = 4;
+    int32 total_duration_minutes = 5;
+}
+
+message ExtraInfo {
+
+    string unique_id = 3;
+    
+    enum InfoType {
+        FUNFACT = 0;
+        TIP = 1;
+        WARNING = 2;
+        EXPLANATION = 3;
+        QUESTION = 4;
+        JOKE = 5;
+        PUN = 6;
+    }
+    InfoType type = 1;
+    string text = 2;
+}
+
+message Video {
+    string doc_id = 1;
+    string hosted_mp4 = 2;
+    string title = 3;
+}
+
+// This message will have to be Empty if in "headless mode"
+message ScreenInteraction {
+    enum ScreenFormat{
+        TEXT_ONLY = 0;
+        TEXT_LIST = 1;
+        IMAGE_CAROUSEL = 2;
+        TEXT_IMAGE = 3;
+        VIDEO = 4;
+    }
+    ScreenFormat format = 1;
+
+    string headline = 2;
+    string subheader = 12;
+    repeated string paragraphs = 3;
+    string footer = 4;
+
+    repeated Image image_list = 5;
+    repeated string on_click_list = 6;
+    string hint_text = 7;
+    repeated string buttons = 8;
+    Video video = 9;
+    repeated string requirements = 10;
+    string background = 11;
+    string caption_query = 13;
+}
+
+message Image {
+    string path = 1;
+    string alt_text = 2;
+    string title = 3;
+    string description = 4;
+    float ratingValue = 6;
+
+    string response_on_click = 5;
+}
+
+message Transcript{
+  string title = 1;
+  string body = 2;
+
+  string image_url = 3;
+}
+
+message Timer{
+    enum Operation{
+        CREATE = 0;
+        PAUSE = 1;
+        RESUME = 2;
+        CANCEL = 3;
+    }
+
+    enum State{
+        RUNNING = 0;
+        PAUSED = 1;
+        CANCELLED = 2;
+    }
+
+    string timer_id = 6;
+    string label = 1;
+    string duration = 2;
+
+    Operation operation = 3;
+    State state = 7;
+    google.protobuf.Timestamp time = 8;
+    google.protobuf.Timestamp expire_time = 9;
+    string final_announcement = 4;
+    bool play_audio = 5;
+}
+
+message List{
+    string name = 2;
+    repeated string items = 1;
+}
+
+message OutputInteraction {
+    string speech_text = 1;
+    bool close_interaction = 2;
+
+    Transcript transcript = 6;
+
+    Timer timer = 7;
+    ScreenInteraction screen = 5; // 5 to maintain backward compatibility with TaskMaps
+
+    bool ask_list_permissions = 10;
+    List list = 9;
+    string description = 8;
+
+    bool pause_interaction = 11;
+    int32 idle_timeout = 12; // in seconds
+    string reprompt = 13;
+
+    // SearchLog search_log = 14; // Log of search results
+
+}

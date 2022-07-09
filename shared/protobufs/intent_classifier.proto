@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "taskmap.proto";
+
+message DomainClassification{
+  string domain = 1;
+  string confidence = 2;
+}
+
+message QuestionIntentCheck {
+  bool is_question = 1;
+}
+
+message NavigationIntent{
+  string navigation_intent = 1;
+}
+
+service IntentClassifier{
+  rpc classify_intent(Session) returns (NavigationIntent) {}
+  rpc classify_domain(Session) returns (DomainClassification) {}
+  rpc check_question_intent(Session) returns (QuestionIntentCheck) {}
+}

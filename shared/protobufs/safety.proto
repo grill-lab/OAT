@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message SafetyUtterance {
+  ////////////////////////////////////////////////////////////////////////////////
+  // Message contains the text will will be assessment of safety.
+  ////////////////////////////////////////////////////////////////////////////////
+  string text = 1; //
+}
+
+message SafetyAssessment {
+  ////////////////////////////////////////////////////////////////////////////////
+  // Message contains the safety assessment of intended utterances.
+  ////////////////////////////////////////////////////////////////////////////////
+  bool is_safe = 1; //
+}
+
+service Safety{
+  rpc privacy_check(SafetyUtterance) returns (SafetyAssessment) {}
+  rpc sensitivity_check(SafetyUtterance) returns (SafetyAssessment) {}
+  rpc offensive_speech_check(SafetyUtterance) returns (SafetyAssessment) {}
+  rpc suicide_prevention_check(SafetyUtterance) returns (SafetyAssessment) {}
+}

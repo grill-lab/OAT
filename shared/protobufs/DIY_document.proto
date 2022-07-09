@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+
+message DIYDocument {
+    ////////////////////////////////////////////////////////////////////////////////
+    // Document message for storing extracted information from DIY task webpages.
+    ////////////////////////////////////////////////////////////////////////////////
+    string doc_id = 1; // Unique identifier for each document.
+    string title = 2; // Title of task being completed.
+    string date = 3; // Date (format: YYYY-MM-DD) when DIY task was published online.
+    string source_url = 4;  // URL that the DIY task input data was extracted.
+    string author = 5; // Author of the article.
+    string description = 6; // Textual description of the task
+    repeated string image = 7;  // URL reference to images that provide an overview of DIY task (usually the last one in the article).
+    repeated string video = 8; // URL reference to videos that provide an overview of DIY task.
+    message Website_Tag {
+        string text = 1; // Text description of tag.
+        string url = 2; // URL corresponding to tag.
+    }
+    repeated Website_Tag website_tag = 12; // List of specific tags associated with the DIY task obtained from raw scraping
+    repeated string required_material_total = 15; // Aggregate list of all objects required to complete the DIY task. t
+    int32 rating_out_100 = 18; // Normalised ranking of DIY task out of 100.
+    repeated string comment = 19; // Online comments associated with the DIY task.
+    map<string, string> website_specific_data = 20; // Website-specific sections that are store: title -> text.
+    repeated DIYStep step = 21; // Individual steps required to complete the DIY task.
+
+    int32 number_of_parallel_methods = 22; // Some pages have multiple ways to achieve the same or similar goal, this gives the number
+    string method_name = 23; // the name of the method within the task
+    int32 views = 24; // number of vviews of the article
+
+    message FAQ {
+        string question = 1; // Question about the article
+        string answer = 2; // Answer to single question relating to the article
+    }
+    repeated FAQ faq = 25; // list of frequently asked questions with answers about the article
+
+    // fields generated after scraping
+    message Auto_Generated_Tag {
+        string text = 1; // Text description of tag.
+    }
+    repeated Auto_Generated_Tag auto_generated_tag = 26; // List of specific tags associated with the DIY task obtained from raw scraping
+
+    repeated string tip = 27; // list of tips relating to the task
+    repeated string warning = 28; // list of warnings relating to the task
+    string article_summary = 29; // voice friendly summary of the article
+}
+
+message DIYStep {
+    ////////////////////////////////////////////////////////////////////////////////
+    // Unique action during DIY task that progresses the DIY task toward completion.
+    ////////////////////////////////////////////////////////////////////////////////
+    string text = 1; // Text representation of the step (raw text and metadata).
+    repeated string image = 2; // URL to image representation of the step.
+    string video = 3; // URL to video representation of the step.
+    string part_name = 4;
+    string step_header = 5;
+    repeated string image_alt = 6;
+}

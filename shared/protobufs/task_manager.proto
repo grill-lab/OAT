@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+import "taskmap.proto";
+
+message TMRequest{
+  TaskState state = 1;
+  TaskMap taskmap = 2;
+  int32 attribute = 3;
+}
+
+message TMResponse{
+  TaskState updated_state = 1;
+  OutputInteraction interaction = 2;
+}
+
+message InfoRequest{
+  TaskMap taskmap = 1;
+  TaskState state = 6;
+  repeated ConversationTurn turns = 2;
+
+  bool local = 7;
+
+  // Currently not used
+  int32 horizon = 3;
+  bool resolve = 4;
+  bool headless = 5;
+}
+
+message InfoResponse{
+  repeated Statement unresolved_statements = 1;
+  repeated Statement false_statements = 2;
+  repeated Statement true_statements = 3;
+}
+
+message Statement{
+  string body = 1; // Could be a more or less complex string e.g. "It's sunny weather" or "Apples"
+  string amount = 2; // OPTIONAL for requirements
+  string default = 5; // OPTIONAL for conditions
+
+  string taskmap_reference_id = 3; // OPTIONAL id to TaskMap
+  string node_id = 4;
+}
+
+message ExtraList{
+  repeated ExtraInfo extra_list = 1;
+}
+
+message TMInfo{
+  int32 min_number_steps = 1;
+  int32 max_number_steps = 2;
+  int32 current_step = 3;
+}
+
+service TaskManager{
+  rpc next(TMRequest) returns (TMResponse) {}
+  rpc previous(TMRequest) returns (TMResponse) {}
+  rpc repeat(TMRequest) returns (TMResponse) {}
+  rpc go_to(TMRequest) returns (TMResponse) {}
+
+  rpc more_details(TMRequest) returns (OutputInteraction) {}
+  rpc get_transcript(TMRequest) returns (Transcript) {}
+  rpc get_step(TMRequest) returns (OutputInteraction) {}
+
+  rpc get_requirements(InfoRequest) returns (InfoResponse) {}
+  rpc get_conditions(InfoRequest) returns (InfoResponse) {}
+  rpc get_actions(InfoRequest) returns (InfoResponse) {}
+  rpc get_extra(InfoRequest) returns (ExtraList) {}
+  rpc get_num_steps(TMRequest) returns (TMInfo) {}
+}

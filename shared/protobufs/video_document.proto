@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+
+message VideoDocument {
+    ////////////////////////////////////////////////////////////////////////////////
+    // Document message for storing extracted information from how to video.
+    ////////////////////////////////////////////////////////////////////////////////
+    string doc_id = 1; // Unique identifier for each document.
+    string title = 2; // Title of task being completed.
+    string url = 3;  // URL that the input data was extracted.
+    string video_url = 4;
+    string thumbnail = 5;
+    string hosted_mp4 = 6;
+    string uploader = 7;
+    int32 views = 8;
+    int32 duration = 9;
+    string description = 10;
+    string youtube_id = 11;
+    string subtitles = 12;
+}

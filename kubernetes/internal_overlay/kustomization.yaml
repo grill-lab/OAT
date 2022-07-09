@@ -1,0 +1,4 @@
+resources:
+  - external_functionalities.yaml
+  - dynamodb.yaml
+  - ../base

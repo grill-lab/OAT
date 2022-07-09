@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+import "taskmap.proto";
+import "video_document.proto";
+
+
+message VideoQuery {
+  string text = 1;
+  int32 top_k = 2;
+  Session.Domain domain = 3;
+}
+
+message VideoResults {
+  repeated VideoDocument candidate = 1;
+}
+
+service VideoSearcher{
+  rpc search_video(VideoQuery) returns (VideoDocument) {}
+}
+
+message TaskStep {
+  string task_title = 1;
+  string step_text = 2;
+}
+
+message ActionClassification {
+  bool is_action = 1;
+  repeated string methods = 2;
+}
+
+message RelevanceJudgement {
+  VideoResults search_results = 1;
+  OutputInteraction screen_step = 2;
+}
+
+service ActionClassifier{
+  rpc classify_action_step(TaskStep) returns (ActionClassification) {}
+}

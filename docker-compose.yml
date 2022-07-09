@@ -1,0 +1,181 @@
+version: "3.9"  # optional since v1.27.0
+services:
+
+  builder:
+    container_name: bob
+    build:
+      context: ./
+      dockerfile: builder/Dockerfile
+    volumes:
+      - ./builder:/source
+      - ./shared:/shared
+
+  local_client:
+    container_name: local_client
+    build:
+      context: ./
+      dockerfile: local_client/Dockerfile
+    ports:
+      - "9000:8000"
+    volumes:
+      - ./local_client:/source
+      - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=local_client
+      - DISTRIBUTOR_URL=http://orchestrator:8000
+    networks:
+      - internal
+      - external
+    depends_on:
+      - orchestrator
+
+  grill_common:
+    container_name: grill_common
+    build:
+      context: ./
+      dockerfile: grill_common/Dockerfile
+    image: grill_common
+    deploy:
+      replicas: 0
+
+  orchestrator:
+    container_name: orchestrator
+    build:
+      context: ./
+      dockerfile: orchestrator/Dockerfile
+    volumes:
+      - ./orchestrator:/source
+      - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=orchestrator
+      - FUNCTIONALITIES_URL=functionalities:8000
+      - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
+      - NEURAL_FUNCTIONALITIES_URL=neural_functionalities:8000
+    networks:
+      - internal
+    depends_on:
+      - builder
+      - grill_common
+      - functionalities
+      - external_functionalities
+      - neural_functionalities
+
+  functionalities:
+    container_name: functionalities
+    build:
+      context: ./
+      dockerfile: functionalities/Dockerfile
+    volumes:
+    - ./functionalities:/source
+    - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=functionalities
+      - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
+      - FUNCTIONALITIES_URL=functionalities:8000
+      - NEURAL_FUNCTIONALITIES_URL=neural_functionalities:8000
+    networks:
+      - internal
+      - external
+    depends_on:
+      - builder
+      - grill_common
+
+  external_functionalities:
+    container_name: external_functionalities
+    build:
+      context: ./
+      dockerfile: external_functionalities/Dockerfile
+    volumes:
+      - ./external_functionalities:/source
+      - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=external_functionalities
+      - DATABASE_URL=http://172.17.0.1:8888
+    networks:
+      - internal
+      - external
+    depends_on:
+      - builder
+      - grill_common
+      - dynamodb_local
+
+  neural_functionalities:
+    container_name: neural_functionalities
+    build:
+      context: ./
+      dockerfile: neural_functionalities/Dockerfile
+    volumes:
+      - ./neural_functionalities:/source
+      - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=neural_functionalities
+      - NEURAL_FUNCTIONALITIES_URL=neural_functionalities:8000
+      - FUNCTIONALITIES_URL=functionalities:8000
+      - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
+    networks:
+      - internal
+      - external
+    depends_on:
+      - builder
+
+  dynamodb_local:
+    container_name: dynamodb_local
+    image: "amazon/dynamodb-local:latest"
+    ports:
+      - "8888:8000"
+    volumes:
+      - "./shared/file_system/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    networks:
+      - internal
+      - external
+
+  taskmap_generation:
+    container_name: taskmap_generation
+    profiles: [ "taskmap_generation" ]
+    build:
+      context: ./
+      dockerfile: taskmap_generation/Dockerfile
+    ports:
+      - "7777:8888"
+    volumes:
+    - ./taskmap_generation:/source
+    - ./shared:/shared
+    environment:
+      - FUNCTIONALITIES_URL=functionalities:8000
+      - CONTAINER_NAME=taskmap_generation
+      - NEURAL_FUNCTIONALITIES_URL=neural_functionalities:8000
+      - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
+    command: 'jupyter-lab --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token= --notebook-dir="/source/"'
+    networks:
+      - internal
+      - external
+
+  dashboard:
+    container_name: dashboard
+    profiles: [ "dashboard" ]
+    build:
+      context: ./
+      dockerfile: dashboard/Dockerfile
+    ports:
+      - "7500:7500"
+    volumes:
+      - ./dashboard:/source
+      - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=dashboard
+      - DB_ENVIRONMENT=Undefined
+      - DATABASE_URL=http://172.17.0.1:8888
+    networks:
+      - internal
+      - external
+    depends_on:
+      - builder
+      - dynamodb_local
+
+networks:
+  internal:
+    internal: true
+  external:
+    internal: false

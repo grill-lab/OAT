@@ -1,0 +1,7 @@
+AWS_CLI_Interface
+shared/file_system
+offline
+research
+# exclude any __pycache__ directories and *.pyc files
+*/__pycache__
+*/*.pyc

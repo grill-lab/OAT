@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+import "taskmap.proto";
+
+message SearchQuery {
+  string text = 1;
+//  repeated string tags = 2;
+  int32 top_k = 3;
+  Session.Domain domain = 4;
+  string last_utterance = 5;
+  bool headless = 6;
+//  bool use_cache = 7;
+
+  string session_id = 8;
+  string turn_id = 9;
+}
+
+message SearchLog {
+
+  string id = 3;
+
+  SearchQuery search_query = 1; // Search query issued to searcher.
+  message L2RDoc {
+    int32 rank = 1;
+    string source_name = 2;
+    string taskmap_id = 3;
+    string source_url = 4;
+    string title = 5;
+    string title_utterance_score = 8;
+    string title_utterance_weight= 9;
+    string requirements_utterance_score = 13;
+    string requirements_utterance_weight = 14;
+    string tags_utterance_score = 17;
+    string tags_utterance_weight = 18;
+    string step_score = 19;
+    string step_weight = 20;
+    string av_w_steps_score = 21;
+    string av_w_steps_weight = 22;
+    string requirements_score = 23;
+    string requirements_weight = 24;
+    string rating_score = 25;
+    string rating_weight = 26;
+    string image_score = 27;
+    string image_weight = 28;
+    string l2r_score = 29;
+    string t5_score = 30;
+    string t5_weight = 31;
+    string neural_score = 32;
+    string neural_weight = 33;
+    string rating_count_score = 34;
+    string rating_count_weight = 35;
+    string views_score = 36;
+    string views_weight = 37;
+    string domain_score = 38;
+    string domain_weight = 39;
+    string author_score = 40;
+    string author_weight = 41;
+    string domain_name = 42;
+    string author = 43;
+    string image_steps_score = 44;
+    string image_steps_weight = 45;
+    string domain_aligns_score = 46;
+    string domain_aligns_weight = 47;
+    string custom_taskmap_score = 48;
+    string custom_taskmap_weight = 49;
+    string iain2rank_norm_score = 50;
+    string iain2rank_norm_weight = 51;
+  }
+  repeated L2RDoc l2r_doc = 2; // Document metadata + L2R weights and scores.
+}
+
+message TaskMapList {
+  repeated TaskMap candidates = 1;
+}
+
+message SearchResults {
+  TaskMapList taskmap_list = 1;
+  SearchLog search_log = 2;
+}
+
+message ScoreTaskMapInput {
+    repeated string title = 1;
+    string query = 2;
+}
+
+message ScoreTaskMapOutput {
+    repeated float score = 1;
+}
+
+message ThemeQuery {
+  repeated string themes = 1;
+  int32 top_k = 2;
+  bool headless = 3;
+  Session.Domain domain = 4;
+}
+
+
+
+service ScoreTaskMap {
+  rpc score_taskmap(ScoreTaskMapInput) returns (ScoreTaskMapOutput) {}
+}
+
+service Searcher {
+  rpc search_taskmap(SearchQuery) returns (SearchResults) {}
+}
+
+service QueryBuilder{
+  rpc synthesize_query(Session) returns (SearchQuery) {}
+  rpc theme_recommendation(ThemeQuery) returns (SearchQuery) {}
+}
