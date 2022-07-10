@@ -38,16 +38,6 @@ RUN unzip awscli-bundle.zip
 RUN ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 RUN aws --version
 
-#COPY taskmap_generation/alexa_prize_cobot_sdk-4.0.3-py2.py3-none-any.whl /
-#RUN pip3 install /alexa_prize_cobot_sdk-4.0.3-py2.py3-none-any.whl --force-reinstall
-
-#RUN mkdir ~/.aws
-#COPY taskmap_generation/credentials.csv credentials.csv
-#RUN echo [default] > ~/.aws/credentials
-#RUN echo aws_access_key_id=$(awk -F',' 'FNR==2{print $1}' credentials.csv) >> ~/.aws/credentials
-#RUN echo aws_secret_access_key=$(awk -F',' 'FNR==2{print $2}' credentials.csv) >> ~/.aws/credentials
-#RUN export COBOT_API_KEY=$(awk -F',' 'FNR==2{print $3}' credentials.csv); echo "export COBOT_API_KEY=$COBOT_API_KEY" >> ~/.bashrc
-
 RUN aws configure set region us-east-1
 
 COPY taskmap_generation/requirements.txt /source/requirements.txt
@@ -56,6 +46,8 @@ RUN pip3 install jupyter jupyterlab
 
 COPY /shared/ /shared
 COPY /taskmap_generation /source/
+
+RUN bash /source/setup.sh
 
 WORKDIR /source
 SHELL ["/bin/bash", "-ic"]
