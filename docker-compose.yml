@@ -35,8 +35,6 @@ services:
       context: ./
       dockerfile: grill_common/Dockerfile
     image: grill_common
-    deploy:
-      replicas: 0
 
   orchestrator:
     container_name: orchestrator
