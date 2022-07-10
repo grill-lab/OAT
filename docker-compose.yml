@@ -127,6 +127,7 @@ services:
       - "./shared/file_system/dynamodb:/home/dynamodblocal/data"
     working_dir: /home/dynamodblocal
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    user: root
     networks:
       - internal
       - external
