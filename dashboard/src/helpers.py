@@ -128,7 +128,7 @@ def get_session_attributes(session: Dict, turn_ids: List) -> html.Div:
     return html.Div(div_children)
 
 @timeit
-def read_database(db, filter):
+def read_database(db, filter=None):
     """
     Pull contents of dynamodb database, given a filter
     """

@@ -133,7 +133,7 @@ services:
 
   taskmap_generation:
     container_name: taskmap_generation
-    profiles: [ "taskmap_generation" ]
+#    profiles: [ "taskmap_generation" ]
     build:
       context: ./
       dockerfile: taskmap_generation/Dockerfile

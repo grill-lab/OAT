@@ -53,50 +53,18 @@ search_logs_db = ComposedDB(
     sub_proto_config={}
 )
 
-# until we get a prod database, just filter for production convos
-# Filter for conversations from at most a week ago
-sessions_filter = (
-    ~Key("session_id").begins_with("amzn1.")
-    # & ~Key("session_id").begins_with("test_")
-    # & ~Key("session_id").begins_with("local_")
-    # & Key("last_modified").gte(week_ago.strftime("%Y-%m-%d %H:%M:%S.%f"))
-)
-
-# filter for production search logs
-search_logs_filter = (
-    ~Key("id").begins_with("amzn1.")
-    # & ~Key("id").begins_with("test_")
-    # & ~Key("id").begins_with("local_")
-    # & Key("last_modified").gte(week_ago.strftime("%Y-%m-%d %H:%M:%S.%f"))
-)
-
-sessions_list = read_database(sessions_db, sessions_filter)
-search_logs_list = read_database(search_logs_db, search_logs_filter)
+sessions_list = read_database(sessions_db)
+search_logs_list = read_database(search_logs_db)
+# DataFrames Init
+sessions_df = pd.DataFrame.from_dict(sessions_list)
+search_logs_df = pd.DataFrame.from_dict(search_logs_list)
 
 extractor = Extractor()
+if len(sessions_list) > 0:
+    sessions_df = extractor.extract_session_attributes(sessions_df)
 
-# columns = ['task', 'greetings', 'session_id', 'turn', 'task_selection', 'domain']
-# task = ['taskmap', 'phase', 'state']
-sessions_df = pd.DataFrame.from_dict(sessions_list)
-sessions_df = extractor.extract_session_attributes(sessions_df)
-
-
-# # merge in the feedback data to the sessions dataframe
-# sessions_df = pd.merge(
-#     sessions_df,
-#     how="left",
-#     left_on="session_id",
-#     right_on="Conversation ID",
-# )
-
-# fill null values with 0, to help with filtering later on
-# sessions_df["Rating"].fillna(value=0.0, inplace=True)
-# sessions_df["Rating"] = sessions_df["Rating"].replace("\*", "", regex=True)
-# sessions_df['Rating'] = pd.to_numeric(sessions_df['Rating'])
-
-# load in search logs to sessions dataframe
-search_logs_df = pd.DataFrame.from_dict(search_logs_list)
-search_logs_df = extractor.extract_search_log_ids(search_logs_df)
+if len(search_logs_list) > 0:
+    search_logs_df = extractor.extract_search_log_ids(search_logs_df)
 
 # assign layout to app
 layout_generator = LayoutGenerator(sessions_df)

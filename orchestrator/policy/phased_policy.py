@@ -173,14 +173,15 @@ class PhasedPolicy(AbstractPolicy):
             session, agent_response = self.__route_policy(session)
 
         if not session.greetings and not session.state == SessionState.CLOSED:
-            if not session.resume_task:
-                greetings = "Hi, this is an Alexa Prize TaskBot. "
-            elif session.task.taskmap.title != '':
-                greetings = f"Hi, this is an Alexa Prize TaskBot, welcome back, let’s continue with " \
-                            f"{session.task.taskmap.title}! "
-            else:
-                greetings = f"Hi, this is an Alexa Prize TaskBot, welcome back! "
-            agent_response.speech_text = greetings + agent_response.speech_text
+            # if not session.resume_task:
+            #     greetings = "Hi, this is an Alexa Prize TaskBot. "
+            # elif session.task.taskmap.title != '':
+            #     greetings = f"Hi, this is an Alexa Prize TaskBot, welcome back, let’s continue with " \
+            #                 f"{session.task.taskmap.title}! "
+            # else:
+            #     greetings = f"Hi, this is an Alexa Prize TaskBot, welcome back! "
+            # agent_response.speech_text = greetings + agent_response.speech_text
+            agent_response.speech_text = agent_response.speech_text
             session.greetings = True
 
         # filter for speech output failures

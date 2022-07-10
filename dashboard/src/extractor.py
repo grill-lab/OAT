@@ -21,12 +21,12 @@ class Extractor():
 
         # get length of conversation
         df["conversation_length"] = df.apply(
-            lambda session: len(session["turn"]), axis=1
+            lambda session: len(session.get("turn", [])), axis=1
         )
 
         # get the phase the user dropped off
         df["phase"] = df.apply(
-            lambda row: row["task"].get("phase") if row["task"] is not np.nan else "DOMAIN",
+            lambda row: row["task"].get("phase") if row.get("task", np.nan) is not np.nan else "DOMAIN",
             axis=1,
         )
         df["phase"].fillna(value="DOMAIN", inplace=True)
