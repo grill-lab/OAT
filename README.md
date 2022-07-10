@@ -1,16 +1,14 @@
 # Open Assistant Toolkit [OAT]: A research Platform for Multi-Modal Task Oriented Agents
-We prersent OAT as a task oriented agent capable of guiding users through complex tasks. OAT is modular and extensible enabling complex stateful behaviour for human-like long form interaction.
+We present OAT as a task oriented agent capable of guiding users through complex tasks. OAT is modular and extensible enabling complex stateful behaviour for human-like long form interaction.
 
 In the following README you'll find more of how the Open Assistant Toolkit works, how to run it, deploy it, and extend various components to enable your own research into task oriented agens.
 
-![GRILLBot system overview](https://user-images.githubusercontent.com/6844601/156199392-0d00adeb-38c3-4be7-bfd2-58e565a3aa83.png)
+![GRILLBot system overview](doc/policy.png)
 
 At it's core, policies encapsulate the behaviour of OAT.
-![GRILLBot policy overview](https://user-images.githubusercontent.com/6844601/156213201-e36f37fd-4caa-4c25-983b-454dc77b4b68.png)
+![GRILLBot policy overview](doc/OAT_architecture.png)
 
 ## Using Docker
-
-![Service_diagram](https://user-images.githubusercontent.com/6844601/121831629-ce7c3b00-ccbf-11eb-9b9f-cf5e29e12f2e.png)
 
 Docker allows you to run the entire application by only installing the single docker dependency.
 The docker environment is an Ubuntu instance which runs both the client and server. 
