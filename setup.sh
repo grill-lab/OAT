@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [ $1 == "--local" ]
-then
-  out_path="./shared/file_system"
-else
-  out_path="/shared/file_system"
-fi
+out_path="./shared/file_system"
 
 echo "Downloading models..."
 #aws s3 cp --recursive s3://grill-bot-data/models $out_path"/models"
