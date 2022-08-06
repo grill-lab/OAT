@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #242626;
+  color: #fff;
+}
+
+#search-form {
+  width: 40%;
+  margin:0.15in;
+  position: relative;
+  margin-bottom: 25px;
+  margin-top: 30px;
+
+}
+#search-form input {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px 15px;
+  border: 4px solid #ccc;
+  border-radius: 16px;
+}
+
+#speechbutton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  width: 3rem;
+  text-align: center;
+  font-size: 1.45rem;
+  cursor: pointer;
+  color: #333;
+}
+
+#sendbutton {
+  position:absolute;
+  width: 70%;
+  background-color: transparent;
+  /* background: #fff; */
+  border: none;
+  margin-top: 10px;
+  margin-left: 5px;
+  padding: 5px 1px;
+}
+
+#sendbutton:hover {
+  cursor: pointer;
+  background: rgb(203, 82, 110);
+}
+
+.chat {
+  content: '';
+  width: 75%;
+  height: calc(100vh - 165px);
+  background: rgb(240, 233, 233);
+  padding: 5px 10px;
+  overflow-y: scroll;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+}
+
+/* .chat p {
+  margin-bottom:10px;
+  color: rgb(218, 207, 207);
+  font-family: Helvetica;
+} */
+
+#botStarterMessage {
+  color: rgb(29, 212, 248);
+  font-family: Helvetica;
+  font-weight: normal;
+  font-size: 16px;
+  text-align: left;
+}
+
+
+#botStarterMessage span {
+  line-height: 1.5em;
+  display: inline-block;
+  background: #403e3e;
+  padding: 10px;
+  border-radius: 8px;
+  border-bottom-left-radius: 2px;
+  max-width: 80%;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  animation: floatup .5s forwards
+}
+
+#usermessage {
+  text-align:right;
+  color: white;
+  font-family: Helvetica;
+  font-size: 16px;
+  font-weight: normal;
+  clear: both;
+}
+
+#usermessage span {
+  line-height: 1.5em;
+  display: inline-block;
+  background: #4a51b1;
+  padding: 10px;
+  border-radius: 8px;
+  border-bottom-right-radius: 2px;
+  max-width: 80%;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  animation: floatup .5s forwards
+}
+
+@keyframes floatup {
+    from {
+        transform: translateY(14px);
+        opacity: .0;
+    }
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1200px) {
+  #search-form { width: 50%; }
+}
+@media (max-width: 768px) {
+  .container { padding: 30px 35px; }
+  #search-form { width: 100%; }
+  .info { font-size: 0.5rem; }
+}
+
+@media all and (min-width: 500px) {
+  .chat {
+    height: calc(100vh - 140px);
+  }
+  input {
+    width: calc(100% - 160px);
+  }
+  #sendbutton {
+    float: right;
+    width: 40px;
+  }
+}
+
+.column1 {
+  float: left;
+  width: 50%;
+  position: relative;
+}
+
+.column {
+  float: right;
+  width: 50%;
+  position: relative;
+  color: #b5beb7;
+}
+
+
+#headerbox {
+  /* background-color: rgba(129, 123, 123, 0.946); */
+  background: rgba(209, 199, 214, 0.455);
+  width: 70%;
+  padding: 10px;
+  margin-top:20px;
+  border-radius: 16px;
+  position: relative;
+  text-align: center;
+}
+
+#displaybox{
+  margin-bottom: 0%;
+  width: 90%;
+  border-style: double;
+  border-radius:10px;
+  border-color: #242626;
+  /* background-color: rgb(38, 40, 41); */
+  background-color: #242626;
+  transform: translate(-9%, 30%);
+  padding-top:10%;
+  padding-right: 5%;
+  padding-bottom: 10%;
+  padding-left: 5%;
+}
+
+/* #displaybox {
+  background-color: rgb(0,0,0);
+  background-color: rgba(27, 26, 26, 0.946);
+  position: absolute;
+  width: 90%;
+  left: 40%;
+  transform: translate(-50%, 90%);
+  padding: 50px;
+  border-style: double;
+  border-radius: 2px;
+} */
+
+.background {
+  background-image: url('https://grill-bot-data.s3.amazonaws.com/images/multi_domain_default.jpg');
+
+ /* Add the blur effect */
+ filter: blur(8px);
+ -webkit-filter: blur(8px);
+
+ /* Center and scale the image nicely */
+ background-position: center;
+ background-repeat: no-repeat;
+ background-size: cover;
+
+}
+
+.displaycolumn {
+  width: 50%;
+  float: left;
+  padding: 5px;
+}
+
+#hint_text {
+  bottom: 0;
+  text-align: center;
+  font-style: italic;
+  margin-top: 5%;
+}
+
+.button {
+  display:inline-block;
+  margin: 10px;
+}
+
+.image_column {
+  float: left;
+  width: 33.33%;
+}
+
+.img_square {
+  position: relative;
+  width: 100%;
+}
+
+.img_square:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.img_square img {
+  padding: 5px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image_carousel::after {
+  position: relative;
+  content: "";
+  clear: both;
+  display: table;
+}

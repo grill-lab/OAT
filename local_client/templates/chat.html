@@ -2,40 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename= 'stylez.css') }}"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'chat.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'home.css') }}">
     <title>OAT - Open Assistant Toolkit</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<script src = "{{ url_for('static', filename= 'scripts.js') }}"></script>
+<body onload="assignID();">
 
+    <!-- Speech bar -->
+    <div id="speechbar">
+        <input type="text" value="Speak To Me" readonly="readonly" id="speech"/>
+        <button type="button" id="speechbutton"><i class="fas fa-microphone"></i></button>
+    </div>
+
+    <!-- display box -->
+    <div id="box1">
+        <div id="displaybox">
+            <p>This is the display screen</p>
+        </div>
+    </div>
+
+    <!-- chatbox -->
+    <div class="chat-bar-collapsible">
+        <button id="chat-button" type="button" class="collapsible">Chat with GRILL!
+            <i id="chat-icon" style="color: rgb(33, 31, 31);" class="fa fa-fw fa-comments-o"></i>
+        </button>
+
+        <!-- chat content -->
+        <div class="content">
+            <div class="full-chat-block">
+                <!-- Message Container -->
+                <div class="outer-container">
+                    <div class="chat-container">
+                        <!-- Messages -->
+                        <div class="chat">
+                            <h5 id="chat-timestamp"></h5>
+                            <p id='usermessage'><span>user</span></p>
+                            <p id='botStarterMessage'><span>bot</span></p>
+                        </div>
+
+                        <!-- User input box -->
+                        <div class="chat-bar-input-block">
+                            <div id="userInput">
+                                <form autocomplete="off" onsubmit="call(); return false;" id="search-form">
+                                    <input autocomplete="false" name="hidden" type="text" style="display:none;"/>
+                                    <input id="IDField" name="userID" type="hidden"/>
+                                    <input id="textInput" class="input-box" type="text" name="msg" placeholder="Tap 'Enter' to send a message"/>
+                                    <div class="chat-bar-icons">
+                                        <button id="sendbutton"><i id="chat-icon" style="color: rgb(14, 24, 74);" class="fa fa-fw fa-send"></i></button>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src = "{{ url_for('static', filename= 'scripts.js') }}"></script>
+    <script src = "{{ url_for('static', filename= 'chat.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'stylez.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'chat.css') }}">
+    <title>OAT - Open Assistant Toolkit</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 
 <body onload="assignID();">
-    <div class="row">
-        <div class="column">
+
+    <div class="row" id="wrapper">
+        <div class="column1">
             <header>
                 <h1>Open Assistant Toolkit Dev. Chat</h1>
             </header>
 
-            <section class="chat">
-                <p><strong>BOT</strong>: Welcome!</p>
-            </section>
+                <form autocomplete="off" onsubmit="call(); return false;" id="search-form">
+                    <input autocomplete="false" name="hidden" type="text" style="display:none;"/>
+                    <input id="IDField" name="userID" type="hidden"/>
+                    <input id="inputText" type="text" placeholder="Say something nice" />
+                    <button id="sendbutton"><i id="chat-icon" style="color: #333;" class="fa fa-fw fa-send"></i></button>
+                </form>
 
-            <form autocomplete="off" onsubmit="call(); return false;">
-                <input autocomplete="false" name="hidden" type="text" style="display:none;"/>
-                <input id="IDField" name="userID" type="hidden"/>
-                <input id="inputText" type="text" placeholder="Say something nice" />
-                <button>Send</button>
-            </form>
+            <div class="chat">
+                <p id='usermessage'><span>user</span></p>
+                <p id='botStarterMessage'><span>bot</span></p>
+            </div>
         </div>
+        
         <div class="column" id="screen_interface">
+            <header id="headerbox">
+                <h1 id="title">Welcome to OAT</h1>
+                <p> This screen is the multimodal mock display</p>
+                <p> Type something in the box to get started</p>
+            </header>
+            <section id="displaybox">
+            </section>
+                
+        </div> -->
+        <!-- <div class="column" id="screen_interface">
             <div class="background"></div>
             <div id="displaybox">
                 <h1 id="title">Welcome to OAT</h1>
                 <p> This screen is the multimodal mock display</p>
                 <p> Type something in the box to get started</p>
             </div>
-        </div>
-    </div>
-
+        </div> 
+    </div> -->
+    <!-- <script src = "{{ url_for('static', filename= 'chat.js') }}"></script>
+    <script src = "{{ url_for('static', filename= 'scripts.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </body>
-</html>
+</html> -->
