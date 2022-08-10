@@ -1,7 +1,7 @@
 body{
   margin: 0 auto;
   /* background-image: url('https://grill-bot-data.s3.amazonaws.com/images/multi_domain_default.jpg'); */
-  background-color:burlywood;
+  background-color:rgb(178, 139, 89);
 }
 
 /* #box1 {
@@ -173,7 +173,7 @@ body{
 }
 
 .blog-post_img{
-  min-width: 2rem;
+  min-width: 21rem;
   max-width: 21rem;
   height: 15rem;
   transform: translateX(-7.0rem);

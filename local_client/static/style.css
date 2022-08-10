@@ -1,0 +1,129 @@
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #e0e7ea;
+  color: rgb(127, 132, 145);
+}
+
+
+#search-form input {
+  width:1.5in;
+  font-size: 0.85rem;
+  padding: 10px 15px;
+  border:0.07in solid #ccc;
+  border-radius: 2px;
+  text-align: left;
+}
+
+#speechbutton {
+  position: absolute;
+  top: 0;
+  right:2in;
+  bottom: 0;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  width:0.3in;
+  text-align: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.chat {
+  content: '';
+  width: 80%;
+  height: calc(100vh - 165px);
+  background: rgb(152, 149, 149);
+  color: rgb(5, 19, 58);
+  padding: 5px 10px;
+  overflow-y: scroll;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  position: relative;
+}
+
+/* @media all and (max-width: 50px) {
+  .chat {
+      height: calc(100vh - 140px);
+  }
+  input {
+      width:0.5in;
+  }
+  
+} */
+
+#displaybox {
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(27, 26, 26, 0.946); /* Black w/opacity/see-through */
+  position: absolute;
+  color: rgb(190, 192, 198);
+  width: 80%;
+  left: 35%;
+  transform: translate(-50%, 70%);
+  padding: 20px;
+  border-style: double;
+  border-radius: 2px;
+}
+
+.background {
+  background-image: url('https://grill-bot-data.s3.amazonaws.com/images/multi_domain_default.jpg');
+
+  /* Add the blur effect */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.displaycolumn {
+  width: 50%;
+  float: left;
+  padding: 5px;
+}
+
+.button {
+  display:inline-block;
+  margin: 10px;
+}
+
+.image_column {
+  float: left;
+  width: 33.33%;
+}
+
+.img_square {
+  position: relative;
+  width: 100%;
+}
+
+.img_square:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.img_square img {
+  padding: 5px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image_carousel::after {
+  position: relative;
+  content: "";
+  clear: both;
+  display: table;
+}
