@@ -49,6 +49,7 @@ services:
       - FUNCTIONALITIES_URL=functionalities:8000
       - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
       - NEURAL_FUNCTIONALITIES_URL=neural_functionalities:8000
+       - MOCK_VIDEO=True
     networks:
       - internal
     depends_on:

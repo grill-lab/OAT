@@ -9,10 +9,10 @@
     <title>OAT - Open Assistant Toolkit</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
 <body onload="assignID();">
-
     <!-- Speech bar -->
     <div id="speechbar">
         <input type="text" value="Speak To Me" readonly="readonly" id="speech"/>
@@ -21,10 +21,50 @@
 
     <!-- display box -->
     <div id="box1">
-        <div id="displaybox">
-            <p>This is the display screen</p>
+        <div id="displaybox">    
         </div>
     </div>
+
+    <!-- <button class="mdc-button mdc-button--outlined mdc-button--icon-leading">
+        <span class="mdc-button__ripple"></span>
+        <i class="material-icons mdc-button__icon" aria-hidden="true">bookmark</i>
+        <span class="mdc-button__label">Show Ingredients</span>
+      </button>
+
+      <button class="mdc-button mdc-button--raised">
+        <span class="mdc-button__label">Contained Button</span>
+      </button> -->
+
+      
+
+      <!-- card -->
+
+
+      <!-- card -->
+
+
+
+
+      <!-- <span class="mdc-evolution-chip-set" role="grid">
+        <span class="mdc-evolution-chip-set__chips" role="presentation">
+          <span class="mdc-evolution-chip" role="row" id="c0">
+            <span class="mdc-evolution-chip__cell mdc-evolution-chip__cell--primary" role="gridcell">
+              <button class="mdc-evolution-chip__action mdc-evolution-chip__action--primary" type="button" tabindex="0">
+                <span class="mdc-evolution-chip__ripple mdc-evolution-chip__ripple--primary"></span>
+                <span class="mdc-evolution-chip__text-label">Chip one</span>
+              </button>
+            </span>
+          </span>
+          <span class="mdc-evolution-chip" role="row" id="c1">
+            <span class="mdc-evolution-chip__cell mdc-evolution-chip__cell--primary" role="gridcell">
+              <button class="mdc-evolution-chip__action mdc-evolution-chip__action--primary" type="button" tabindex="-1">
+                <span class="mdc-evolution-chip__ripple mdc-evolution-chip__ripple--primary"></span>
+                <span class="mdc-evolution-chip__text-label">Chip two</span>
+              </button>
+            </span>
+          </span>
+        </span>
+    </span> -->
 
     <!-- chatbox -->
     <div class="chat-bar-collapsible">
@@ -41,8 +81,8 @@
                         <!-- Messages -->
                         <div class="chat">
                             <h5 id="chat-timestamp"></h5>
-                            <p id='usermessage'><span>user</span></p>
-                            <p id='botStarterMessage'><span>bot</span></p>
+                            <p id='usermessage'><span></span></p>
+                            <p id='botStarterMessage'><span></span></p>
                         </div>
 
                         <!-- User input box -->
@@ -52,10 +92,7 @@
                                     <input autocomplete="false" name="hidden" type="text" style="display:none;"/>
                                     <input id="IDField" name="userID" type="hidden"/>
                                     <input id="textInput" class="input-box" type="text" name="msg" placeholder="Tap 'Enter' to send a message"/>
-                                    <div class="chat-bar-icons">
-                                        <button id="sendbutton"><i id="chat-icon" style="color: rgb(14, 24, 74);" class="fa fa-fw fa-send"></i></button>
-                                    </div>
-                                    
+                                    <button id="sendbutton"><i id="chat-icon" style="color: rgb(14, 24, 74);" class="fa fa-fw fa-send"></i></button>  
                                 </form>
                             </div>
                         </div>

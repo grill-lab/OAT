@@ -425,7 +425,18 @@ class ExecutionPolicy(AbstractPolicy):
             if condition_text is not None:
                 output.speech_text += " " + condition_text
 
-            # if not session.headless:
+            # Video result Mocking
+            if not session.headless and os.environ.get("MOCK_VIDEO") == "True":
+                found_video: Video = Video()
+
+                found_video.title = "Mock Video Result"
+                found_video.hosted_mp4 = f"https://sophie-video-project.s3.amazonaws.com/_2d7CpbxycM.mp4"
+                found_video.doc_id = ""
+                output.screen.video.MergeFrom(found_video)
+                speech_text, screen = build_video_button(output, found_video)
+                output.screen.ParseFromString(screen.SerializeToString())
+                output.speech_text += speech_text
+
             #     found_video: Video = self.__retrieve_video(session)
             #
             #     if found_video.title != "":

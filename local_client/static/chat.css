@@ -1,12 +1,12 @@
 .chat-bar-collapsible {
     position: fixed;
     bottom: 0;
-    left: 50px;
+    right: 30px;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .collapsible {
-    background-color: rgb(82, 151, 255);
+    background-color: rgb(93, 88, 233);
     color: white;
     cursor: pointer;
     padding: 18px;
@@ -68,33 +68,6 @@
     padding: 10px 0px 10px 10px;
 }
 
-#sendbutton {
-    display: flex;
-    justify-content: space-evenly;
-    font-size: 25px;
-}
-
-/* .chat-bar-icons {
-
-    display: flex;
-    justify-content: space-evenly;
-    box-sizing: border-box;
-    width: 5%;
-    float: right;
-    font-size: 20px;
-
-} */
-
-#chat-icon:hover {
-    opacity: .7;
-}
-
-/* Chat bubbles */
-
-#userInput {
-    width: 75%;
-}
-
 .input-box {
     float: left;
     border: none;
@@ -106,6 +79,22 @@
     color: #000;
     background-color: white;
     outline: none
+}
+
+#sendbutton {
+    position: absolute;
+    justify-content: space-evenly;
+    font-size: 25px;
+}
+
+#chat-icon:hover {
+    opacity: .7;
+}
+
+/* Chat bubbles */
+
+#userInput {
+    width: 80%;
 }
 
 #usermessage {
