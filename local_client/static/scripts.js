@@ -40,8 +40,6 @@ speech.lang = "en";
 if (SpeechRecognition){
     console.log("Your browser supports sr");
 
-    // adding the mic button if browser supports
-    // searchForm.insertAdjacentHTML("afterbegin", '<button type="button" id="speechbutton"><i class="fas fa-microphone"></i></button>');
     const micBtn = speechForm.querySelector("button");
     const micIcon = micBtn.querySelector("i");
 
@@ -148,12 +146,14 @@ const call = async () => {
 
     myJson['speechText'] = myJson['speechText'].replace(/[\.\:] /g, "<br/>")
     console.log(myJson)
+
     display("User", document.getElementById('textInput').value)
     display("BOT", myJson['speechText'])
 
     renderScreen(myJson['screen'], myJson['template'])
     document.getElementById('textInput').value = ''
 }
+
 
 const renderScreen = (screen_interaction, extra_template) => {
     const format = screen_interaction['format'].toLowerCase()
@@ -238,27 +238,22 @@ const renderScreen = (screen_interaction, extra_template) => {
         }
     }
 }
+    
 
 const display = (user, text) => {
 
-
     let time = getTime();
-    const div = document.querySelector("#chat-timestamp");
-    div.insertAdjacentText("beforebegin", time);
+    chatNode = document.getElementsByClassName("chat")[0]
 
     if (user=="BOT") {
-        chatNode = document.getElementsByClassName("chat")[0]
         chatNode.innerHTML += "<p id='botStarterMessage'><span>" + text + "</span></p>";
-
-        chatNode.scrollTop= chatNode.scrollHeight
     }
-
     else {
-        chatNode = document.getElementsByClassName("chat")[0]
+        chatNode.innerHTML += "<h5 id='chat-timestamp'>" + time + "</h5>"
         chatNode.innerHTML += "<p id='usermessage'><span>" + text + "</span></p>";
-
-        chatNode.scrollTop= chatNode.scrollHeight
     }
+
+    chatNode.scrollTop = chatNode.scrollTop
 }
 
 const assignID = () => {
