@@ -238,7 +238,7 @@ class ExecutionPolicy(AbstractPolicy):
                     output.screen.format = ScreenInteraction.ScreenFormat.VIDEO
                     output.idle_timeout = 1800
                     output.pause_interaction = True
-                    # output.speech_text = "Playing video now..."
+                    output.speech_text = "Playing video now..."
                 else:
                     # we didn't find a relevant video to play
                     output: OutputInteraction = repeat_screen_response(session, output)
