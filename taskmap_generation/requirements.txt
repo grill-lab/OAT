@@ -12,7 +12,7 @@ grequests==0.6.0
 google
 pyathena==2.3.1
 jsonlines
-faiss-cpu
+faiss-cpu==1.7.2
 torch
 torchvision
 tqdm

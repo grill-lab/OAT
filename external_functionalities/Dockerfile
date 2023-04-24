@@ -9,14 +9,11 @@ COPY external_functionalities/requirements.txt /source/requirements.txt
 # during the build process
 RUN --mount=type=cache,mode=0755,target=/root/.cache/pip \
     pip3 install -r /source/requirements.txt \
-    && curl "https://s3.amazonaws.com/aws-cli/awscli-bundle-1.18.187.zip" -o "awscli-bundle.zip" \
-    && unzip awscli-bundle.zip \
-    && ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws \
-    && rm -f awscli-bundle.zip \
     # Dummy credentials, not really needed to run locally DynamoDB but requested by the botocore API
     && aws configure set region us-east-1 \
     && aws configure set aws_access_key_id abc \
     && aws configure set aws_secret_access_key abc
+
 
 COPY external_functionalities/ /source
 COPY shared/ /shared
