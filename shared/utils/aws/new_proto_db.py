@@ -4,12 +4,17 @@ from datetime import datetime
 from botocore.exceptions import ClientError
 from google.protobuf.message import Message
 from google.protobuf.json_format import MessageToDict, ParseDict
-from utils import timeit
+from utils import timeit, logger
 import time
+import json
 from .decimal_ops import convert_decimals_to_float, convert_floats_to_decimals
 from itertools import islice
 
 from boto3.dynamodb.types import TypeDeserializer
+
+
+def utf8len(s):
+    return len(s.encode('utf-8'))
 
 
 def init_table(table_name, primary_key, url):
@@ -112,6 +117,9 @@ class ProtoDB:
                 return item_id
 
         item_payload = self._encode_dict(proto_obj)
+
+        byte_size = utf8len(json.dumps(item_payload))
+        logger.info(f"Trying to save object of size {byte_size/1024} KB")
 
         self.__table.put_item(
             Item=item_payload,
