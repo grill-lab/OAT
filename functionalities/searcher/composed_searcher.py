@@ -52,7 +52,7 @@ class ComposedSearcher(AbstractSearcher):
         """ Access initial indexes based on query. """
 
         top_k = query.top_k
-        query.top_k = 50
+        query.top_k = 9
         # --- multi-thread to access several searchers at same time ---
         tic = time.perf_counter()
 
