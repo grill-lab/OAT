@@ -1,7 +1,5 @@
 # syntax=docker/dockerfile:1.3
-FROM nvidia/cuda:11.4.1-runtime-ubuntu18.04
-
-MAINTAINER Paul Owoicho
+FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends software-properties-common \
