@@ -22,18 +22,15 @@ class OffensiveSpeechClassifier(AbstractSafetyCheck):
         """
         Assesses whether the utterance is safe based on offensive speech.
         """
-        logger.info(f'Offensive speech utterance from Alexa Grill: {utterance.text}')
         safety_assessment = SafetyAssessment()
         safety_assessment.is_safe = True
 
         for w in self.BLACKLIST:
-            if w in utterance.text.lower():
+            tokenized = utterance.text.split()
+            if w in tokenized:
                 safety_assessment.is_safe = False
                 logger.info(f'-> safety_assessment (offensive speech): {safety_assessment.is_safe} -> due to: {w}')
                 return safety_assessment
 
-        logger.info(f'-> safety_assessment (offensive speech): {safety_assessment.is_safe}')
+        logger.info(f'{utterance.text} -> safety_assessment (offensive speech): {safety_assessment.is_safe}')
         return safety_assessment
-
-
-
