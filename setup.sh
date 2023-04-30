@@ -88,7 +88,7 @@ download_oat_files() {
     # Returns: ignored (will exit on error)
 
     declare -r out_path="./shared/file_system"
-    declare -ra names=(indexes lookup_files)
+    declare -ra names=(indexes lookup_files models)
 
     for n in "${names[@]}"
     do
@@ -103,19 +103,6 @@ download_oat_files() {
             unzip -d "${out_path}" "${out_path}/${n}.zip"
         fi
     done
-
-    if [[ -d "${out_path}/models" ]]
-    then
-    # sync command currently not working so removing the files and fetching everything
-    # as a workaround for syncing updates
-        echo "> Path ${out_path}/models already exists, syncing updates"
-        rm -r "${out_path}/models"
-        aws s3 cp "s3://model-classifiers" "${out_path}" --recursive
-    else
-        echo "> Downloading models..."
-        aws s3 cp "s3://model-classifiers" "${out_path}" --recursive
-    fi
-
 }
 
 oat_setup() {
