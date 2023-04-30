@@ -29,7 +29,10 @@ class WikihowDataset(AbstractDataset):
         documents = []
         with open(path, 'r') as f:
             for line in f:
-                document = json.loads(line)
+                try:
+                    document = json.loads(line)
+                except:
+                    continue
                 document['requirements'] = requirements_mapping.get(document['url'], [])
 
                 # If non empty intersection add document
