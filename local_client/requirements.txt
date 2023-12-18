@@ -1,6 +1,2 @@
-Flask==2.0.1
-requests==2.25.1
 waitress==2.1.2
-PyYAML==5.4.1
-watchtower==3.0.0
-awscli==1.24.10
+Werkzeug==2.2.2

@@ -1,7 +1,13 @@
+from typing import List
 
+def jaccard_sim(sentence_1: List[str], sentence_2: List[str]) -> float:
+    """Given a 2x tokenised sentences calculate Jaccard Index
 
-def jaccard_sim(sentence_1, sentence_2):
-    """ Given a 2x tokenised sentences calculate jaccard  """
+    https://en.wikipedia.org/wiki/Jaccard_index
+
+    Returns:
+        Jaccard index coefficient (float)
+    """
     a = set(sentence_1)
     b = set(sentence_2)
     c = a.intersection(b)

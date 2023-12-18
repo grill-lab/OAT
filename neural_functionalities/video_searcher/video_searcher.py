@@ -1,14 +1,13 @@
-import re
+import json
+
 from .abstract_video_searcher import AbstractVideoSearcher
 from video_searcher_pb2 import VideoQuery
-from taskmap_pb2 import Session
 from video_document_pb2 import VideoDocument
+from utils import logger
 
 from sentence_transformers import SentenceTransformer, util
-import json
 from google.protobuf.json_format import Parse
-from utils import get_file_system, logger
-import os
+
 
 class VideoSearcher(AbstractVideoSearcher):
 
@@ -24,8 +23,7 @@ class VideoSearcher(AbstractVideoSearcher):
         video_title_list = [video['title'] for video in self.videos_metadata]
         logger.info("computing video embeddings")
         self.video_list_embeddings = self.embedder.encode(video_title_list, convert_to_tensor=True)
-        
-    
+
     def search_video(self, query: VideoQuery) -> VideoDocument:
 
         logger.info(f"Searching for a video with {query.text}")
@@ -43,9 +41,9 @@ class VideoSearcher(AbstractVideoSearcher):
         for index, (video, score) in enumerate(zip(reranked_videos, reranked_video_scores)):
             if score > 0.7:
                 logger.info(f"RELEVANT VIDEO: {video['title']} {score}")
-            elif score < 0.7 and score > 0.4:
+            elif 0.7 > score > 0.4:
                 logger.info(f"IRRELEVANT VIDEO: {video['title']} {score}")
-        
+
         if reranked_video_scores[0] > 0.7:
             recommended_video = Parse(
                 json.dumps(reranked_videos[0]), VideoDocument()
@@ -54,4 +52,3 @@ class VideoSearcher(AbstractVideoSearcher):
             logger.info("ALL Videos are below the threshold of 0.7")
 
         return recommended_video
-

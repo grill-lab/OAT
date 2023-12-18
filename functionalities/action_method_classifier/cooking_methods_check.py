@@ -1,6 +1,5 @@
 from .filter_utils.methods_classifier import FindCookingMethodsV0
 from video_searcher_pb2 import TaskStep, ActionClassification
-from utils import logger
 
 
 class MethodsCheck:

@@ -26,7 +26,19 @@ const call = async () => {
     myJson['speechText'] = myJson['speechText'].replace(/[\.\:] /g, "<br/>")
     console.log(myJson)
     display("User", document.getElementById('inputText').value)
-    display("BOT", myJson['speechText'])
+
+    const source = myJson['source']
+    // remove the common suffixes for policy module names
+    let policy = source['policy'].split('|')[0].replace('_policy', '').replace('_handler', '')
+    // construct the string displayed if you click the policy name
+    let source_data = "Source: " + source['filename'] + ":" + source['lineNumber']
+    // append the optional message if any
+    if (source['message'] && source['message'].length > 0)
+        source_data += ", message=" + source['message']
+
+    // set up an onclick handler for the policy name to show the source_data text,
+    // and pass the CSS class as the 3rd parameter set the colours
+    display('BOT[<a onclick="alert(\'' + source_data + '\')">' + policy + '</a>]', myJson['speechText'], 'pol_' + policy)
 
     renderScreen(myJson['screen'], myJson['template'])
     document.getElementById('inputText').value = ''
@@ -43,8 +55,8 @@ const renderScreen = (screen_interaction, extra_template) => {
     if ("imageList" in screen_interaction) {
         const image_list = screen_interaction['imageList']
 
-        if (format === 'text_image') {
-            let image_path = 'https://grill-bot-data.s3.amazonaws.com/images/multi_domain_default.jpg'
+        if (format === 'text_image' || format === 'summary' || format === "farewell") {
+            let image_path = 'https://oat-2-data.s3.amazonaws.com/images/multi_domain_default.jpg'
             if (image_list.length > 0) {
                 image_path = image_list[0]['path']
             }
@@ -61,7 +73,36 @@ const renderScreen = (screen_interaction, extra_template) => {
                         call();
                     })
                     descriptionNode = image_box.querySelector('p')
-                    descriptionNode.innerHTML = image_list[i]['description']
+                    descriptionNode.innerHTML = image_list[i]['title']
+                }
+
+                if (image_list.length < 3) {
+                    for (let i = image_list.length, len = 3; i < len; i++) {
+                        image_box = document.getElementById('img' + i)
+                        image_box.remove()
+                    }
+                }
+            }
+        }
+
+        if (format === "grid_list") {
+            if (image_list.length > 0) {
+                for (let i = 0, len = image_list.length; i < len; i++) {
+                    image_box = document.getElementById('img' + i)
+                    imageNode = image_box.querySelector('img')
+                    console.log(imageNode)
+                    imageNode.setAttribute('src', image_list[i]['path'])
+                    imageNode.addEventListener('click', function() {
+                        document.getElementById('inputText').value = screen_interaction['onClickList'][i];
+                        call();
+                    })
+                }
+            }
+
+            if (image_list.length < 9) {
+                for (let i = image_list.length, len = 9; i < len; i++) {
+                    image_box = document.getElementById('img' + i)
+                    image_box.remove()
                 }
             }
         }
@@ -96,10 +137,16 @@ const renderScreen = (screen_interaction, extra_template) => {
         body.innerHTML += "</ul>"
     }
 
-    if (format === "VIDEO" && "video" in screen_interaction) {
-        const video_obj = screen_interaction['imageList']
-        const video_path = video_obj['hosted_mp4']
-        document.getElementById('video').firstElementChild.setAttribute('src', video_path)
+    let video_display_link;
+    if (format === "video" && "video" in screen_interaction) {
+        const video_obj = screen_interaction['video']
+        const video_path = video_obj['hostedMp4']
+        if (video_obj.hasOwnProperty('startTime') && video_obj.hasOwnProperty('endTime')) {
+            video_display_link = `${video_path}#t=${video_obj['startTime']},${video_obj['endTime']}`;
+        } else {
+            video_display_link = video_path;
+        }
+        document.getElementById('video').firstElementChild.setAttribute('src', video_display_link)
     }
 
     if ("buttons" in screen_interaction) {
@@ -116,13 +163,10 @@ const renderScreen = (screen_interaction, extra_template) => {
     }
 }
 
-const display = (user, text) => {
-
+const display = (user, text, cls=null) => {
     chatNode = document.getElementsByClassName("chat")[0]
-    chatNode.innerHTML += "<p> <strong>" + user + "</strong>: " + text + "</p>";
-
+    chatNode.innerHTML += "<p class=\"" + cls + "\"> <strong>" + user + "</strong>: " + text + "</p>";
     chatNode.scrollTop= chatNode.scrollHeight
-
 }
 
 const assignID = () => {

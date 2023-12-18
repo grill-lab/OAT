@@ -6,6 +6,7 @@ message TMRequest{
   TaskState state = 1;
   TaskMap taskmap = 2;
   int32 attribute = 3;
+  bool video_suggested = 4;
 }
 
 message TMResponse{

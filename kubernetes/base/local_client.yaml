@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
       - name: local-client
-        imagePullPolicy: Never # makes sure to pull from the local docker registry
-        image: local_client:latest
+        imagePullPolicy: Always # makes sure to pull from the local docker registry
+        image: 103324463696.dkr.ecr.us-east-1.amazonaws.com/alexa_oat-local_client:latest
         ports:
         - containerPort: 8000
         env:
@@ -24,10 +24,8 @@ spec:
             value: "local_client"
           - name: DISTRIBUTOR_URL
             value: "http://orchestrator:8000"
-      volumes:
-        - name: persistent-storage # this is taking the file system from minikube and giving it a volume name
-          hostPath:
-            path: /shared/file_system # this is actually in the minikube vm
+      nodeSelector:
+        node_type: cpu
 ---
 apiVersion: v1
 kind: Service

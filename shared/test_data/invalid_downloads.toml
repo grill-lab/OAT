@@ -1,0 +1,12 @@
+name = "offline"
+enabled = true
+base_path = "shared/file_system/downloads/offline/"
+[[sources
+id = "example_source"
+urls = [
+    "https://...",
+    "https://...",
+]
+enabled = true
+local_path = "example/source/files"
+force = false

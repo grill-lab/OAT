@@ -88,7 +88,7 @@ button:hover {
 }
 
 .background {
-   background-image: url('https://grill-bot-data.s3.amazonaws.com/images/multi_domain_default.jpg');
+   background-image: url('https://oat-2-data.s3.amazonaws.com/images/multi_domain_default.jpg');
 
   /* Add the blur effect */
   filter: blur(8px);
@@ -151,3 +151,63 @@ button:hover {
   display: table;
 }
 
+/* https://www.december.com/html/spec/color16.html */
+.pol_domain {
+    background-color: aqua;
+}
+.pol_planner {
+    background-color: yellow;
+}
+.pol_validation {
+    background-color: purple;
+    color: white;
+}
+.pol_execution {
+    background-color: lime;
+}
+.pol_theme {
+    background-color: silver;
+}
+.pol_qa {
+    background-color: green;
+    color: white;
+}
+.pol_extra_info {
+    background-color: gray;
+    color: white;
+}
+.pol_condition {
+    background-color: blue;
+    color: white;
+}
+.pol_intents {
+    background-color: fuchsia;
+}
+.pol_elicitation {
+    background-color: navy;
+    color: white;
+}
+.pol_resuming {
+    background-color: white;
+    color: black;
+}
+.pol_farewell {
+    background-color: olive;
+    color: white;
+}
+.pol_help {
+    background-color: teal;
+    color: white;
+}
+.pol_timer {
+    background-color: black;
+    color: white;
+}
+.pol_cancel {
+    background-color: red;
+    color: white;
+}
+.pol_phased {
+    background-color: maroon;
+    color: white;
+}

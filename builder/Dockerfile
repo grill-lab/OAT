@@ -1,11 +1,12 @@
-FROM grill_common:latest
+FROM oat_common:latest
 
 MAINTAINER Federico Rossetto
 
+COPY builder/ /source
 
 RUN pip3 install --upgrade pip
-RUN pip3 install grpcio==1.47.0 grpcio_tools==1.47.0
+RUN pip3 install -r /source/requirements.txt
 
-COPY builder/ /source
+COPY shared/ /shared
 
 CMD bash /source/init.sh

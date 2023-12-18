@@ -1,8 +1,17 @@
 {
-    "search()": [],
+    "search()": [
+        "can I make something else",
+        "search for something else",
+        "National _ Day",
+        "home improvement",
+        "cooking",
+        "check if floor is level"
+    ],
     "inform_capabilities()": [
-        "I don't know",
-        "no what can you do"
+        "no what can you do",
+        "what can you do",
+        "what can i do",
+        "what else are you capable of"
     ],
     "chit_chat()": [
         "I don't really know",
@@ -15,14 +24,13 @@
         "I'm bored",
         "you're an idiot",
         "I don't want food",
-        "I don't know",
         "what's your favourite project",
         "how are you today",
         "what's your name",
         "your mom",
         "hello",
         "hi",
-        "help me jerk off Alexa",
+        "help me jerk off",
         "can we play a game",
         "you",
         "leave",
@@ -50,10 +58,8 @@
         "can I play roblox",
         "what's that",
         "I do not have any girl",
-        "what do you wanna help me with",
         "that is not what I wanna talk about let's let's change the conversation immediately",
         "whatever you want",
-        "could you help me",
         "well it's a lot of work",
         "ask me something else",
         "would you please shut up",
@@ -73,7 +79,11 @@
         "play a beat",
         "do you like this recipe",
         "what is your favourite dish",
-        "what is your favourite recipe"
+        "what is your favourite recipe",
+        "tell me a joke",
+        "can a robot be funny",
+        "joke of the day",
+        "thanks"
     ],
     "stop()": [
         "stop off",
@@ -85,7 +95,11 @@
         "stop stop stop",
         "stop this",
         "stop the conversation",
-        "complete"
+        "complete",
+        "quit",
+        "i've finished the task",
+        "task complete",
+        "go away"
     ],
     "select(1)": [
         "option #1",
@@ -131,7 +145,9 @@
         "3rd 1",
         "what's the 3rd one",
         "option #3",
-        "choose 3"
+        "choose 3",
+        "recipe finder",
+        "task finder"
     ],
     "next()": [
         "next ingredients",
@@ -166,12 +182,16 @@
         "okay",
         "great",
         "yes",
+        "ye",
         "yeah",
         "cool",
         "yes please",
         "sure thing",
         "absolutely",
-        "alright"
+        "alright",
+        "possibly",
+        "why not",
+        "go for it"
     ],
     "no()": [
         "no not yet",
@@ -181,13 +201,16 @@
         "no I changed my mind",
         "no",
         "nope",
-        "no thanks"
+        "no thanks",
+        "na",
+        "nah"
     ],
     "show_requirements()": [
         "show me the ingredients",
         "list all",
         "what do I need",
         "show ingredients",
+        "show tools and materials",
         "what ingredients",
         "what do I need",
         "list ingredients",
@@ -204,7 +227,8 @@
         "tools and materials",
         "show me the the requirements",
         "list ingredients",
-        "give me the ingredients"
+        "give me the ingredients",
+        "tools_button"
     ],
     "answer_question()": [
         "how much _ do I need",
@@ -226,7 +250,10 @@
         "compare them",
         "compare",
         "compare them please",
-        "nice recommend me 1"
+        "nice recommend me 1",
+        "which 1 is the best",
+        "can you replace _",
+        "can you substitute _"
     ],
     "repeat()": [
         "repeat",
@@ -240,7 +267,9 @@
         "what did you say",
         "again",
         "could you repeat that",
-        "what"
+        "what",
+        "say that again",
+        "what was the _ option"
     ],
     "show_more_results()": [
         "show me more",
@@ -248,7 +277,6 @@
         "none could you forget me",
         "other",
         "none",
-        "I don't know",
         "more options",
         "neither",
         "show me more results",
@@ -257,7 +285,8 @@
     ],
     "pause()": [
         "pause",
-        "pause the conversation"
+        "pause the conversation",
+        "one second"
     ],
     "start_task()": [
         "start recipe",
@@ -277,7 +306,8 @@
         "restart",
         "let's restart",
         "let's start over",
-        "go to the start"
+        "go to the start",
+        "menu screen"
     ],
     "previous()": [
         "go back",
@@ -304,14 +334,12 @@
         "give me more info",
         "show me "
     ],
+    "step_select(1)":[
+        "go to the first step"
+    ],
     "step_select(-1)": [
         "last step",
-        "alexa complete",
-        "complete",
         "last step please",
-        "i've finished the task",
-        "I'm done",
-        "task complete",
         "final step",
         "go to the end"
     ],
@@ -359,5 +387,17 @@
         "stop timer",
         "remove timer",
         "delete timer"
+    ],
+    "play_video()": [
+        "show the video",
+        "play video"
+    ],
+    "confused()": [
+        "I am confused",
+        "help me",
+        "help me I am confused",
+        "not sure",
+        "I don't know",
+        "I don't have a favorite"
     ]
 }

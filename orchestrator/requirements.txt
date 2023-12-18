@@ -1,12 +1,9 @@
-pytz==2022.1
+pytz==2022.6
 google==3.0.0
-protobuf==3.19.4
-grpcio==1.46.3
-Flask==2.0.3
-PyYAML==5.4.1
-watchtower==3.0.0
-waitress==2.0.0
+protobuf==3.20.3
+waitress==2.1.2
 isodate==0.6.1
 dateparser==1.1.1
 word2number==1.1
-awscli==1.24.10
+gunicorn[gevent]
+Werkzeug==2.2.2

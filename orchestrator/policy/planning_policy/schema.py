@@ -1,6 +1,5 @@
 from taskmap_pb2 import Session
 
-
 VAGUE_QUERIES = {
     Session.Domain.COOKING: [
         "peanut butter cornflake cookies",
@@ -22,14 +21,33 @@ VAGUE_QUERIES = {
     ]
 }
 
+# entries in these lists should be:
+#   {"id": "<category ID>", "title": "<category name>"}
+# TODO: add more from the index
+RECOMMENDED_CATEGORIES = {
+    # diy categories
+    Session.Domain.DIY: [
+        {"id": "868ad4d4e18ff8e1bd18627e090f8794", "title": "Leaf and Flower Crafts"},
+    ],
+    # cooking categories
+    Session.Domain.COOKING: [
+        {"id": "63e471440a293c4d8048ab2ac667de25", "title": "Granola Recipes"},
+    ],
+    # both mixed together
+    Session.Domain.UNKNOWN: [
+        {"id": "63e471440a293c4d8048ab2ac667de25", "title": "Granola Recipes"},
+        {"id": "868ad4d4e18ff8e1bd18627e090f8794", "title": "Leaf and Flower Crafts"},
+    ],
+}
+
 # Positional Matching Queries for Reference Resolution when user tries to select
 # what the bot has suggested
 REFERENCE_QUERIES = {
     Session.Domain.COOKING: [
         "new york style pizza",
         "sauces and soups",
-        "Halibut",
         "roasted asparagus and sweet potatoes",
+        "salmon"
         "grass fed sirloin steak",
         "fruit and vegetables",
         "lasagna",
@@ -41,18 +59,17 @@ REFERENCE_QUERIES = {
     ]
 }
 
-
 CONVERSATION_TREE = {
     Session.Domain.COOKING: {
         'personality_prompts': [
             "When I'm hungry, I enjoy making new york style pizza. ",
             # New York style pizza
             "My favorite thing to cook would be stocks, sauces and soups "
-            "(though its not my favorite thing to eat). What about you? ",
+            "(though it's not my favorite thing to eat). What about you? ",
             # sauces and soups
-            "I love cooking Halibut or Seabass. Getting that golden brown on "
+            "I love cooking Salmon. Getting that golden brown on "
             "the top is just heaven. ",
-            # Halibut
+            # Salmon
             "I love roasted anything. Asparagus and Sweet Potatoes are my favorites. It's fast, easy, "
             "and a big bang of deliciousness for very little effort. ",
             # roasted asparagus and sweet potatoes
@@ -65,7 +82,7 @@ CONVERSATION_TREE = {
             # lasagna
         ],
         'elicitation_questions': [
-            "What's your favorite thing to cook?",
+            "What's your favorite thing to cook? ",
         ],
         'responses': {
             'turns': [
@@ -88,8 +105,7 @@ CONVERSATION_TREE = {
             ],
             'general': {
                 'CancelIntent': '',
-                'AMAZON.CancelIntent': '',
-                'QAIntent': [
+                'QuestionIntent': [
                     "Pardon me, I'm still learning to answer questions effectively. But tell me, what's "
                     "your favourite food?",
                     "Great question. I actually haven't given that much thought yet. Tell me though, "
@@ -102,9 +118,11 @@ CONVERSATION_TREE = {
                     "favourite food?"
                 ],
                 'default': [
-                    "Sorry, I didn't quite understand that. What's your favourite food?",
-                    "Please run that by me again. What's your favourite food?",
-                    "Pardon me. What's your favourite food again?",
+                    # "Sorry, I didn't quite understand that. If you don't have a favorite dish, you can instead name
+                    # an ingredient you currently have in your kitchen.", "I didn't quite catch that. If you don't
+                    # have a preferred dish, let me know which ingredient you have in your kitchen.", "Pardon me.
+                    # What's your favourite food again?",
+                    ""
                 ]
             }
         }
@@ -122,7 +140,7 @@ CONVERSATION_TREE = {
             # gardening
         ],
         'elicitation_questions': [
-            "What is your favorite home improvement project?"
+            "What is your favorite home improvement project? "
         ],
         'responses': {
             'turns': [
@@ -134,25 +152,25 @@ CONVERSATION_TREE = {
                 }
             ],
             'general': {
-                    'CancelIntent': '',
-                    'AMAZON.CancelIntent': '',
-                    'QAIntent': [
-                        "Pardon me, I'm still learning to answer questions effectively. What's your favourite "
-                        "home improvement project?",
-                        "Great question. I actually haven't given that much thought yet. Tell me though, what "
-                        "home improvement projects do you enjoy?",
-                        "Great question! If I knew the answer, I would tell you. Tell me though, what home improvement "
-                        "project do you enjoy in your spare time?",
-                    ],
-                    'OutOfDomainQAIntent': [
-                        "I'm sorry, I can only answer Cooking or home improvement questions. "
-                        "But tell me, what home improvement project do you enjoy in your spare time?"
-                    ],
-                    'default': [
-                        "Sorry, I didn't quite understand that. What's your favourite home improvement project?",
-                        "Please run that by me again. What home improvement projects do you enjoy?",
-                        "Pardon me. What home improvement project do you enjoy in your spare time?",
-                    ]
+                'CancelIntent': '',
+                'QuestionIntent': [
+                    "Pardon me, I'm still learning to answer questions effectively. What's your favourite "
+                    "home improvement project?",
+                    "Great question. I actually haven't given that much thought yet. Tell me though, what "
+                    "home improvement projects do you enjoy?",
+                    "Great question! If I knew the answer, I would tell you. Tell me though, what home improvement "
+                    "project do you enjoy in your spare time?",
+                ],
+                'OutOfDomainQAIntent': [
+                    "I'm sorry, I can only answer Cooking or home improvement questions. "
+                    "But tell me, what home improvement project do you enjoy in your spare time?"
+                ],
+                'default': [
+                    # "Sorry, I didn't quite understand that. What's your favourite home improvement project?",
+                    # "Please run that by me again. What home improvement projects do you enjoy?",
+                    # "Pardon me. What home improvement project do you enjoy in your spare time?",
+                    ""
+                ]
             }
         }
     },

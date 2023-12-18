@@ -11,7 +11,6 @@ class ThemeBuilder:
         self.theme_recommendations = theme_recommendations
         self.query_images = {}
 
-
     def theme_query_recommendation(self, theme_query: ThemeQuery) -> SearchQuery:
         """ Build a SearchQuery based on themes. """
         # Unpack theme query.

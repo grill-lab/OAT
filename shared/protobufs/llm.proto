@@ -1,0 +1,148 @@
+syntax = "proto3";
+import "chitchat_classifier.proto";
+import "taskmap.proto";
+
+message ModelRequest {
+    string formatted_prompt = 1;
+    int32 max_tokens = 2;
+}
+
+message ModelResponse {
+    string text = 1;
+}
+
+message ModelBatchRequest {
+    repeated string formatted_prompts = 1;
+    int32 max_tokens = 2;
+}
+
+message ModelBatchResponse {
+    repeated string text = 1;
+}
+
+message LLMChitChatRequest {
+    string last_user_utterance = 1;
+    string last_agent_response = 2;
+    string user_question = 3;
+    string task_title = 4;
+    int32 timeout = 5;
+    string last_intent = 6;
+}
+
+message LLMDescriptionGenerationRequest {
+    string task_title = 1;
+    string ingredients = 2;
+}
+
+message DescriptionGenerationResponse {
+    string description = 1;
+}
+
+message LLMMultipleDescriptionGenerationRequest {
+    repeated string task_title = 1;
+    repeated string ingredients = 2;
+    repeated string domains = 3;
+}
+
+message MultipleDescriptionGenerationResponse {
+    repeated string description = 1;
+}
+
+message SummaryGenerationRequest {
+    string task_title = 1;
+    string step_text = 2;
+    string more_details = 3;
+}
+
+message SummaryGenerationResponse {
+    string summary = 1;
+}
+
+message MultipleSummaryGenerationRequest {
+    repeated string task_title = 1;
+    repeated string step_text = 2;
+    repeated string more_details = 3;
+}
+
+message MultipleSummaryGenerationResponse {
+    repeated string summary = 1;
+}
+
+message ProactiveQuestionGenerationRequest {
+    repeated string task_title = 1;
+    repeated string previous_steps = 2;
+    repeated string current_step = 3;
+}
+
+message ProactiveQuestionGenerationResponse {
+    repeated ExtraInfo questions = 1;
+}
+
+message ExecutionSearchRequest {
+    Session.Domain domain = 1;
+    TaskMap taskmap = 2;
+    string last_last_agent_response = 6;
+    string last_user_response = 3;
+    string last_agent_response = 4;
+    string user_question = 5;
+    int32 timeout = 7;
+}
+
+message ExecutionSearchResponse {
+    string intent_classification = 1;
+    string ai_response = 2;
+}
+
+message AdjustedStepGenerationRequest {
+    string task_title = 1;
+    repeated ExecutionStep step = 2;
+    repeated ReplacedIngredient ingredient = 3;
+}
+
+message AdjustedStepGenerationResponse {
+    repeated string step_text = 1;
+    repeated string ids = 2;
+}
+
+message IngredientReplacementRequest {
+    string task_title = 1;
+    string user_question = 2;
+    string agent_response = 3;
+    Ingredient original_ingredient = 4;
+}
+
+message IngredientReplacementResponse {
+    Ingredient new_ingredient = 4;
+}
+
+service LLMExecutionSearchManager {
+    rpc generate_decision(ExecutionSearchRequest) returns (ExecutionSearchResponse) {}
+}
+
+service LLMChitChat{
+    rpc generate_chit_chat(LLMChitChatRequest) returns (ChitChatResponse) {}
+}
+
+service LLMSummaryGeneration{
+    rpc generate_summary(SummaryGenerationRequest) returns (SummaryGenerationResponse) {}
+    rpc generate_summaries(MultipleSummaryGenerationRequest) returns (MultipleSummaryGenerationResponse) {}
+}
+
+service LLMDescriptionGeneration{
+    rpc generate_description(LLMDescriptionGenerationRequest) returns (DescriptionGenerationResponse) {}
+    rpc generate_descriptions(LLMMultipleDescriptionGenerationRequest) returns (MultipleDescriptionGenerationResponse) {}
+}
+
+service LLMProactiveQuestionGeneration{
+    rpc generate_proactive_question(ProactiveQuestionGenerationRequest) returns (ProactiveQuestionGenerationResponse) {}
+}
+
+service LLMReplacementGeneration {
+    rpc generate_replacement(IngredientReplacementRequest) returns (IngredientReplacementResponse) {}
+    rpc adjust_step_texts(Session) returns (Session) {}
+}
+
+service LLMRunner {
+    rpc call_model(ModelRequest) returns (ModelResponse) {}
+    rpc batch_call_model(ModelBatchRequest) returns (ModelBatchResponse) {}
+}

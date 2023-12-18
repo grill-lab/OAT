@@ -1,11 +1,6 @@
 dash==2.5.1
 dash-bootstrap-components==1.2.0
-boto3==1.23.10
-pandas==1.1.5
-watchtower==3.0.0
-waitress==2.0.0
-awscli==1.24.10
-grpcio==1.47.0
-grpcio-tools==1.47.0
-Flask==2.0.3
-requests==2.27.1
+pandas==1.5.2
+waitress==2.1.2
+Werkzeug==2.2.2
+jsonlines

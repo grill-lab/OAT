@@ -1,3 +1,5 @@
+import random
+
 from .abstract_task_manager import AbstractTaskManager
 from task_manager_pb2 import TMResponse, TMRequest, InfoRequest, InfoResponse, Statement, ExtraList, TMInfo
 from taskmap_pb2 import TaskState, TaskMap, OutputInteraction, Transcript, ScreenInteraction
@@ -6,7 +8,9 @@ from exceptions import EndOfExecutionException
 from task_graph import TaskGraph
 from task_graph.nodes import *
 from typing import Any, Callable, List, Optional
-from utils import get_credit_from_taskmap, build_video_button
+from utils import (
+    get_credit_from_taskmap, build_video_button, logger, NO_MORE_DETAILS
+)
 from itertools import chain, combinations
 
 
@@ -16,7 +20,7 @@ def verbal_progress(current_step, step_length):
     else:
         speech_text = f"Step {current_step}. "
 
-    if (current_step / step_length == 0.5) or (current_step / step_length + 1 == 0.5):
+    if ((current_step / step_length == 0.5) or (current_step / step_length + 1 == 0.5)) and (step_length>3):
         speech_text += f"Halfway there! "
 
     return speech_text
@@ -34,7 +38,12 @@ def manage_progress(request: TMRequest, action: str) -> TMResponse:
     state: TaskState = request.state
     taskmap: TaskMap = request.taskmap
     index_to_goto: int = request.attribute
-
+    
+    try:
+        video_suggested: bool = request.video_suggested
+    except:
+        video_suggested: bool = False
+        
     if (
         action == 'next' and (
             len(state.execution_list) == 0 or
@@ -67,11 +76,17 @@ def manage_progress(request: TMRequest, action: str) -> TMResponse:
         response_id: str = state.execution_list[state.index_to_next]
         state.index_to_next += 1
     elif action == 'prev' and state.index_to_next >= 2:
-        response_id: str = state.execution_list[state.index_to_next - 2]
-        state.index_to_next -= 1
+        if state.final_question_done == True:
+            response_id: str = state.execution_list[state.index_to_next-1]
+            state.final_question_done=False
+        else:
+            response_id: str = state.execution_list[state.index_to_next - 2]
+            state.index_to_next -= 1
     elif action == 'repeat':
         response_id: str = state.execution_list[state.index_to_next - 1]
     elif action == 'go_to':
+        if state.final_question_done:
+            state.final_question_done=False
         if index_to_goto > 0:
             response_id: str = state.execution_list[index_to_goto - 1]
             state.index_to_next = index_to_goto
@@ -90,10 +105,10 @@ def manage_progress(request: TMRequest, action: str) -> TMResponse:
                                      f"{exec_node.response.speech_text}"
     output.screen.footer = f'{taskmap.title}'
     output.screen.headline = f"Step {state.index_to_next}"
-    output.screen.hint_text = "next"
+    output.screen.hint_text = random.choice(["next", "what can you do"])
 
     if not taskmap.headless:
-        speech_text, new_screen = build_video_button(output, output.screen.video)
+        speech_text, new_screen = build_video_button(output, output.screen.video, video_suggested = video_suggested)
         output.screen.ParseFromString(new_screen.SerializeToString())
         output.speech_text += speech_text
     # if more details found, add more details button
@@ -112,7 +127,6 @@ def manage_progress(request: TMRequest, action: str) -> TMResponse:
     response = TMResponse()
     response.interaction.ParseFromString(output.SerializeToString())
     response.updated_state.ParseFromString(state.SerializeToString())
-
     return response
 
 
@@ -241,8 +255,7 @@ class TaskManager(AbstractTaskManager):
             output.screen.hint_text = "let's continue"
         else:
             output: OutputInteraction = exec_node.response
-            output.speech_text = "I don't know more details about this step. If you want to hear the step " \
-                                 "again, say 'repeat' or say 'next' to keep going. "
+            output.speech_text = random.choice(NO_MORE_DETAILS)
 
         if not taskmap.headless:
             speech_text, screen = build_video_button(output, exec_node.response.screen.video)

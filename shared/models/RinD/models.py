@@ -13,7 +13,7 @@ import re
 import math
 import random
 
-from transformers.generation_logits_process import LogitsProcessor
+from transformers import LogitsProcessor
 from transformers.modeling_outputs import BaseModelOutput, BaseModelOutputWithPastAndCrossAttentions, Seq2SeqLMOutput, \
     Seq2SeqModelOutput
 

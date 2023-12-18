@@ -41,6 +41,7 @@ class TextClassifier(torch.nn.Module):
         torch.save(state_dict, os.path.join(out_dir, 'model.state_dict'))
         json.dump(self.labels, open(os.path.join(out_dir, 'labels.json'), 'w'))
 
+    @staticmethod
     def from_pretrained(out_dir='./text_classifier'):
         state_dict = torch.load(os.path.join(out_dir, 'model.state_dict'), map_location=torch.device('cpu'))
         labels = json.load(open(os.path.join(out_dir, 'labels.json'), 'r'))

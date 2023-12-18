@@ -5,8 +5,6 @@ from . import DefaultPrivacyCheck, DefaultSensitivityCheck, DefaultOffensiveSpee
 
 
 class Servicer(SafetyServicer):
-
-
     def __init__(self):
         self.privacy = DefaultPrivacyCheck()
         self.sensitivity = DefaultSensitivityCheck()

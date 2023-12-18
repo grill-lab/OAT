@@ -15,14 +15,11 @@ spec:
     spec:
       containers:
       - name: neural-functionalities
-        imagePullPolicy: Never # makes sure to pull from the local docker registry
-        image: neural_functionalities:latest
+        imagePullPolicy: Always # makes sure to pull from the local docker registry
+        image: 103324463696.dkr.ecr.us-east-1.amazonaws.com/alexa_oat-neural_functionalities:latest
         ports:
           - containerPort: 8000
         workingDir: /source # the directory to go to when ssh'ing in
-        volumeMounts:
-          - mountPath: /shared/file_system  # this takes the volume name defined bellow and mounts it in the pod
-            name: persistent-storage
         env:
           - name: CONTAINER_NAME
             value: "neural_functionalities"
@@ -32,10 +29,11 @@ spec:
             value: "localhost:8000"
           - name: NEURAL_FUNCTIONALITIES_URL
             value: "neural-functionalities:8000"
-      volumes:
-        - name: persistent-storage # this is taking the file system from minikube and giving it a volume name
-          hostPath:
-            path: /shared/file_system # this is actually in the minikube vm
+        resources:
+          limits:
+            nvidia.com/gpu: 1 # requesting 1 GPU
+      nodeSelector:
+        node_type: gpu
 ---
 apiVersion: v1
 kind: Service

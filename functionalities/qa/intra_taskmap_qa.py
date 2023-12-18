@@ -6,7 +6,7 @@ import grpc
 
 from utils import logger
 from qa_pb2 import QAQuery, QARequest, QAResponse, DocumentList
-from qa_pb2_grpc import QuestionAnsweringStub
+from qa_pb2_grpc import TaskQuestionAnsweringStub
 
 
 class IntraTaskmapQA(AbstractQA):
@@ -14,7 +14,7 @@ class IntraTaskmapQA(AbstractQA):
     def __init__(self, environ_var: str):
         self.endpoint_var = environ_var
         channel = grpc.insecure_channel(os.environ.get(environ_var))
-        self.intra_taskmap_qa_stub = QuestionAnsweringStub(channel)
+        self.intra_taskmap_qa_stub = TaskQuestionAnsweringStub(channel)
     
     def rewrite_query(self, session: Session) -> QAQuery:
 

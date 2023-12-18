@@ -1,5 +1,6 @@
 from taskmap_pb2 import Session, OutputInteraction, Timer
 from task_manager_pb2 import Statement
+from utils import set_source
 
 
 def perform_action(session: Session, output: OutputInteraction, action_statement: Statement) -> None:
@@ -36,6 +37,7 @@ towards a different path. This behavior can be achieved by also composing the Ac
 
 """
 
+
 def set_timer(output: OutputInteraction, duration: str) -> bool:
     """
     Function that adds a createTimerIntent into the intent list of the user
@@ -49,4 +51,5 @@ def set_timer(output: OutputInteraction, duration: str) -> bool:
     output.timer.time.GetCurrentTime()
 
     output.speech_text = "I have set the timer. " + output.speech_text
+    set_source(output)
     return True

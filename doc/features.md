@@ -1,9 +1,9 @@
-# GRILLBot Features
+# OAT Features
 
 ## Preference Elicitation
 If you are not too sure what to do, we aim to help by recommending options based on your preferences. 
-GRILLBot can help you decide what to do. 
-Tell GRILLBot if you want home improvement or Cooking, and see how GRILLBot can guide you to a recommendation.
+OAT can help you decide what to do. 
+Tell OAT if you want home improvement or Cooking, and see how OAT can guide you to a recommendation.
 
 Examples:
 <ul>
@@ -12,7 +12,7 @@ Examples:
 </ul>
 
 ## Task Search
-Let GRILLBot assist you with a task of your choice. 
+Let OAT assist you with a task of your choice. 
 Currently, we support the domains of Cooking and DIY. 
 We have given you a slimmed-down version of our task dataset, containing 10,000 tasks from our web sources, as the complete data set would have been too big to download. 
 So try out task search by asking what you would like to cook or improve in your home.
@@ -24,7 +24,7 @@ Examples:
 </ul>
 
 ## Task Execution
-After you have selected a task, you can walk through it by interacting with GRILLBot at each step. 
+After you have selected a task, you can walk through it by interacting with OAT at each step. 
 You can navigate through the task using natural language.
 
 Examples:

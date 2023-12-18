@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message ChitChatRequest {
+    string text = 1;
+    float threshold = 2;
+}
+
+message ChitChatResponse {
+    string text = 1;
+}
+
+service ChitChatClassifier {
+    rpc classify_chitchat(ChitChatRequest) returns (ChitChatResponse) {}
+}

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from semantic_searcher_pb2 import SemanticQuery, ThemeDocument
 
+
 class AbstractSemanticSearcher(ABC):
 
     @abstractmethod

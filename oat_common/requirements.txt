@@ -1,0 +1,12 @@
+Flask==2.0.3
+awscli==1.27.22
+boto3==1.26.22
+PyYAML==5.4.1
+grpcio==1.47.0
+grpcio-tools==1.47.0
+grpc-interceptor==0.15.0
+requests==2.31.0
+watchtower==3.0.0
+tomli==2.0.1
+dacite==1.8.1
+tqdm==4.66.1

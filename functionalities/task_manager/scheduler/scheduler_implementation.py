@@ -2,6 +2,7 @@ from taskmap_pb2 import TaskMap, TaskState
 from typing import List
 from task_graph import TaskGraph, AbstractNode
 
+
 def schedule(taskmap: TaskMap, task_state: TaskState = None) -> List[str]:
 
     graph: TaskGraph = TaskGraph(taskmap)

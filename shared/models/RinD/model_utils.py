@@ -20,7 +20,6 @@ all_intents = ["next()",
             "start_task()",
             "no()",
             "yes()",
-            "ASR_error()",
             "stop()",
             "pause()",
             "cancel()",
@@ -29,7 +28,8 @@ all_intents = ["next()",
             "show_more_results()",
             "show_requirements()",
             "show_more_details()",
-            "answer_question()",]
+            "answer_question()",
+            "confused()",]
 
 def create_contextual_intent_pair(annot):
     return f"User: {annot['user']}\nSystem: {annot['system']}\nFunctions: {' | '.join(all_intents)}", f"<pad>{annot['annotation'] if 'annotation' in annot else None}</s>"

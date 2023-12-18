@@ -1,13 +1,9 @@
 import torch
 
-from typing import Dict, List
 from .abstract_qa import AbstractQA
-
 from taskmap_pb2 import Session
 from qa_pb2 import QAQuery, QARequest, QAResponse, DocumentList
-
-from utils import logger
-from task_graph import *
+from utils import logger, Downloader
 
 from transformers import set_seed, AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
@@ -17,8 +13,12 @@ class NeuralGeneralQA(AbstractQA):
     def __init__(self) -> None:
         set_seed(42)
         self.device: str = "cuda" if torch.cuda.is_available() else "cpu"
+
+        artefact_id = "general_question_answering"
+        downloader = Downloader()
+        downloader.download([artefact_id])
+        cache_dir = downloader.get_artefact_path(artefact_id)
         model_name = "google/t5-small-ssm-nq"
-        cache_dir = '/shared/file_system/models/general_question_answering'
         self.model = AutoModelForSeq2SeqLM.from_pretrained(
             model_name, cache_dir=cache_dir
         ).to(self.device)

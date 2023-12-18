@@ -1,0 +1,55 @@
+aadhaar number
+aadhar card number
+account password
+bank account
+business id number
+business identification number
+credit
+credit card
+credit card number
+debit card
+debit card number
+dl number
+driver's license number
+driving license number
+european health insurance card
+fiscal code
+genetic test result
+health insurance card number
+health insurance number
+identity card number
+insee code
+medical card number
+national health index number
+national health insurance number
+national health service number
+national id number
+national identity document
+national identity number
+national insurance number
+nhi number
+nie number
+office id card number
+pan card number
+pan number
+passport number
+pension insurance number
+permanent account number
+personal account
+pin number
+salary account
+savings account
+social insurance number
+social security number
+ssn
+tax file number
+tax identification number
+tds number
+unique population registry code
+vehicle registration number
+vehicle registration plate number
+voter id number
+voter identification number
+voting identification number
+kreditkartennummer
+debitkartennummer

@@ -1,0 +1,24 @@
+name = "llm_functionalities"
+
+base_path = "/shared/file_system/downloads/llm_functionalities"
+
+# from model_requirements.txt
+[[sources]]
+id = "alpaca_llm"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/added_tokens.json", "alpaca_llm/added_tokens.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/config.json", "alpaca_llm/config.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/generation_config.json", "alpaca_llm/generation_config.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/pytorch_model-00001-of-00003.bin", "alpaca_llm/pytorch_model-00001-of-00003.bin"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/pytorch_model-00002-of-00003.bin", "alpaca_llm/pytorch_model-00002-of-00003.bin"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/pytorch_model-00003-of-00003.bin", "alpaca_llm/pytorch_model-00003-of-00003.bin"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/pytorch_model.bin.index.json", "alpaca_llm/pytorch_model.bin.index.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/special_tokens_map.json", "alpaca_llm/special_tokens_map.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/tokenizer.json", "alpaca_llm/tokenizer.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/tokenizer.model", "alpaca_llm/tokenizer.model"],
+    ["https://oat-2-data.s3.amazonaws.com/models/alpaca_llm/tokenizer.config.json", "alpaca_llm/tokenizer.config.json"],
+]
+
+artefacts = [
+    ["alpaca_llm", "alpaca_llm"],
+]

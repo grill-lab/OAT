@@ -1,0 +1,4 @@
+from .response_relevance_classifier import QAResponseClassifier as DefaultResponseClassifier
+
+from .response_relevance_classifier_servicer import Servicer
+from .response_relevance_classifier_servicer import add_ResponseRelevanceServicer_to_server as add_to_server

@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.3
-FROM grill_common:latest
+FROM oat_common:latest
 
 MAINTAINER Carlos Gemmell
 
@@ -8,12 +8,13 @@ COPY functionalities/requirements.txt /source/requirements.txt
 # during the build process
 RUN --mount=type=cache,mode=0755,target=/root/.cache/pip \
     apt-get update \
-    && apt-get install -y --no-install-recommends openjdk-11-jdk \
+    && apt-get install -y --no-install-recommends openjdk-18-jdk-headless \
     && pip3 install -r /source/requirements.txt \
     && aws configure set region us-east-1
 
 COPY functionalities/ /source
 COPY shared/ /shared
+COPY credentials.csv* credentials.csv
 
 WORKDIR /source
 CMD PYTHONPATH=/shared:/shared/compiled_protobufs python3 -u main.py

@@ -21,7 +21,7 @@ spec:
           - containerPort: 8000
         workingDir: /source # the directory to go to when ssh'ing in
         volumeMounts:
-          - mountPath: /shared/file_system  # this takes the volume name defined bellow and mounts it in the pod
+          - mountPath: /shared  # this takes the volume name defined bellow and mounts it in the pod
             name: persistent-storage
         env:
           - name: CONTAINER_NAME
@@ -31,7 +31,7 @@ spec:
       volumes:
         - name: persistent-storage # this is taking the file system from minikube and giving it a volume name
           hostPath:
-            path: /shared/file_system # this is actually in the minikube vm
+            path: /shared # this is actually in the minikube vm
 ---
 apiVersion: v1
 kind: Service

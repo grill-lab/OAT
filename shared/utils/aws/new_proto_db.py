@@ -4,17 +4,12 @@ from datetime import datetime
 from botocore.exceptions import ClientError
 from google.protobuf.message import Message
 from google.protobuf.json_format import MessageToDict, ParseDict
-from utils import timeit, logger
+
 import time
-import json
 from .decimal_ops import convert_decimals_to_float, convert_floats_to_decimals
 from itertools import islice
 
 from boto3.dynamodb.types import TypeDeserializer
-
-
-def utf8len(s):
-    return len(s.encode('utf-8'))
 
 
 def init_table(table_name, primary_key, url):
@@ -103,7 +98,6 @@ class ProtoDB:
         message_dict = convert_decimals_to_float(message_dict)
         return message_dict
 
-    @timeit
     def put(self, proto_obj: Message, check_for_changes: bool = True) -> str:
 
         item_id = getattr(proto_obj, self.primary_key)
@@ -118,15 +112,11 @@ class ProtoDB:
 
         item_payload = self._encode_dict(proto_obj)
 
-        byte_size = utf8len(json.dumps(item_payload))
-        logger.info(f"Trying to save object of size {byte_size/1024} KB")
-
         self.__table.put_item(
             Item=item_payload,
         )
         return item_id
 
-    @timeit
     def get(self, item_id: str, decode: bool = True) -> Message:
 
         response = self.__table.get_item(
@@ -150,7 +140,6 @@ class ProtoDB:
         else:
             return proto_dict
 
-    @timeit
     def batch_put(self,
                   proto_obj_list: List[Message],
                   check_for_changes: bool = True) -> List[str]:
@@ -192,7 +181,6 @@ class ProtoDB:
                 )
         return item_ids
 
-    @timeit
     def batch_get(self, item_ids: List[str], decode: bool = True) -> List[Message]:
         # We can retrieve at most 100 items at a time
         slicing_size = 100
@@ -274,7 +262,6 @@ class ProtoDB:
 
         return output_dict, unprocessed_keys
 
-    @timeit
     def scan_ids(self, scan_filter=None) -> Iterator[str]:
 
         scan_kwargs: Dict[str, str] = {

@@ -1,0 +1,15 @@
+name = "training"
+
+base_path = "/shared/file_system/downloads/training"
+
+[[sources]]
+id = "policy_classification_UQA_intent_model_1076"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/models/policy_classification/UQA_intent_model_1076/config.json", "policy_classification/UQA_intent_model_1076/config.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/policy_classification/UQA_intent_model_1076/generation_config.json", "policy_classification/UQA_intent_model_1076/generation_config.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/policy_classification/UQA_intent_model_1076/pytorch_model.bin", "policy_classification/UQA_intent_model_1076/pytorch_model.bin"],
+]
+
+artefacts = [
+    ["UQA_intent_model_1076", "policy_classification/UQA_intent_model_1076"],
+]
