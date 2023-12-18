@@ -10,7 +10,25 @@ message QAQuery {
   TaskState state = 5;
   TaskMap taskmap = 6;
   TaskSelection task_selection = 7;
-
+  enum TaskPhase {
+    DOMAIN = 0;
+    PLANNING = 1;
+    // ELICITING = 5; // sub-phase of planning, not always triggered
+    VALIDATING = 2;
+    EXECUTING = 3;
+    CLOSING = 4;
+    // THEME = 6; // sub-phase of planning, not always triggered
+  }
+  TaskPhase phase = 8;
+  enum Domain {
+        UNKNOWN                    = 0; // unknown/unrecognised domain
+        COOKING                    = 1; // tasks classed as "cooking"
+        DIY                        = 2; // tasks classes as "DIY"
+  }
+  Domain domain = 9;
+  string conv_hist_user = 10;
+  string conv_hist_bot = 11;
+  string last_intent = 12;
 }
 
 message DocumentList {
@@ -25,10 +43,12 @@ message QARequest {
   QAQuery query = 1;
   DocumentList list = 2;
   string question_type = 4;
+  bool headless = 5;
 }
 
 message QAResponse {
   string text = 1;
+  ReplacedIngredient replacement = 2;
 }
 
 message SentenceScoreRequest {

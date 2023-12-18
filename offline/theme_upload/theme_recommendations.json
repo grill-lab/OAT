@@ -1,0 +1,224 @@
+{
+    "National Hamburger Day": {
+        "description": "Get your grills ready and gather your buns because it's National Hamburger Day! Celebrate this meaty holiday with some juicy patties and all the fixings.",
+        "date": "28-05-2023"
+    },
+    "Memorial Day": {
+        "description": "Memorial Day is a day to remember and honor those who have given their lives while serving in the United States Armed Forces. Celebrate their sacrifice with a backyard barbecue and all your favorite summer sides.",
+        "date": "29-05-2023"
+    },
+    "National Flag Day": {
+        "recipes": [
+            "American flag fruit dessert",
+            "American flag cake",
+            "American flag cookies"
+        ],
+        "description": "Wave those stars and stripes and show your patriotism because it's National Flag Day! Celebrate the adoption of the American flag with some red, white, and blue treats or a patriotic cocktail.",
+        "date": "14-06-2023"
+    },
+    "Father's Day": {
+        "recipes": [
+            "Grilled meats",
+            "Steak",
+            "Ribs",
+            "Barbecue chicken",
+            "Potato salad"
+        ],
+        "description": "It's time to fire up the grill and show Dad how much you care because it's Father's Day! Celebrate the special fathers and father figures in your life with some delicious barbecue and all the classic sides.",
+        "date": "20-06-2023"
+    },
+    "National Ice Cream Day": {
+        "recipes": [
+            "Ice cream cones",
+            "Sundaes",
+            "Milkshakes",
+            "Ice cream cake",
+            "Ice cream sundaes",
+            "Banana splits",
+            "Ice cream sandwiches"
+        ],
+        "description": "Cool down and indulge your sweet tooth because it's National Ice Cream Day! Celebrate this delicious holiday with your favorite flavor of ice cream, whipped cream, sprinkles, and all the toppings.",
+        "date": "16-07-2023"
+    },
+    "National Avocado Day": {
+        "recipes": [
+            "Avocado toast",
+            "Guacamole",
+            "Avocado smoothies",
+            "Avocado salads"
+        ],
+        "description": "If you love avocados, then National Avocado Day is the perfect holiday for you! Celebrate this healthy and versatile fruit with all your favorite avocado dishes.",
+        "date": "31-07-2023"
+    },
+    "National Watermelon Day": {
+        "recipes": [
+            "Watermelon slices",
+            "Watermelon salad",
+            "Watermelon sorbet",
+            "Watermelon smoothies"
+        ],
+        "description": "Stay cool and refreshed because it's National Watermelon Day! Celebrate this juicy and sweet fruit with all your favorite watermelon dishes and drinks.",
+        "date": "03-08-2023"
+    },
+    "Labor Day": {
+        "recipes": [
+            "Barbecue ribs",
+            "Grilled chicken",
+            "Burgers",
+            "Hot dogs",
+            "Potato salad",
+            "Corn on the cob"
+        ],
+        "description": "Labor Day is a day to celebrate the hard work and contributions of American workers. Celebrate this holiday with a backyard barbecue and all your favorite summer sides.",
+        "date": "04-09-2023"
+    },
+    "National Pancake Day": {
+        "recipes": ["Pancakes", "Waffles", "French toast", "Syrup", "Butter"],
+        "description": "Start your day off right with a stack of fluffy pancakes, crispy waffles, or warm French toast.",
+        "date": "26-09-2023"
+    },
+    "National Apple Day": {
+        "recipes": ["Apple pie", "Caramel apples", "Apple cider", "Apple sauce"],
+        "description": "Celebrate the fall season with National Apple Day! This holiday is the perfect opportunity to indulge in all your favorite apple treats, from warm apple pie to crisp apple cider.",
+        "date": "21-10-2023"
+    },
+    "Thanksgiving": {
+        "recipes": [
+            "Turkey",
+            "Mashed potatoes",
+            "Stuffing",
+            "Gravy",
+            "Cranberry sauce",
+            "Pumpkin pie"
+        ],
+        "description": "Thanksgiving is a time to gather with family and friends and give thanks for all the good things in life. Celebrate this holiday with a traditional Thanksgiving feast, complete with all your favorite dishes.",
+        "date": "23-11-2023"
+    },
+    "National Cookie Day": {
+        "recipes": [
+            "Chocolate chip cookies",
+            "Sugar cookies",
+            "Oatmeal raisin cookies",
+            "Peanut butter cookies"
+        ],
+        "description": "Satisfy your sweet tooth with National Cookie Day! Celebrate this holiday by baking a batch of your favorite cookies or trying out a new recipe.",
+        "date": "04-12-2023"
+    },
+    "Mother's Day": {
+        "recipes": ["Brunch", "Quiche", "Mimosa", "Cake"],
+        "description": "Treat your mom to a special brunch, complete with quiche, mimosas, and a decadent cake.",
+        "date": "14-05-2023"
+    },
+    "National Barbecue Day": {
+        "recipes": [
+            "Burgers",
+            "Hot dogs",
+            "Ribs",
+            "Corn on the cob",
+            "Potato salad",
+            "Baked beans"
+        ],
+        "description": "Get ready for summer with National Barbecue Day! This holiday is the perfect excuse to fire up the grill and enjoy some classic barbecue favorites, from burgers and hot dogs to ribs and corn on the cob. Don't forget the sides like potato salad and baked beans!",
+        "date": "16-05-2023"
+    },
+    "National Wine Day": {
+        "recipes": ["Wine", "Cheese", "Chocolate"],
+        "description": "Today you have the perfect excuse to unwind and indulge in your favorite bottle of vino. Pair it with some delicious cheese and chocolate for the ultimate tasting experience.",
+        "date": "25-05-2023"
+    },
+    "National Donut Day": {
+        "recipes": ["Donuts", "Coffee"],
+        "description": "Celebrate this holiday by enjoying a freshly-baked donut with your favorite cup of coffee.",
+        "date": "02-06-2023"
+    },
+    "International Sushi Day": {
+        "recipes": ["Sushi", "Miso soup", "Edamame"],
+        "description": "Roll up your sleeves and make your own sushi at home, or head to your favorite sushi restaurant to enjoy some fresh rolls, miso soup, and edamame.",
+        "date": "18-06-2023"
+    },
+    "Juneteenth": {
+        "recipes": ["Barbecue", "Collard greens", "Cornbread", "Sweet potato pie"],
+        "description": "Juneteenth commemorates the end of slavery in the United States. Celebrate this important holiday by gathering with family and friends for a backyard barbecue, complete with classic Southern dishes like collard greens, cornbread, and sweet potato pie.",
+        "date": "19-06-2023"
+    },
+    "National Cheese Day": {
+        "recipes": ["Cheese board", "Mac and cheese", "Grilled cheese"],
+        "description": "Enjoy a cheese board with a variety of cheeses, make a classic mac and cheese, or indulge in a gooey grilled cheese sandwich.",
+        "date": "04-06-2023"
+    },
+    "National Rosé Day": {
+        "recipes": ["Rosé wine", "Charcuterie board", "Crackers"],
+        "description": "Sip on a chilled glass of rosé and pair it with a delicious charcuterie board for a perfect summer evening.",
+        "date": "10-06-2023"
+    },
+    "International Picnic Day": {
+        "recipes": ["Sandwiches", "Salads", "Fruit", "Cheese"],
+        "description": "Pack some sandwiches, salads, fruit, and cheese, and head to your favorite park for a relaxing day in the sun.",
+        "date": "18-06-2023"
+    },
+    "National Chocolate Ice Cream Day": {
+        "recipes": [
+            "Chocolate ice cream",
+            "Chocolate milkshake",
+            "Chocolate ice cream cake",
+            "Waffle cones"
+        ],
+        "description": "Whether you prefer your chocolate ice cream in a cone or a bowl, make sure to savor every delicious bite!",
+        "date": "07-06-2023"
+    },
+    "National Lobster Day": {
+        "recipes": ["Lobster", "Potato Salad", "mussels", "clams", "mac and cheese"],
+        "description": "National Lobster Day is a day to celebrate one of the most delicious and luxurious seafoods. Whether you enjoy it boiled, grilled, or in a roll, treat yourself to some fresh and succulent lobster!",
+        "date": "15-06-2023"
+    },
+    "National Onion Rings Day": {
+        "recipes": ["Onion rings", "Ranch dressing"],
+        "description": "Whether you enjoy onion rings as a side dish or a snack, make sure to dip them in some creamy and tangy ranch dressing for the perfect pairing!",
+        "date": "22-06-2023"
+    },
+    "National Catfish Day": {
+        "recipes": ["Catfish", "Hushpuppies", "Tartar sauce"],
+        "description": "Whether you enjoy catfish fried, blackened, or grilled, make sure to serve it with some crispy and savory hushpuppies and a dollop of tangy tartar sauce for the perfect Southern meal!",
+        "date": "25-06-2023"
+    },
+    "Independence Day": {
+        "recipes": [
+            "BBQ ribs",
+            "Hamburgers and hotdogs",
+            "Grilled chicken",
+            "Corn on the cob",
+            "Watermelon"
+        ],
+        "description": "Celebrate America's birthday with these classic July 4th dishes.",
+        "date": "04-07-2023"
+    },
+    "National Hot Dog Day": {
+        "recipes": ["Hot dogs with all the fixings", "Chili dogs", "Corn dogs"],
+        "description": "Enjoy this American classic on its special day.",
+        "date": "19-07-2023"
+    },
+    "National Tequila Day": {
+        "recipes": ["Margaritas", "Tequila sunrise", "Palomas", "Sangria"],
+        "description": "Celebrate National Tequila Day with these tasty tequila-based cocktails.",
+        "date": "24-07-2023"
+    },
+    "National Walnut Day": {
+        "recipes": [
+            "Walnut crusted salmon",
+            "Walnut banana bread",
+            "Walnut pesto pasta"
+        ],
+        "description": "Celebrate National Walnut Day with these delicious dishes featuring this versatile nut.",
+        "date": "17-05-2023"
+    },
+    "National Ice Cream Cake Day": {
+        "recipes": [
+            "Ice Cream Cake",
+            "Chocolate Cake with Ice Cream",
+            "Layered Cake with Ice Cream",
+            "Ice Cream Brownie Cake"
+        ],
+        "description": "Celebrate the delicious dessert that combines two classics: cake and ice cream. Ice cream cakes are perfect for summer celebrations and special occasions. ",
+        "date": "12-05-2023"
+    }
+}

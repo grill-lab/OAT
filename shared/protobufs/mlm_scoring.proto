@@ -1,0 +1,21 @@
+syntax='proto3';
+
+
+message ScoringRequest{
+
+  string context = 1;
+  repeated string candidates = 2;
+
+  bool normalize_by_length = 3;
+}
+
+message ScoringResponse{
+
+  repeated float scores = 1;
+}
+
+
+service MLMScoring{
+
+  rpc score(ScoringRequest) returns (ScoringResponse) {}
+}

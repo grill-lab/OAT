@@ -1,140 +1,174 @@
-
 syntax = "proto3";
+
 import "google/protobuf/timestamp.proto";
+
 import "asr_info.proto";
+import "offline.proto";
 import "semantic_searcher.proto";
 
 
+/* This enum defines the overall state that a Session can be in, separate
+*   from the policy phase */
 enum SessionState{
-    RUNNING = 0;
-    CLOSED = 1;
-    RESUMING = 2;
+    RUNNING  = 0; // RUNNING: typical state for a newly created or active session
+    CLOSED   = 1; // CLOSED: the session has ended (task complete/user stopped)
+    RESUMING = 2; // RESUMING: used if a paused session is being resumed (current unused?)
 }
 
+message Ingredient {
+    string name = 1;
+    string amount = 2;
+}
+message ReplacedIngredient {
+    Ingredient original = 1;
+    Ingredient replacement = 2;
+}
+
+/* A Session object records a user's interactions with the bot. Among other things,
+* this includes:
+*   - a series of ConversationTurn objects
+*   - candidate TaskMaps produced by searchers 
+*   - selected TaskMap
+*   - policy phase (planning, validating, executing, ...)
+*   - many other flags/counters that can influence the system responses
+*/
 message Session {
-    /////////////////////////////////////
-    // Record of a user's interactions with the bot
-    ////////////////////////////////////
+    string session_id              = 1; // a unique ID for the session
+    repeated ConversationTurn turn = 2; // each incoming message from a client creates a new ConversationTurn
+    Task task                      = 3; // policy phase, selected TaskMap, task execution settings
 
-    string session_id = 1;
-    repeated ConversationTurn turn = 2;
-    Task task = 3;
+    /* supported domains for the DomainPolicy classifier */
     enum Domain {
-        UNKNOWN = 0;
-        COOKING = 1;
-        DIY = 2;
+        UNKNOWN                    = 0; // unknown/unrecognised domain
+        COOKING                    = 1; // tasks classed as "cooking"
+        DIY                        = 2; // tasks classes as "DIY"
     }
-    Domain domain = 4;
-    TaskSelection task_selection = 5;
+    Domain domain                  = 4; // the domain assigned to the current interaction (starts as UNKNOWN)
+    TaskSelection task_selection   = 5; // candidate TaskMaps returned by searchers, related settings
 
-    bool has_list_permissions = 10;
-    bool headless = 6;
-    SessionState state = 7;
+    bool has_list_permissions      = 10; // TODO (not currently used?)
+    bool headless                  = 6; // flag to indicate if client is headless or not
+    SessionState state             = 7; // current state (RUNNING/CLOSED/RESUMING)
 
-//    bool resume_question_done = 8;
-    bool greetings = 9;
-    bool resume_task = 11;
-    ErrorCounter error_counter = 12;
+//    bool resume_question_done    = 8;
+    bool greetings                 = 9;  // tracks if the initial greeting message has been triggered already
+    bool resume_task               = 11; // true if resuming a task/session, false if not (not currently used?)
+    ErrorCounter error_counter     = 12; // error counters
 }
 
+/* Collection of error counters */
 message ErrorCounter {
-    // Record of no match or no input errors
-    int64 no_match_counter = 1;
+    int64 no_match_counter = 1; // counts number of no match/input errors (used by a few different policies)
 }
 
+/* TaskState contains a lot of different fields used when executing a TaskMap */
 message TaskState {
-    repeated string execution_list = 2;
-    int32 index_to_next = 1;
-    bool requirements_displayed = 5;
-    bool validation_options_displayed = 10;
-    int32 validation_page = 11;
-    bool execution_ingredients_displayed = 12;
-    bool execution_tutorial_displayed = 13;
-    int32 domain_interaction_counter = 15;
+    repeated string execution_list        = 2; 
+    int32 index_to_next                   = 1;
+    bool requirements_displayed           = 5;
+    bool validation_options_displayed     = 10;
+    int32 validation_page                 = 11;
+    bool execution_ingredients_displayed  = 12;
+    bool execution_tutorial_displayed     = 13;
+    int32 domain_interaction_counter      = 15;
 
     string elicitation_personality_prompt = 14;
 
-    bool final_question_done = 7;
-    string completed_response = 6;
+    bool final_question_done              = 7;
+    string completed_response             = 6;
 
-    bool transcript_sent = 8;
+    bool transcript_sent                  = 8;
 
-    repeated string true_statements_ids = 3;
-    repeated string false_statements_ids = 4;
-    string condition_id_eval = 17;
+    repeated string true_statements_ids   = 3;
+    repeated string false_statements_ids  = 4;
+    string condition_id_eval              = 17;
 
-    repeated Timer user_timers = 9;
-    bool validation_courtesy = 16;
+    repeated Timer user_timers            = 9;
+    bool validation_courtesy              = 16;
 
-    bool enhanced = 18;
-    bool extra_info_unresolved = 19;
-    bool joke_uttered = 20;
+    bool enhanced                         = 18;
+    bool extra_info_unresolved            = 19;
+    bool joke_uttered                     = 20;
+    bool video_uttered                    = 21;
+
+    bool help_corner_active               = 22;
+
+    bool in_farewell                      = 23; // True if we farewell secreen is currently shown
+
+    bool tip_uttered                      = 24;
+    bool question_uttered                 = 25;
+    bool safety_warning_said              = 26; // true if the safety warning has been said
 }
 
+/* TaskSelection contains fields used when searching for a TaskMap */
 message TaskSelection {
-    repeated string elicitation_utterances = 1;
-    repeated TaskMap candidates = 2;
-    int32 elicitation_turns = 3;
-    bool preferences_elicited = 4;
-    int32 results_page = 5;
-    bool query_from_theme = 6;
-    ThemeDocument theme = 7;
-    bool theme_description_given = 8;
+    repeated string elicitation_utterances          = 1; // utterances that are classed as search intents (used in planning phase)
+    repeated TaskMap candidates                     = 2; // redundant search results
+    int32 elicitation_turns                         = 3; // used to control responses from the elicitation policy
+    bool preferences_elicited                       = 4; // used to determine if categories are recommended in elicitation policy
+    int32 results_page                              = 5; // used for pagination of results from search
+    bool query_from_theme                           = 6; // TOOD currently unused
+    ThemeDocument theme                             = 7; // set if the ThemePolicy returns a result
+    bool theme_description_given                    = 8; // indicates if a response containing the theme description has been given
+    CategoryDocument category                       = 9; // storing the category information
+    repeated TaskmapCategoryUnion candidates_union  = 10; // a list of candidate TaskMaps and Categories (once search has been performed)
+    int32 categories_elicited                       = 11; // used to determine elicitation step in category
 }
 
 
+/* The Task contains the TaskMap selected by the user, the current completion phase, and a TaskState field */
 message Task {
-    //The task to be performed in this session
-    TaskMap taskmap = 1;
+    TaskMap taskmap  = 1; // the selected TaskMap, once the user makes a choice
+    /* Phase enum: used to control policy flow through PhasedPolicy class */
     enum TaskPhase {
-        DOMAIN = 0;
-        PLANNING = 1;
+        DOMAIN       = 0; // DomainPolicy phase
+        PLANNING     = 1; // PlanningPolicy phase
+        VALIDATING   = 2; // ValidationPolicy phase
+        EXECUTING    = 3; // ExecutionPolicy phase
+        CLOSING      = 4; // FarewellPolicy phase (usually)
+
         // ELICITING = 5; // sub-phase of planning, not always triggered
-        VALIDATING = 2;
-        EXECUTING = 3;
-        CLOSING = 4;
-        // THEME = 6; // sub-phase of planning, not always triggered
+        // THEME     = 6; // sub-phase of planning, not always triggered
     }
-    TaskState state = 2;
-    TaskPhase phase = 3;
-
+    TaskState state  = 2; // a TaskSState object, contains fields used to monitor/control TaskMap execution
+    TaskPhase phase  = 3; // the current TaskPhase enum value as described above
 }
 
+/* A conversation turn consisting of 'utterances' from a user and a taskbot */
 message ConversationTurn {
-    // A conversation turn consisting of 'utterances' from a user and a taskbot
-    string id = 3;
-
-    UserRequest user_request = 1;
-    AgentResponse agent_response = 2;
+    string id                    = 3; // a unique ID for this turn (currently 'turn_' + uuid4())
+    UserRequest user_request     = 1; // UserRequest object (timestamp, user ID, client message)
+    AgentResponse agent_response = 2; // like a UserRequest but containing the system response
 }
 
-
+/* Contains a single utterance from a user, plus any associated intents */
 message UserRequest {
-    // Utterance from the user
     google.protobuf.Timestamp time = 1; // The time of the creation of the request
-    User user_id = 2; // The ID of the client the request is sent from.
-    InputInteraction interaction = 3;
+    User user_id                   = 2; // The ID of the client the request is sent from.
+    InputInteraction interaction   = 3; // utterance text, any additional intents/ASR info
 }
 
 
+/* Contains a single response from the bot */
 message AgentResponse {
-    // Utterance from the TaskBot
     google.protobuf.Timestamp time = 1; // The time of the creation of the response.
-    User user_id = 2; // The ID of the client the request is sent from.
-    OutputInteraction interaction = 3;
+    User user_id                   = 2; // The ID of the client the request is sent from.
+    OutputInteraction interaction  = 3; // response text and other data to return to the client
 }
 
+/* Represents a subset of the data that will be sent in a client request to the system.
+* Doesn't include Session-level fields like "headless" that will not change from turn to turn. */
 message InputInteraction {
-    // Message sent to the agent.
-    string text = 1; // The text that is being sent to the Agent.
-    repeated string intents = 2; // Intent classification
-    repeated string params = 3; // Parameters coming from Semantic Parsing
+    string text             = 1; // The text that is being sent to the Agent.
+    repeated string intents = 2; // Intent classification (usually empty?)
+    repeated string params  = 3; // Parameters coming from Semantic Parsing
 
-    ASRInfo asr_info = 4; // ASR Info coming from client if available
+    ASRInfo asr_info        = 4; // ASR Info coming from client if available
 }
 
+/* Identifies a specific user */
 message User {
-    string user_id = 1;
+    string user_id = 1; // unique user ID string
 }
 
 message TaskMap {
@@ -197,6 +231,9 @@ message TaskMap {
     string difficulty = 26;
 
     int32 views = 27;
+     
+    repeated ReplacedIngredient replaced_ingredients = 30; // list of ingredients that have been replaced by the user
+
 }
 
 message Connection {
@@ -261,22 +298,28 @@ message ExtraInfo {
     string unique_id = 3;
     
     enum InfoType {
-        FUNFACT = 0;
-        TIP = 1;
+        TIP = 0;
         WARNING = 2;
         EXPLANATION = 3;
         QUESTION = 4;
         JOKE = 5;
         PUN = 6;
+        EXTRADETAILS = 7;
+        FUNFACT = 8;
+
     }
     InfoType type = 1;
     string text = 2;
+    string keyword = 4;
+    string image_url = 9;
 }
 
 message Video {
     string doc_id = 1;
     string hosted_mp4 = 2;
     string title = 3;
+    float start_time = 4;
+    float end_time = 5;
 }
 
 // This message will have to be Empty if in "headless mode"
@@ -287,6 +330,9 @@ message ScreenInteraction {
         IMAGE_CAROUSEL = 2;
         TEXT_IMAGE = 3;
         VIDEO = 4;
+        SUMMARY = 5;
+        GRID_LIST= 6;
+        FAREWELL = 7;
     }
     ScreenFormat format = 1;
 
@@ -303,6 +349,7 @@ message ScreenInteraction {
     repeated string requirements = 10;
     string background = 11;
     string caption_query = 13;
+    repeated ExtraInfo extra_information = 14;
 }
 
 message Image {
@@ -310,9 +357,9 @@ message Image {
     string alt_text = 2;
     string title = 3;
     string description = 4;
-    float ratingValue = 6;
-
     string response_on_click = 5;
+    float ratingValue = 6;
+    repeated string tags = 7;
 }
 
 message Transcript{
@@ -353,23 +400,39 @@ message List{
     repeated string items = 1;
 }
 
+/* Only used for debugging: contains information about the policy that produced a response */
+message OutputSource {
+    string policy     = 1; // policy module name, no extension (e.g. "planner", "validation_policy")
+    string filename   = 2; // full path and filename of policy
+    int32 line_number = 3; // line number in <filename> where the OutputSource was populated by set_source
+    string message    = 4; // an optional message that can be included by set_source
+}
+
+/* The system response sent to the client */
 message OutputInteraction {
-    string speech_text = 1;
-    bool close_interaction = 2;
+    string speech_text        = 1; // the text of the response
+    bool close_interaction    = 2; // true if this response ends the session
 
-    Transcript transcript = 6;
+    Transcript transcript     = 6; // if close_interaction is true, this will contain a transcript of the whole session
 
-    Timer timer = 7;
-    ScreenInteraction screen = 5; // 5 to maintain backward compatibility with TaskMaps
+    Timer timer               = 7; // contains info on any timer operation performed in the current turn
+    ScreenInteraction screen  = 5; // screen formatting elements for non-headless clients (5 to maintain backward compatibility with TaskMaps)
 
-    bool ask_list_permissions = 10;
-    List list = 9;
-    string description = 8;
+    bool ask_list_permissions = 10; // TODO currently unused
+    List list                 = 9; // TODO currently unused
+    string description        = 8; // TOOD currently unused
 
-    bool pause_interaction = 11;
-    int32 idle_timeout = 12; // in seconds
-    string reprompt = 13;
+    bool pause_interaction    = 11; // set to true if the user requested to pause the interaction in this turn
+    int32 idle_timeout        = 12; // duration in seconds a session will be paused before timing out (default 1800s)
+    string reprompt           = 13; // used to set tutorial prompts, but not currently used on client-side? 
 
-    // SearchLog search_log = 14; // Log of search results
+    // SearchLog search_log   = 14; // Log of search results
+	OutputSource source       = 15; // info on the policy class that produced this response (dev/debug only)
+}
 
+message TaskmapCategoryUnion {
+    oneof candidate {
+      TaskMap task = 1;
+      CategoryDocument category = 2;
+    }
 }

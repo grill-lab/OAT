@@ -1,33 +1,40 @@
-cd ..
-echo Going to base of repo at $PWD
+#!/bin/bash
 
-echo Setting docer environemt to host
+# for the pip cache mounting feature in most Dockerfiles
+export DOCKER_BUILDKIT=1
+
+echo "Setting Docker environment to host"
 minikube docker-env --unset
 
-echo Building bob the builder
+echo "Setting docker environment to minikube"
+eval "$(minikube docker-env)"
+
+echo "Going to base of repo at ${PWD}"
+cd ..
+
+echo "Loading oat_common image into minikube environment (may take a couple of minutes)"
+minikube image load --overwrite=false oat_common
+
+echo "Building bob the builder"
 docker build -t builder -f builder/Dockerfile .
-docker run -v $PWD/shared:/shared -v $PWD/builder:/source builder
+# assumes "minikube mount" has already been used to attach the shared
+# folder from the repo path on the host to "/shared" inside minkube
+docker run -v "/shared:/shared" builder
 
-echo Setting docker environemt to minikube
-eval $(minikube docker-env)
-
-#echo Builing offline image
-#docker build -t offline -f offline/Dockerfile .
-
-echo Building orchestrator image
+echo "Building orchestrator image"
 docker build -t orchestrator -f orchestrator/Dockerfile .
 
-echo Building local_client image
+echo "Building local_client image"
 docker build -t local_client -f local_client/Dockerfile .
 
-echo Builing functionalities image
+echo "Building functionalities image"
 docker build -t functionalities -f functionalities/Dockerfile .
 
-echo Builing neural_functionalities image
+echo "Building neural_functionalities image"
 docker build -t neural_functionalities -f neural_functionalities/Dockerfile .
 
-echo Builing external_functionalities image
+echo "Building external_functionalities image"
 docker build -t external_functionalities -f external_functionalities/Dockerfile .
 
-echo Builing taskmap_generation image
-docker build -t taskmap_generation -f taskmap_generation/Dockerfile .
+echo "Building llm_functionalities image"
+docker build -t llm_functionalities -f llm_functionalities/Dockerfile .

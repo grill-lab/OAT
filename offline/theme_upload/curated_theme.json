@@ -1,0 +1,477 @@
+{
+    "Workouts": {
+        "candidates": [
+            {
+                "taskmapId": "theme+handcrafted+09557693eb2e59c784fdde2e259883ca",
+                "title": "AI generated Journey to Fitland",
+                "description": "An AI-generated fitness experience designed to ignite your motivation and make your 15-minute session a thrilling entertaining and sweaty adventure.",
+                "thumbnailUrl": "https://www.wikihow.com/images/thumb/4/49/Maximize-Workout-Benefits-Step-32.jpg/-crop-250-145-193px-Maximize-Workout-Benefits-Step-32.jpg",
+                "ratingOut100": 92,
+                "requirementList": [
+                    {
+                        "uniqueId": "ad50a5dd-e15c-41d1-bbaf-c1ea111033f4",
+                        "type": "HARDWARE",
+                        "name": "Exercise mat (optional)"
+                    },
+                    {
+                        "uniqueId": "1818b11c-3d41-4ae1-a2ea-7485213c3b30",
+                        "type": "HARDWARE",
+                        "name": "Hydration (optional)"
+                    }
+                ],
+                "steps": [
+                    {
+                        "uniqueId": "4daacd7d-bebd-4130-8be9-afd88e8fbe1c",
+                        "response": {
+                            "speechText": "Kangaroo Jumping Jacks: Imagine you're a jumping kangaroo in the jungle, leaping from tree to tree. Do 10 jumping jacks, and then pretend to jump over an imaginary tree branch. Repeat this sequence 3 times.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Kangaroo Jumping Jacks: Imagine you're a jumping kangaroo in the jungle, leaping from tree to tree. Do 10 jumping jacks, and then pretend to jump over an imaginary tree branch. Repeat this sequence 3 times."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://media1.giphy.com/media/L6pR869dhwG6Q/giphy.gif?cid=ecf05e47t8zwra62gat8w7novy8ngpsuj317n3880h0vosnf&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "7718ca13-95ef-41e9-b59c-25a59823c86c",
+                        "response": {
+                            "speechText": "Superhero Squats: Perform 12 squats, and each time you come up, imagine yourself soaring through the sky like a superhero.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Superhero Squats: Perform 12 squats, and each time you come up, imagine yourself soaring through the sky like a superhero."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://media1.giphy.com/media/QQLglDJNVwoFgnmPwj/200w.webp?cid=ecf05e477umncd2lykc8f9mexbov7efi3ab439z0zkj7dsoo&ep=v1_gifs_search&rid=200w.webp&ct=g"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "eef6af65-71b6-4f0c-88a1-eb609b09811c",
+                        "response": {
+                            "speechText": "Rockstar Push-ups: Step onto the stage of fitness! Get into a push-up position and imagine you're captivating the crowd with your moves. With 15 push-ups, feel the rhythm pumping through your veins and unleash your inner rockstar power.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Rockstar Push-ups: Step onto the stage of fitness! Get into a push-up position and imagine you're captivating the crowd with your moves. With 15 push-ups, feel the rhythm pumping through your veins and unleash your inner rockstar power."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://media1.giphy.com/media/71EnBvrIr1Xji/200w.webp?cid=ecf05e47t9ypi6x1nm0mjiy9ocxkk4zha12md9dk32zsv2om&ep=v1_gifs_search&rid=200w.webp&ct=g"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "27707070-34d7-4382-a447-6309158b18ac",
+                        "response": {
+                            "speechText": "Mountain Climbers: Embark on an adventurous hike up a mountain! Get into a plank position, and as you alternate bringing each knee towards your chest. Do 10 mountain climbers on each side, and with each rep, imagine the beautiful scenery around you.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Mountain Climbers: Embark on an adventurous hike up a mountain! Get into a plank position, and as you alternate bringing each knee towards your chest. Do 10 mountain climbers on each side, and with each rep, imagine the beautiful scenery around you."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://media3.giphy.com/media/jsYmets3thkLhcvZ43/200w.webp?cid=ecf05e47zeyc3dlxof1m41jvbzeaesdag9slz7aefjel78rt&ep=v1_gifs_search&rid=200w.webp&ct=g"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "95b741b7-52da-452e-b622-06400eddcab2",
+                        "response": {
+                            "speechText": "Space Burpees: Get ready for a space mission! Picture yourself as an astronaut preparing for a rocket launch. Perform 8 burpees, and as you jump up, imagine you're taking off into space. Land softly and get ready for your next mission.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Space Burpees: Get ready for a space mission! Picture yourself as an astronaut preparing for a rocket launch. Perform 8 burpees, and as you jump up, imagine you're taking off into space. Land softly and get ready for your next mission."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://media0.giphy.com/media/RMmSlmmlyvXFcsAjIE/200.webp?cid=ecf05e47gudr2xs6wke8uqkntdd22mcmh7xerfmmki7n726u&ep=v1_gifs_search&rid=200.webp&ct=g"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "20747ae1-4bc5-426a-845e-750e76c67f40",
+                        "response": {
+                            "speechText": "Cool Down: Slow down and relax. Take 3 minutes to stretch your muscles and allow your heart rate to return to normal. Don't forget do hydrate.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Cool Down: Slow down and relax. Take 3 minutes to stretch your muscles and allow your heart rate to return to normal. Don't forget do hydrate."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://media2.giphy.com/media/hVBfEuR9CchKcPw4dJ/200.webp?cid=ecf05e477d4em0sobpma07caw3dfx1aql3c9sikxx103mg7o&ep=v1_gifs_search&rid=200.webp&ct=g"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "d3779a4f-d10d-43ff-b314-ccf61858f3df",
+                        "response": {
+                            "speechText": "You did it great Job! Welcome to Fitland!",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "You did it great Job! Welcome to Fitland!"
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://media1.giphy.com/media/l522kgooW2Qo9xtK5Z/200.webp?cid=ecf05e47zgwpanndop1ib6q84crljyrb2cb4d5a6sd6u0pny&ep=v1_gifs_search&rid=200.webp&ct=g"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    }
+                ],
+                "connectionList": [
+                    {
+                        "idFrom": "7718ca13-95ef-41e9-b59c-25a59823c86c",
+                        "idTo": "eef6af65-71b6-4f0c-88a1-eb609b09811c"
+                    },
+                    {
+                        "idFrom": "4daacd7d-bebd-4130-8be9-afd88e8fbe1c",
+                        "idTo": "7718ca13-95ef-41e9-b59c-25a59823c86c"
+                    },
+                    {
+                        "idFrom": "27707070-34d7-4382-a447-6309158b18ac",
+                        "idTo": "95b741b7-52da-452e-b622-06400eddcab2"
+                    },
+                    {
+                        "idFrom": "eef6af65-71b6-4f0c-88a1-eb609b09811c",
+                        "idTo": "27707070-34d7-4382-a447-6309158b18ac"
+                    },
+                    {
+                        "idFrom": "20747ae1-4bc5-426a-845e-750e76c67f40",
+                        "idTo": "d3779a4f-d10d-43ff-b314-ccf61858f3df"
+                    },
+                    {
+                        "idFrom": "95b741b7-52da-452e-b622-06400eddcab2",
+                        "idTo": "20747ae1-4bc5-426a-845e-750e76c67f40"
+                    }
+                ],
+                "dataset": "theme_handcrafted",
+                "ratingCount": 8,
+                "domainName": "theme_handcrafted",
+                "difficulty": "medium"
+            },
+            {
+                "taskmapId": "theme+handcrafted+5a14e383b1fce8f1b5abbe294d9f5593",
+                "title": "The perfect run",
+                "description": "Discover the freedom and joy of running! This task will guide you to explore new places, improve your fitness, and embrace the invigorating benefits of this empowering activity. Lace up your shoes, find your stride, and let the rhythm of your feet motivate and uplift you on this exhilarating journey!",
+                "thumbnailUrl": "https://www.wikihow.com/images/thumb/4/43/Run-for-a-Long-Time-Step-8.jpg/aid645024-v4-728px-Run-for-a-Long-Time-Step-8.jpg.webp",
+                "ratingOut100": 96,
+                "requirementList": [
+                    {
+                        "uniqueId": "7fc6b124-8a17-4d24-a777-cfe6ffad21c7",
+                        "type": "HARDWARE",
+                        "name": "Running Shoes"
+                    }
+                ],
+                "steps": [
+                    {
+                        "uniqueId": "7202418e-b9d2-4275-bf87-9335e3a0d2c6",
+                        "response": {
+                            "speechText": "Embrace the freedom of running! Put on your shoes, head outside, and explore. From your neighborhood to parks and tracks, discover the joy of running anywhere. Start with a short jog, gradually build up, and let the rhythm of your feet motivate and uplift you!",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Embrace the freedom of running! Put on your shoes, head outside, and explore. From your neighborhood to parks and tracks, discover the joy of running anywhere. Start with a short jog, gradually build up, and let the rhythm of your feet motivate and uplift you!"
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://www.wikihow.com/images/thumb/2/2f/Start-Running-Step-2-Version-4.jpg/v4-728px-Start-Running-Step-2-Version-4.jpg.webp"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "229c6299-bc30-49be-bddf-293876dbb49b",
+                        "response": {
+                            "speechText": "Proper form is key to an enjoyable and injury-free run. Loosen up your body, maintain an upright posture with a slight forward lean, and focus on picking your feet up high off the ground. Find your own stride and strike that feels natural to you.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Proper form is key to an enjoyable and injury-free run. Loosen up your body, maintain an upright posture with a slight forward lean, and focus on picking your feet up high off the ground. Find your own stride and strike that feels natural to you."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://www.wikihow.com/images/thumb/a/ac/Start-Running-Step-6-Version-4.jpg/v4-728px-Start-Running-Step-6-Version-4.jpg.webp"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "a39a1d4f-b2b0-496d-aaa1-39e21e7644e4",
+                        "response": {
+                            "speechText": "Discover the power of mindful, natural breathing. Try the invigorating technique of inhaling through your nose and exhaling through an open mouth. Not only does this method maximize oxygen intake, but it also helps you stay bug-free while running outdoors.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Discover the power of mindful, natural breathing. Try the invigorating technique of inhaling through your nose and exhaling through an open mouth. Not only does this method maximize oxygen intake, but it also helps you stay bug-free while running outdoors."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://www.wikihow.com/images/thumb/d/d9/Breathe-Step-2-Version-5.jpg/aid4932-v4-728px-Breathe-Step-2-Version-5.jpg.webp"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "122e6689-9d33-4cdd-8c94-bc6b40bed413",
+                        "response": {
+                            "speechText": "Boost your post-workout recovery and flexibility! When you get home, take a few minutes to stretch out your muscles, focus on your legs. These stretches will not only make you feel good, but also help prevent future injuries and improve your overall fitness.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Boost your post-workout recovery and flexibility! When you get home, take a few minutes to stretch out your muscles, focus on your legs. These stretches will not only make you feel good, but also help prevent future injuries and improve your overall fitness."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://www.wikihow.com/images/thumb/3/3e/Start-Running-Step-5-Version-4.jpg/v4-728px-Start-Running-Step-5-Version-4.jpg.webp"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "6dcfbdac-e127-4dcb-8132-9c63e99c1fab",
+                        "response": {
+                            "speechText": "Step outside. Run wild. Be free.",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Step outside. Run wild. Be free."
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://media4.giphy.com/media/Sux3kje9eOx1e/200.webp?cid=ecf05e47y26m5d73t6kzyaxwik8jmszovvb2hh009bafcoud&ep=v1_gifs_search&rid=200.webp&ct=g"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    }
+                ],
+                "connectionList": [
+                    {
+                        "idFrom": "a39a1d4f-b2b0-496d-aaa1-39e21e7644e4",
+                        "idTo": "122e6689-9d33-4cdd-8c94-bc6b40bed413"
+                    },
+                    {
+                        "idFrom": "7202418e-b9d2-4275-bf87-9335e3a0d2c6",
+                        "idTo": "229c6299-bc30-49be-bddf-293876dbb49b"
+                    },
+                    {
+                        "idFrom": "229c6299-bc30-49be-bddf-293876dbb49b",
+                        "idTo": "a39a1d4f-b2b0-496d-aaa1-39e21e7644e4"
+                    },
+                    {
+                        "idFrom": "122e6689-9d33-4cdd-8c94-bc6b40bed413",
+                        "idTo": "6dcfbdac-e127-4dcb-8132-9c63e99c1fab"
+                    }
+                ],
+                "dataset": "theme_handcrafted",
+                "ratingCount": 14,
+                "domainName": "theme_handcrafted",
+                "difficulty": "medium"
+            },
+            {
+                "taskmapId": "theme+handcrafted+fd411a72587d430bb84680bd452188ab",
+                "title": "How to do a Push-Up",
+                "description": "Unleash your inner superhero with this fun and engaging full body workout!",
+                "thumbnailUrl": "https://www.wikihow.com/images/thumb/5/50/Do-a-Push-Up-Step-5-Version-3.jpg/v4-728px-Do-a-Push-Up-Step-5-Version-3.jpg.webp",
+                "ratingOut100": 98,
+                "requirementList": [
+                    {
+                        "uniqueId": "eb457c62-b248-4de7-81db-70caa31f8a31",
+                        "type": "HARDWARE",
+                        "name": "Exercise mat (optional)"
+                    }
+                ],
+                "steps": [
+                    {
+                        "uniqueId": "ec9bc8df-a237-48d8-a3c4-30bddbf955f3",
+                        "response": {
+                            "speechText": "Get ready to amp up your upper body strength! Assume a stable position on all fours with your hands slightly wider than your shoulders. Opt for an exercise mat to cushion your hands and wrists, then dive into push-ups while maintaining proper alignment from head to toe. Let's crush it and feel the burn!",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Get ready to amp up your upper body strength! Assume a stable position on all fours with your hands slightly wider than your shoulders. Opt for an exercise mat to cushion your hands and wrists, then dive into push-ups while maintaining proper alignment from head to toe. Let's crush it and feel the burn!"
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://www.wikihow.com/images/thumb/1/1f/Do-a-Push-Up-Step-1-Version-8.jpg/v4-728px-Do-a-Push-Up-Step-1-Version-8.jpg.webp"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "734a165c-34c4-4d55-84bf-e51fbe29f8da",
+                        "response": {
+                            "speechText": "Perfect your push-ups by maintaining a straight line from your legs to your back, balancing on the balls of your feet. Keep your body aligned and avoid any sagging or lifting of the hips. Embrace the challenge and witness the incredible progress you'll make!",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Perfect your push-ups by maintaining a straight line from your legs to your back, balancing on the balls of your feet. Keep your body aligned and avoid any sagging or lifting of the hips. Embrace the challenge and witness the incredible progress you'll make!"
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://www.wikihow.com/images/thumb/c/c3/Do-a-Push-Up-Step-2-Version-3.jpg/v4-728px-Do-a-Push-Up-Step-2-Version-3.jpg.webp"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "76c2c1dd-938b-49e3-9b7a-6d10909969bd",
+                        "response": {
+                            "speechText": "Master the elbow push-up: Lower your body with control, keeping your back and legs straight until your chest is 2-3 inches from the floor. Take 2 seconds for each descent, enhancing control and reaping maximum benefits. Let's go, feel the burn!",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Master the elbow push-up: Lower your body with control, keeping your back and legs straight until your chest is 2-3 inches from the floor. Take 2 seconds for each descent, enhancing control and reaping maximum benefits. Let's go, feel the burn!"
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://www.wikihow.com/images/thumb/a/a1/Do-a-Push-Up-Step-3-Version-5.jpg/v4-728px-Do-a-Push-Up-Step-3-Version-5.jpg.webp"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "9ac55a5a-8070-4446-b31d-760fca372f03",
+                        "response": {
+                            "speechText": "Get ready to push your limits! Rise up from the floor, straightening your arms and completing a rep. Remember to avoid locking your elbows and modify the exercise if needed. Keep going and embrace the challenge!",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Get ready to push your limits! Rise up from the floor, straightening your arms and completing a rep. Remember to avoid locking your elbows and modify the exercise if needed. Keep going and embrace the challenge!"
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://www.wikihow.com/images/thumb/a/ae/Do-a-Push-Up-Step-4-Version-4.jpg/v4-728px-Do-a-Push-Up-Step-4-Version-4.jpg.webp"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    },
+                    {
+                        "uniqueId": "7c0f4ccc-d228-4c8e-bdfb-5223e08c1f98",
+                        "response": {
+                            "speechText": "Discover your strength with push-ups! Start with 5-10 reps, focusing on good form. Increase the challenge by adding 5 reps at a time. Rest and repeat. Let's push through together!",
+                            "screen": {
+                                "format": "TEXT_IMAGE",
+                                "headline": "Step %d out of %d",
+                                "paragraphs": [
+                                    "Discover your strength with push-ups! Start with 5-10 reps, focusing on good form. Increase the challenge by adding 5 reps at a time. Rest and repeat. Let's push through together!"
+                                ],
+                                "imageList": [
+                                    {
+                                        "path": "https://www.wikihow.com/images/thumb/5/50/Do-a-Push-Up-Step-5-Version-3.jpg/v4-728px-Do-a-Push-Up-Step-5-Version-3.jpg.webp"
+                                    }
+                                ]
+                            }
+                        },
+                        "activeDurationMinutes": 1,
+                        "totalDurationMinutes": 1
+                    }
+                ],
+                "connectionList": [
+                    {
+                        "idFrom": "9ac55a5a-8070-4446-b31d-760fca372f03",
+                        "idTo": "7c0f4ccc-d228-4c8e-bdfb-5223e08c1f98"
+                    },
+                    {
+                        "idFrom": "734a165c-34c4-4d55-84bf-e51fbe29f8da",
+                        "idTo": "76c2c1dd-938b-49e3-9b7a-6d10909969bd"
+                    },
+                    {
+                        "idFrom": "76c2c1dd-938b-49e3-9b7a-6d10909969bd",
+                        "idTo": "9ac55a5a-8070-4446-b31d-760fca372f03"
+                    },
+                    {
+                        "idFrom": "ec9bc8df-a237-48d8-a3c4-30bddbf955f3",
+                        "idTo": "734a165c-34c4-4d55-84bf-e51fbe29f8da"
+                    }
+                ],
+                "dataset": "theme_handcrafted",
+                "ratingCount": 20,
+                "domainName": "theme_handcrafted",
+                "difficulty": "medium"
+            }
+        ],
+        "description": "Become fit by working out with an AI! ",
+        "date": "",
+        "intro_sentence": "",
+        "alternative_description": "achieve your fitness goals"
+    }
+}

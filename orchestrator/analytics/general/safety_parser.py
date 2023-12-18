@@ -14,6 +14,7 @@ class SafetyParser(AbstractParser):
         self.safety_service = SafetyStub(channel)
 
     def check_utterance(self, utterance):
+        # return True, True, True, True
 
         if utterance == "":
             # If empty string, we consider all tests to be positive

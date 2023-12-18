@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message MarqoSearchQuery {
+  string text = 1;
+  string taskmap_id = 2;
+  string index_name = 3;
+}
+
+message MarqoResult {
+    // representing a highlighted result
+    string doc_id = 1;
+    string highlight_text = 2;
+    string doc_text = 3;
+}
+
+message MarqoSearchResults {
+    repeated MarqoResult candidates = 1;
+}
+
+service MarqoSearcher {
+    rpc search_index(MarqoSearchQuery) returns (MarqoSearchResults) {}
+}

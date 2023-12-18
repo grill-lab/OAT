@@ -129,22 +129,14 @@ dmypy.json
 .pyre/
 
 # custom ignores
-legacy/src/backendv0/fs/index
-docker/*.csv
 .idea
 *.db
 shared/compiled_protobufs
 .DS_Store
-offline/data
-offline/saved_models
 shared/file_system/*
-research/domain_classification/data/*
-research/taskmap_filter/data/*
 shared/logs/*
-credentials.csv
-
-data_labeling/
-offline/
-test.py
 shared/hand_curated_graphs/out_dir
 shared/utils/scripts/*.json
+sphinx_docs/_build
+sphinx_docs/docs_*/
+training/eval_results

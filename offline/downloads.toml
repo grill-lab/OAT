@@ -1,0 +1,76 @@
+name = "offline"
+
+base_path = "/shared/file_system/downloads/offline/"
+
+[[sources]]
+id = "whisper_transcripts"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/offline/whisper_transcripts/whisper_transcript_diy_1.jsonl", "whisper_transcripts/whisper_transcript_diy_1.jsonl"],
+    ["https://oat-2-data.s3.amazonaws.com/offline/whisper_transcripts/whisper_transcript_food.jsonl", "whisper_transcripts/whisper_transcript_food.jsonl"],
+    ["https://oat-2-data.s3.amazonaws.com/offline/whisper_transcripts/whisper_transcript_how_tos_2.jsonl", "whisper_transcripts/whisper_transcript_how_tos_2.jsonl"],
+    ["https://oat-2-data.s3.amazonaws.com/offline/whisper_transcripts/whisper_transcript_wikihow.jsonl", "whisper_transcripts/whisper_transcript_wikihow.jsonl"],
+]
+
+artefacts = [
+    ["whisper_transcripts", "whisper_transcripts"],
+]
+
+[[sources]]
+id = "video_metadata"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/offline/video_metadata/meta_data_cooking.json", "video_metadata/meta_data_cooking.json"],
+    ["https://oat-2-data.s3.amazonaws.com/offline/video_metadata/meta_data_diy.json", "video_metadata/meta_data_diy.json"],
+    ["https://oat-2-data.s3.amazonaws.com/offline/video_metadata/meta_data_how_tos.json", "video_metadata/meta_data_how_tos.json"],
+]
+
+artefacts = [
+    ["video_metadata", "video_metadata"],
+]
+
+[[sources]]
+id = "indexes"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/offline/indexes/image_index.faiss", "indexes/image_index.faiss"],
+]
+
+artefacts = [
+    ["faiss_index", "indexes/image_index.faiss"],
+]
+
+
+[[sources]]
+id = "lookup_files"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/offline/lookup_files/image_list.pkl", "lookup_files/image_list.pkl"],
+    ["https://oat-2-data.s3.amazonaws.com/offline/lookup_files/image_url_lookup.json", "lookup_files/image_url_lookup.json"],
+]
+
+artefacts = [
+    ["image_list", "lookup_files/image_list.pkl"],
+    ["image_url_lookup", "lookup_files/image_url_lookup.json"],
+]
+
+[[sources]]
+id = "extra_info_data_recent"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/offline/extra_info_data/facts_images.json", "extra_info_data/facts_images.json"],
+    ["https://oat-2-data.s3.amazonaws.com/offline/extra_info_data/jokes_images.json", "extra_info_data/jokes_images.json"],
+]
+
+artefacts = [
+    ["jokes_json", "extra_info_data/jokes_images.json"],
+    ["facts_json", "extra_info_data/facts_images.json"],
+]
+
+[[sources]]
+id = "domain_classifier"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/classifiers/domain_classifier/domain_list.json", "domain_classifier/domain_list.json"],
+    ["https://oat-2-data.s3.amazonaws.com/classifiers/domain_classifier/id_to_domain.json", "domain_classifier/id_to_domain.json"],
+    ["https://oat-2-data.s3.amazonaws.com/classifiers/domain_classifier/naive_bayes.pkl", "domain_classifier/naive_bayes.pkl"],
+    ["https://oat-2-data.s3.amazonaws.com/classifiers/domain_classifier/tfidf.pkl", "domain_classifier/tfidf.pkl"],
+]
+
+artefacts = [
+    ["domain_classifier", "domain_classifier"],
+]

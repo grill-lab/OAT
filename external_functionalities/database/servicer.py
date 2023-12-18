@@ -1,8 +1,7 @@
-from database_pb2_grpc import DatabaseServicer
-from database_pb2_grpc import add_DatabaseServicer_to_server
-from database_pb2 import Void
+from database_pb2_grpc import DatabaseServicer, add_DatabaseServicer_to_server
+from database_pb2 import Void, QueryList
 from taskmap_pb2 import Session, TaskMap
-from searcher_pb2 import TaskMapList
+from theme_pb2 import ThemeResults
 from . import DefaultDB
 
 
@@ -33,11 +32,14 @@ class Servicer (DatabaseServicer):
         self.instance.save_asr_log(request)
         return Void()
 
-    def get_theme_results(self, request, context) -> TaskMapList:
-        return self.instance.get_theme_results(request.theme_word)
+    def get_theme_by_id(self, request, context) -> ThemeResults:
+        return self.instance.get_theme_by_id(request)
 
     def get_queries(self, request, context):
         return self.instance.get_queries()
 
     def get_theme(self, request, context):
         return self.instance.get_theme(request)
+
+    def get_theme_by_date(self, request, context) -> QueryList:
+        return self.instance.get_theme_by_date(request)

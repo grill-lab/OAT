@@ -6,12 +6,21 @@ message ThemeResults{
   string theme_word = 1;
   TaskMapList results = 2;
 
-  string description = 3;
+  string description = 3; // used when introducing results. e.g. "Get your grills ready and gather your buns because it\'s National Hamburger Day! Celebrate
+      // this meaty holiday with some juicy patties and all the fixings. First is ... "
   repeated string trivia = 4;
   repeated string popular_tasks = 5; // popular tasks
-  repeated string clarifying_questions = 6;
+  repeated string clarifying_questions = 6; // currently not used
+  string date = 7;
+  string intro_sentence = 8; // Include here (<>) e.g.: “Hi! This is an OAT TaskBot.
+      // <We are officially in summer.> I can help with cooking, home improvement and summer activities.
+  string alternative_description = 9; // Include here (<>) e.g.: “Hi! This is an OAT TaskBot.
+      // I can help with cooking, home improvement and <baking>.
+  bool hand_curated = 10;
+  string thumbnail = 11;
 }
 
 message ThemeRequest{
   string theme_word = 1;
+  string date = 2;
 }

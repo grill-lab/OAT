@@ -1,0 +1,67 @@
+name = "neural_functionalities"
+
+base_path = "/shared/file_system/downloads/neural_functionalities"
+
+# from model_requirements.txt
+[[sources]]
+id = "question_type_classifier"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/classifiers/question_type_classifier/labels.json", "question_type_classifier/labels.json"],
+    ["https://oat-2-data.s3.amazonaws.com/classifiers/question_type_classifier/model.state_dict", "question_type_classifier/model.state_dict"],
+]
+
+artefacts = [
+    ["question_type_classifier", "question_type_classifier"],
+]
+
+[[sources]]
+id = "policy_classification_UQA_intent_model_1076"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/models/policy_classification/UQA_intent_model_1076/config.json", "policy_classification/UQA_intent_model_1076/config.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/policy_classification/UQA_intent_model_1076/generation_config.json", "policy_classification/UQA_intent_model_1076/generation_config.json"],
+    ["https://oat-2-data.s3.amazonaws.com/models/policy_classification/UQA_intent_model_1076/pytorch_model.bin", "policy_classification/UQA_intent_model_1076/pytorch_model.bin"],
+]
+
+artefacts = [
+    ["UQA_intent_model_1076", "policy_classification/UQA_intent_model_1076"],
+]
+
+[[sources]]
+id = "general_question_answering"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/models/general_question_answering.zip", "general_question_answering.zip"],
+]
+
+artefacts = [
+    ["general_question_answering", "general_question_answering"],
+]
+
+[[sources]]
+id = "task_question_answering"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/models/task_question_answering.zip", "task_question_answering.zip"],
+]
+
+artefacts = [
+    ["task_question_answering", "task_question_answering"],
+]
+
+[[sources]]
+id = "sentiment_analysis"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/models/sentiment_analysis.zip", "sentiment_analysis.zip"],
+]
+
+artefacts = [
+    ["sentiment_analysis", "sentiment_analysis"],
+]
+
+[[sources]]
+id = "sBERT"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/models/sBERT.zip", "sBERT.zip"],
+]
+
+artefacts = [
+    ["sBERT", "sBERT"],
+]

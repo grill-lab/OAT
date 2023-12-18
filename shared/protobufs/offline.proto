@@ -1,0 +1,57 @@
+syntax='proto3';
+
+message HTMLDocument{
+    string html = 1;
+    string url = 2;
+    string url_host_registered_domain = 3;
+    string fetch_time = 4;
+    int32 fetch_status = 5;
+    string warc_filename = 6;
+    int32 warc_record_offset = 7;
+    int32 warc_record_length = 8;
+    float warc_segment = 9;
+    string crawl = 10;
+}
+
+message KnowledgeDocument{
+    // Unique identifier for each TaskMap within the TaskMap index.
+    string knowledge_id = 1;
+    // Title of task being completed.
+    string title = 2;
+    // Date (format: YYYY-MM-DD) when the TaskMap input data was created (for example when published online).
+    string date = 3;
+    // URL that the TaskMap input data was extracted.
+    string source_url = 4;
+    repeated string contents = 5;
+    string author = 6;
+    repeated string mentioned_links = 7;
+    repeated string mentioned_tasks_ids = 8;
+}
+
+message CategoryDocument {
+    string title = 1;
+    string description = 2;
+    repeated SubCategory sub_categories = 3;
+    bool options_available = 4;
+    string url = 5;
+    repeated string related_categories = 6;
+    string cat_id = 7;
+    repeated string alternate_queries = 8;
+}
+
+message SubCategory {
+    string title = 1;
+    string thumbnail_url = 2;
+    repeated Candidate candidates = 3;
+    string url = 4;
+    repeated string alternate_queries = 5;
+    string description = 6;
+    repeated Candidate ordered_candidates = 7;
+}
+
+message Candidate {
+    string title = 1;
+    string url = 2;
+    string taskmap_id = 3;
+    string image_url = 4;
+}

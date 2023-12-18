@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.3
-FROM grill_common:latest
+FROM oat_common:latest
 
 MAINTAINER Carlos Gemmell
 
@@ -20,4 +20,4 @@ COPY orchestrator/ /source
 COPY shared/ /shared
 
 WORKDIR /source
-CMD PYTHONPATH=/shared:/shared/compiled_protobufs python3 -u main.py
+CMD PYTHONPATH=/shared:/shared/compiled_protobufs gunicorn 'main:app'

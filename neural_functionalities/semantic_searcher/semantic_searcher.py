@@ -1,18 +1,18 @@
 import os
-import re
-from .abstract_semantic_searcher import AbstractSemanticSearcher
-from semantic_searcher_pb2 import SemanticQuery, ThemeDocument, ThemeMapping
-
-from sentence_transformers import SentenceTransformer, util
-import json
 import torch
-from google.protobuf.json_format import Parse
-from utils import logger, ProtoDB
 import time
 import threading
+import grpc
+
+from .abstract_semantic_searcher import AbstractSemanticSearcher
+from semantic_searcher_pb2 import SemanticQuery, ThemeMapping
 from database_pb2_grpc import DatabaseStub
 from database_pb2 import Void
-import grpc
+
+from sentence_transformers import SentenceTransformer, util
+
+from utils import logger
+
 
 class SemanticSearcher(AbstractSemanticSearcher):
 
@@ -97,5 +97,3 @@ class SemanticSearcher(AbstractSemanticSearcher):
         thread.start()
 
         return matched_theme
-
-

@@ -1,3 +1,7 @@
+import ujson as json
+import torch
+import jsonlines
+
 from .abstract_intent_classifier import AbstractClassifier
 from phase_intent_classifier_pb2 import (
     IntentRequest,
@@ -8,20 +12,13 @@ from phase_intent_classifier_pb2 import (
     ScoreSentencesResponse
 )
 
-from models.RinD.model_utils import ModelFormatter, UnifiedQA_intent_prediction
-from models.RinD.models import Reasoning_in_Decoder
+from models.RinD.model_utils import UnifiedQA_intent_prediction
 from models.question_classifier.question_classifier_model import TextClassifier
-from transformers import set_seed, AutoTokenizer, AutoModelForSeq2SeqLM, pipeline, AdamW
+from utils import logger, Downloader
 
-from dotmap import DotMap
-import grpc
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from sentence_transformers import SentenceTransformer, util
-import ujson as json
-import os
 
-import torch
-from utils import logger, indri_stop_words, jaccard_similarity
-import jsonlines
 
 def load_annotations():
     try:
@@ -33,6 +30,7 @@ def load_annotations():
         save_annotations(annotations)
     return annotations
 
+
 def add_new_annotation(new_annot):
     annotations = load_annotations()
     past_length = len(annotations)
@@ -41,6 +39,7 @@ def add_new_annotation(new_annot):
         logger.info("Overwriting existing annotation")
     annotations.append(new_annot)
     save_annotations(annotations)
+
 
 def save_annotations(annotations):
     jsonlines.Writer(open('/shared/file_system/logs/LIVE_intent_annotations.jsonl', 'w')).write_all(annotations)
@@ -63,14 +62,17 @@ class PhaseIntentClassifier(AbstractClassifier):
         self.utterance_embeddings = self.embedder.encode(self.utterances, convert_to_tensor=True)
 
         logger.info('loading RinD intent classifier')
-        model_location = '/shared/file_system/models/policy_classification/UQA_intent_model_1185'
+        artefact_ids = ["UQA_intent_model_1076", "question_type_classifier"]
+        downloader = Downloader()
+        downloader.download(artefact_ids)
+        model_location = downloader.get_artefact_path(artefact_ids[0]) 
         self.model = AutoModelForSeq2SeqLM.from_pretrained(model_location)
         self.model.eval()
         tokenizer = AutoTokenizer.from_pretrained("allenai/unifiedqa-t5-base")
         self.model.tokenizer = tokenizer
 
         logger.info('loading question type classifier')
-        self.question_classifier = TextClassifier.from_pretrained('/shared/file_system/models/question_type_classifier')
+        self.question_classifier = TextClassifier.from_pretrained(downloader.get_artefact_path(artefact_ids[1]))
 
         if torch.cuda.is_available():
             self.model.to('cuda')
@@ -92,15 +94,15 @@ class PhaseIntentClassifier(AbstractClassifier):
     ) -> IntentClassification:
 
         user_utter = intent_request.turns[-1].user_request.interaction.text
-        clossest_utter, intent, score, single_utter_above_thresh = self.pre_classify_intent(user_utter)
+        closest_utter, intent, score, single_utter_above_thresh = self.pre_classify_intent(user_utter)
         logger.info(f"Single utterance intent classification:")
-        logger.info(f"Clossest utterance: '{clossest_utter}' | Associated intent: '{intent}' | "
+        logger.info(f"Closest utterance: '{closest_utter}' | Associated intent: '{intent}' | "
                     f"match score: {score} | score above threshold: '{single_utter_above_thresh}' | ")
 
         intent_classification = IntentClassification()
 
         if len(intent_request.turns) == 1:
-            system_utter = 'Hi, this is an Alexa Prize TaskBot. I know about cooking, ' \
+            system_utter = 'Hi! I know about cooking, ' \
                            'home improvement, and arts & crafts. What can I help you with?'
         else:
             system_utter = intent_request.turns[-2].agent_response.interaction.speech_text

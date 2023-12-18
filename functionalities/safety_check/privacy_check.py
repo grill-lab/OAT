@@ -1,9 +1,7 @@
-
 from .abstract_safety_check import AbstractSafetyCheck
 from safety_pb2 import SafetyAssessment, SafetyUtterance
-from utils import get_file_system, logger
-import os
-import re
+from utils import logger
+
 
 class PrivacyCheck(AbstractSafetyCheck):
 

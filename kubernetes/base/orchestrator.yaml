@@ -15,14 +15,11 @@ spec:
     spec:
       containers:
       - name: orchestrator
-        imagePullPolicy: Never # makes sure to pull from the local docker registry
-        image: orchestrator:latest
+        imagePullPolicy: Always # makes sure to pull from the local docker registry
+        image: 103324463696.dkr.ecr.us-east-1.amazonaws.com/alexa_oat-orchestrator:latest
         ports:
           - containerPort: 8000
         workingDir: /source # the directory to go to when ssh'ing in
-        volumeMounts:
-          - mountPath: /shared/file_system  # this takes the volume name defined bellow and mounts it in the pod
-            name: persistent-storage
         env:
           - name: CONTAINER_NAME
             value: "orchestrator"
@@ -32,10 +29,10 @@ spec:
             value: "external-functionalities:8000"
           - name: NEURAL_FUNCTIONALITIES_URL
             value: "neural-functionalities:8000"
-      volumes:
-        - name: persistent-storage # this is taking the file system from minikube and giving it a volume name
-          hostPath:
-            path: /shared/file_system # this is actually in the minikube vm
+          - name: LLM_FUNCTIONALITIES_URL
+            value: "llm-functionalities:8000"
+      nodeSelector:
+        node_type: orchestrator_cpu_bigger
 ---
 apiVersion: v1
 kind: Service

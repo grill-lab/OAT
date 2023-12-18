@@ -66,7 +66,6 @@ cf
 choose
 contrariwise
 cook
-cooking
 cooks
 cos
 could
@@ -153,6 +152,8 @@ hindmost
 his
 hither
 hitherto
+hm
+hmm
 how
 however
 howsoever
@@ -270,6 +271,7 @@ same
 sang
 save
 saw
+search
 see
 seeing
 seem
@@ -354,6 +356,8 @@ together
 too
 toward
 towards
+uh
+uhm
 ugh
 unable
 under
@@ -372,6 +376,7 @@ using
 very
 via
 vs
+wanna
 want
 was
 we
@@ -431,6 +436,7 @@ worst
 would
 wow
 ye
+yes
 year
 yet
 yippee

@@ -1,5 +1,4 @@
 from taskmap_pb2 import TaskMap, Session
-from searcher_pb2 import SearchQuery
 from utils import logger
 
 
@@ -29,6 +28,7 @@ def filter_taskmap(taskmap: TaskMap):
         return False
 
     return True
+
 
 def filter_wikihow_cooking(query, taskmap: TaskMap):
     if query.domain == Session.Domain.COOKING and taskmap.dataset in {"wikihow-offline", "wikihow"}:

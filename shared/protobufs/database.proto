@@ -39,7 +39,8 @@ service Database{
   rpc save_search_logs(SearchLog) returns(Void) {}
   rpc save_asr_logs(ASRLog) returns(Void) {}
 
-  rpc get_theme_results(ThemeRequest) returns(ThemeResults) {}
+  rpc get_theme_by_id(ThemeRequest) returns(ThemeResults) {}
+  rpc get_theme_by_date(ThemeRequest) returns(QueryList) {}
 
   rpc get_theme(ThemeMapping) returns (ThemeMapping) {}
   rpc get_queries(Void) returns (QueryList) {}

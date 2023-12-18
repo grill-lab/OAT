@@ -19,13 +19,13 @@ class IntentParser(AbstractParser):
         intent_request.request_attributes.phase = "planning"
 
         if (
-            len(session.task_selection.candidates) > 0
+            len(session.task_selection.candidates_union) > 0
             and len(session.task_selection.elicitation_utterances) > 0
             and session.task.taskmap.taskmap_id == ""
             or session.task_selection.preferences_elicited
         ):
 
-            intent_request.request_attributes.options.extend(session.task_selection.candidates)
+            intent_request.request_attributes.options.extend(session.task_selection.candidates_union)
 
         intent_classification = self.phase_intent_classifier.classify_intent(intent_request)
 

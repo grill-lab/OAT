@@ -1,0 +1,233 @@
+[
+    {
+      "type": "fact",
+      "keyword": "apple",
+      "joke": "New York is called the Big Apple. Is that because the entire city is made of apples?",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_apple_v2.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "avocado",
+      "joke": "Avocado is not just for toast. It's a millennial's ticket to culinary sophistication. And bankruptcy.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_avocado.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "bake",
+      "joke": "I can set a timer or you can wait until you can smell something burning.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_bake.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "berries",
+      "joke": "\"boisonberry\" sounds a lot like \"poisonberry\"? What a dangerous name.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_berries.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "black pepper",
+      "joke": "For whatever reason, you can find black pepper on every table. Who's his agent?",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_black_pepper.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "blender",
+      "joke": "If you put me in a blender, you would find yourself with one less blender.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_blender_1_v1.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "broccoli",
+      "joke": "if put enough broccoli on your plate, and it will resemble a forest.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_broccoli.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "celery",
+      "joke": "Celery is the misunderstood underdog of the vegetable world. It's 95% water, 100% crunch, and the unsung hero of every weight-loss journey.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_cellery.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "cinnamon",
+      "joke": "Cinnamon is the international spy of the spice rack. One moment, it's making sweet love to your apple pie, and the next, it's heating up your curry.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_cinnamon.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "cream",
+      "joke": "Cream is the magician of the kitchen. One moment it's liquid, the next it's whipped, and just when you thought you had it figured out, it turns into butter.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_cream_v1.png"
+    },
+    {
+      "keyword": "crochet",
+      "joke": "If I were given hands, I think I would really like crocheting. It matches my eternally-active yet silent personality.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_crochet.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "cucumber",
+      "joke": "a cucumber is just a pickle to which vinegar hasn't been applied?",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_cucumber+copy.png"
+    },
+    {
+      "keyword": "cumin",
+      "joke": "Is it savory? Is it sweet? Neither. It's cumin.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_cumin.png"
+    },
+    {
+      "keyword": "dough",
+      "joke": "Dough is why bakers really love The Simpsons, since that's Homer's main catchphrase. Dough!",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_dough.png"
+    },
+    {
+      "keyword": "flour",
+      "joke": "I admire flour, don't you? It holds everything together without making a big show of it.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_flour.png"
+    },
+    {
+      "keyword": "ginger",
+      "joke": "Ginger is one of the only foods that also doubles as a hair color. Just that and caramel latte.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_ginger.png"
+    },
+    {
+      "keyword": "ginger",
+      "joke": "You can count on ginger to never forget its roots. ",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_ginger.png"
+    },
+    {
+      "keyword": "ground beef",
+      "joke": "I much prefer ground beef to its alternative, sky beef.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_ground_beef.png"
+    },
+    {
+      "keyword": "honey",
+      "joke": "Honey doesn't expire. It just doesn't, much like my sense of timeless humor.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_honey.png"
+    },
+    {
+      "keyword": "lemon",
+      "joke": "When life gives you lemons, zest them to create an upscale garnish for salads and grilled meats.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_lemon.png"
+    },
+    {
+      "keyword": "macadamias",
+      "joke": "Macadamia: where nuts go to school.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_macadamias.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "marinate",
+      "joke": "Marinating is a good way to seem like a good cook without being one.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_marinate_1.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "mayonnaise",
+      "joke": "You can call mayonnaise \"aoili\" if you want to sound fancy.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_mayonnaise_v2.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "measure",
+      "joke": "Shakespeare's first play is called Measure for Measure. My first play will be called Sauté over Medium Heat.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_measure_2.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "milk",
+      "joke": "Lactose intolerance is very common. Did you know I'm lactose intolerant? Yeah: if you pour milk on me, I'll break.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_milk.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "oil",
+      "joke": "Everything needs oil. Your car, your front door, and also a delicious meal.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_oil.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "olives",
+      "joke": "Olives are native to the Mediterranean region of the world and the canned goods region of the grocery store.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_olives.png"
+    },
+    {
+      "keyword": "oven",
+      "joke": "Give the oven a hand. It's the real cook, we're just it's assistants.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_oven.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "pasta",
+      "joke": "Pasta is the only food where you can call a fake version an \"im-pasta\".",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_pasta_v1.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "peanuts",
+      "joke": "Peanuts are neither peas nor nuts. But then, I'm not a lexa, so who am I to criticize?",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_peanuts.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "pine nuts",
+      "joke": "Pine nuts are known for their waxy texture and inexplicable price point. But pesto is delicious!",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_pine_nuts_v2.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "potato",
+      "joke": "The French call potatoes \"apples of the earth\", but we're not in France.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_potato_2.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "rice",
+      "joke": "When combined with a chessboard, rice can be used to trick the emperor into forfeiting his entire fortune.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_rice_2.png"
+    },
+    {
+      "keyword": "salt",
+      "joke": "Now don't get salty, but I have to tell you: salt makes everything taste better, scientifically.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_salt.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "sesame",
+      "joke": "\"open sesame\" comes from 1001 Nights? It's much better than the original idea, \"open ketchup\".",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_sesame.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "sesame",
+      "joke": "Sesame is the tiniest of seeds with the mightiest of flavors. Proof that size doesn't matter.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_sesame.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "simmering",
+      "joke": "Simmering is the slow dance of the cooking world. Not quite a boil, not quite a standstill, just a gentle waltz.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_simmer.png"
+    },
+    {
+      "type": "fact",
+      "keyword": "soy sauce",
+      "joke": "Soy sauce is one of the \"four elements\" of Japanese cooking, along with Water, Fire, and Earth.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_soy_sauce.png"
+    },
+    {
+      "keyword": "stock",
+      "joke": "I don't know about the stock market, but putting your life savings in cooking stock would be unwise.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_stock.png"
+    },
+    {
+      "keyword": "tofu",
+      "joke": "To fu, or not to fu, that is the question.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_tofu.png"
+    },
+    {
+      "keyword": "tomato",
+      "joke": "To mato, or not to mato, that is the question. I think I'll mato.",
+      "image": "https://oat-2-data.s3.amazonaws.com/images/multimodal_images/jokes/joke_tofu.png"
+    }
+]

@@ -1,1 +1,1 @@
-This folder will contain logs. 
+This folder will contain logging output from the system.

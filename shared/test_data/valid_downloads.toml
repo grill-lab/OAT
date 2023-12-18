@@ -1,0 +1,27 @@
+name = "offline"
+enabled = true
+base_path = "shared/file_system/downloads/offline/"
+[[sources]]
+id = "example_source"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/offline/lookup_files/image_list.pkl", "lookup_files/image_list.pkl"],
+    ["https://oat-2-data.s3.amazonaws.com/offline/lookup_files/image_url_lookup.json", "lookup_files/image_url_lookup.json"],
+]
+artefacts = [
+    ["image_list_pickled", "lookup_files/image_list.pkl"],
+    ["image_url_lookup", "lookup_files/image_url_lookup.json"],
+]
+enabled = true
+local_path = "example/source/files"
+force = false
+decompress = true
+[[sources]]
+id = "compressed_source"
+urls = [
+    ["https://oat-2-data.s3.amazonaws.com/test/lookup_files.zip", "lookup_files.zip"],
+]
+artefacts = [
+    ["image_list_pickled_compressed", "lookup_files/image_list.pkl"],
+    ["image_url_lookup_compressed", "lookup_files/image_url_lookup.json"],
+]
+decompress = true

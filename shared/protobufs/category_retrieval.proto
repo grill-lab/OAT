@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "offline.proto";
+
+message CategoryQuery{
+  string text = 1;
+  int32 top_k = 2;
+}
+
+message CategorySearchResult{
+  repeated CategoryDocument results = 1;
+  string original_query_text = 2;
+}
+
+service CategorySearcher{
+  rpc search_category(CategoryQuery) returns (CategoryDocument) {}
+}
+
+service CategoryScorer{
+  rpc score_categories(CategorySearchResult) returns (CategoryDocument) {}
+}

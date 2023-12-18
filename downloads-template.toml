@@ -1,0 +1,123 @@
+# This is a template file for download configurations. 
+# See doc/README-downloads.md
+
+########################################
+
+# Service-level options are defined at the top level of the file
+
+# Service name, e.g. "offline"
+# 
+# This is a mandatory value. 
+name = "offline"
+
+# This is the parent folder for all download sources for this service.
+# The "local_path" entries below are appended to this path if defined.
+#
+# Note that the paths given should be in the context of the service's
+# Docker container environment, in which the local "shared" folder
+# is mounted as a volume at "/shared".
+# 
+# This is a mandatory value. 
+base_path = "shared/file_system/downloads/offline/"
+
+# Enable/disable all download sources for this service. Disabling this would
+# probably only make sense if you know all the files already exist locally.
+#
+# Default is true.
+enabled = true
+
+# Timeout for HTTP(S) downloads in seconds. Failed downloads will not be
+# automatically retried. 
+# 
+# Default values is 5.0
+http_timeout = 5
+
+# Download sources are each defined under a [[sources]] line (this is an "array of
+# tables" in TOML: https://toml.io/en/v1.0.0#array-of-tables). Each file can contain
+# as many of these sections as required. 
+[[sources]]
+
+# "id" is a string giving the name the source will be referenced under. This should
+# be unique in each file and must not be empty.
+id = "example_source"
+
+# "urls" is a list of lists of strings. Each entry in the top-level list should be
+# be a list with 2 entries, in the following order:
+#   - the remote URL 
+#   - the local filename for this download, e.g. "data.zip" or "/data"
+#
+# At least one URL is required for an enabled sources.
+#
+# Two forms of downloading are supported:
+#   1. Copying a file or folder from an S3 bucket, using an "s3://" URL and running
+#       an "aws s3 cp --recursive <remote> <local>" command
+#   2. Copying a file from a webserver using an "https://" URL and an HTTP GET operation
+#
+# All files/folders from the URLs in the list will be downloaded into the same local folder,
+# (although they can have different paths inside that folder), so if you want to
+# have more control over the locations use individual sources for them instead.
+#
+# At least one entry is required for a valid configuration.
+urls = [
+     ["s3://...", "local_folder_A"],
+     ["https://...", "local_folder_B"],
+]
+
+# "artefacts" allows for optional mapping of downloaded files and folders
+# to string IDs which can then be referenced in the code. This section can be
+# left empty if desired, but using identifiers instead of filenames in the code
+# allows changes to the files to be made in a single location instead of hardcoding
+# the filenames into the code, possibly in multiple files. 
+# 
+# Each entry in the list is a 2-element list:
+#   - the first element defines the string identifier for a file or folder
+#   - the second element defines the location of this file/folder relative to
+#       the `local_path` for this source. For example, if the service config
+#       has a `base_path` of "/base/path", the source has a `local_path` of
+#       "local/path", and an artefact has a filename of "dir/filename.txt",
+#       then "filename.txt" is expected to be located at the absolute path 
+#       "/base/path/local/path/dir/filename.txt"
+#
+# Defaults to an empty list.
+artefacts = [
+    ["artefact_id1", "filename1"],
+    ["artefact_id2", "filename2"],
+]
+
+# Individual sources can be enabled/disabled using this option.
+#
+# Default is true.
+enabled = true
+
+# This defines the directory structure relative to `base_path` where the downloaded
+# files will be saved to. For example, if `base_path` is "/base/path/" and `local_path`
+# is `local/path`, the files for the source will be located under "/base/path/local/path".
+#
+# May be an empty string if you want to use the `base_path` directly.
+#
+# Defaults to an empty string
+local_path = ""
+
+# optionally you can choose to override the global `base_path` value for this service if
+# you need to download certain files to different locations. If this value is defined
+# and is a non-empty string then it will be used in place of the global value for this
+# source. Note that the `local_path` will still be appended to this value if defined. 
+#
+# Defaults to an empty string.
+#base_path = ""
+
+# This determines how the downloader behaves if the local files already exist. If set
+# to false, nothing will be downloaded. If set to true, local files will be deleted and
+# the remote files will be downloaded again.
+#
+# Default is false.
+force = false
+
+# Enable this to automatically decompress various types of archives after downloading. 
+# This is done based on the extension of the local name of the file, not by parsing the
+# URL. 
+# 
+# Supported extensions: .zip, .bz2, .gz, .tar.bz2, .tar.gz
+#
+# Default is true.
+decompress = true

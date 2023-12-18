@@ -1,12 +1,6 @@
 syntax = "proto3";
 
-import "taskmap.proto";
-
 message ImageRequest {
     string query = 1;
     int32 k = 2;
-}
-
-service ImageSearcher {
-    rpc search_image(ImageRequest) returns (Image) {}
 }

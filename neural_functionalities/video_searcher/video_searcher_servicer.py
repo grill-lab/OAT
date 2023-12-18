@@ -4,7 +4,7 @@ from . import DefaultVideoSearcher
 
 from video_document_pb2 import VideoDocument
 
-from utils import init, logger
+from utils import logger
 
 
 class Servicer(VideoSearcherServicer):

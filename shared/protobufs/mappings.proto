@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message ConvIDToDevID {
+  string conversation_id = 1;
+  string device_id = 2;
+}

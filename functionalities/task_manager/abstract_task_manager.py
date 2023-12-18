@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from task_manager_pb2 import TMRequest, TMResponse, InfoResponse, InfoRequest
+from task_manager_pb2 import TMRequest, TMResponse
 from taskmap_pb2 import Transcript, OutputInteraction
 
 

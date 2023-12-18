@@ -8,8 +8,8 @@ from dangerous_task_pb2_grpc import DangerousStub
 class DangerousQueryParser(AbstractParser):
 
     def __init__(self):
-        channel = grpc.insecure_channel(os.environ['FUNCTIONALITIES_URL'])
-        self.__parser = DangerousStub(channel)
+        external_channel = grpc.insecure_channel(os.environ['EXTERNAL_FUNCTIONALITIES_URL'])
+        self.__parser = DangerousStub(external_channel)
 
     def __call__(self, session: Session) -> Session:
         dangerous_assessment = self.__parser.dangerous_query_check(session)

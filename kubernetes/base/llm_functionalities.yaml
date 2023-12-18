@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-functionalities
+#  namespace: develop
+spec:
+  selector:
+    matchLabels:
+      grill_app: llm-functionalities
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        grill_app: llm-functionalities
+    spec:
+      containers:
+      - name: llm-functionalities
+        imagePullPolicy: Always # makes sure to pull from the local docker registry
+        image: 103324463696.dkr.ecr.us-east-1.amazonaws.com/alexa_oat-llm_functionalities:latest
+        ports:
+          - containerPort: 8000
+        workingDir: /source # the directory to go to when ssh'ing in
+        env:
+          - name: CONTAINER_NAME
+            value: "llm_functionalities"
+          - name: LLM_FUNCTIONALITIES_URL
+            value: "llm-functionalities:8000"
+        resources:
+          limits:
+            nvidia.com/gpu: 1 # requesting 1 GPU
+      nodeSelector:
+        node_type: gpu_large
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: llm-functionalities
+#  namespace: develop
+  labels:
+    grill_app: llm-functionalities-service
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    grill_app: llm-functionalities
+  type: LoadBalancer

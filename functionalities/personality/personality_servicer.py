@@ -3,6 +3,7 @@ from personality_pb2 import PersonalityResponse, PersonalityRequest
 
 from . import DefaultPersonalityProcessor
 
+
 class Servicer(PersonalityServicer):
 
     def __init__(self):

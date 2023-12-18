@@ -7,7 +7,7 @@ import numpy as np
 import pickle
 import json
 import os
-
+from utils import logger
 
 def entropy(array, base=2.0):
     correction = np.array([1e-5] * 6)
@@ -92,17 +92,21 @@ class DomainClassifier(AbstractDomainClassifier):
         top_domain = self.domain_list[idx]
         dist_entropy = entropy(distribution)
 
-        if top_score >= 0.5:
-            return top_domain, "high"
 
-        elif dist_entropy > 2.0:
-            return 'UndefinedDomain', "low"
+        if top_score > 0.4:
+            return top_domain, 'high'
 
+        if top_score < 0.2:
+            return 'UndefinedDomain', 'low'
+
+        if distribution[0, 0] < .17 or distribution[0, 5] < .17:
+            return top_domain, 'low'
+
+        if distribution[0, 0] > distribution[0, 5]:
+            return "DIYDomain", "low"
         else:
-            if top_domain in ['FinancialDomain', 'LegalDomain', 'MedicalDomain']:
-                top_domain = 'UndefinedDomain'
+            return "CookingDomain", "low"
 
-            return top_domain, "low"
 
     def predict_test(self, utterences):
         """ Predict utterances (list of text) and predict a domain based on confidence score and thresholds. """

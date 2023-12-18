@@ -5,7 +5,8 @@ from utils import logger
 
 class IntentClassifier:
 
-    def classify_intent(self, session: Session) -> NavigationIntent:
+    @staticmethod
+    def classify_intent(session: Session) -> NavigationIntent:
         user_interaction: InputInteraction = session.turn[-1].user_request.interaction
         input_text = user_interaction.text
 
@@ -20,7 +21,6 @@ class IntentClassifier:
             else:
                 label = "NextIntent"
 
-            # user_interaction.intents.append(label)
             logger.info(f'Classifying execution intent "{input_text}" as: {label}')
             navigation_intent.navigation_intent = label
 

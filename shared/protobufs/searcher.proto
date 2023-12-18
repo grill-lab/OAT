@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "taskmap.proto";
+import "offline.proto";
 
 message SearchQuery {
   string text = 1;
@@ -69,21 +70,38 @@ message SearchLog {
   repeated L2RDoc l2r_doc = 2; // Document metadata + L2R weights and scores.
 }
 
+// comment out later
 message TaskMapList {
   repeated TaskMap candidates = 1;
 }
 
+message TaskmapIDs {
+  repeated string ids = 1;
+}
+
+message CategoryIDs {
+  repeated string ids = 1;
+}
+
 message SearchResults {
-  TaskMapList taskmap_list = 1;
+  CandidateList candidate_list = 1;
   SearchLog search_log = 2;
 }
 
-message ScoreTaskMapInput {
+message CategoryResults {
+  repeated CategoryDocument category = 1;
+}
+
+message CandidateList {
+  repeated TaskmapCategoryUnion candidates = 1;
+}
+
+message ScoreCandidateInput {
     repeated string title = 1;
     string query = 2;
 }
 
-message ScoreTaskMapOutput {
+message ScoreCandidateOutput {
     repeated float score = 1;
 }
 
@@ -94,17 +112,26 @@ message ThemeQuery {
   Session.Domain domain = 4;
 }
 
+message UserUtterance {
+  string text = 1;
+}
 
+message ProcessedString {
+  string text = 1;
+}
 
-service ScoreTaskMap {
-  rpc score_taskmap(ScoreTaskMapInput) returns (ScoreTaskMapOutput) {}
+service ScoreCandidate {
+  rpc score_candidate(ScoreCandidateInput) returns (ScoreCandidateOutput) {}
 }
 
 service Searcher {
   rpc search_taskmap(SearchQuery) returns (SearchResults) {}
+  rpc retrieve_taskmap(TaskmapIDs) returns (SearchResults) {}
+  rpc retrieve_category(CategoryIDs) returns (CategoryResults) {}
 }
 
 service QueryBuilder{
   rpc synthesize_query(Session) returns (SearchQuery) {}
   rpc theme_recommendation(ThemeQuery) returns (SearchQuery) {}
+  rpc processing_utterance(UserUtterance) returns (ProcessedString) {}
 }

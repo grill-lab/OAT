@@ -5,8 +5,6 @@ from . import DefaultOffensiveSpeechClassifier
 
 
 class Servicer(SafetyServicer):
-
-
     def __init__(self):
         self.offensive_speech = DefaultOffensiveSpeechClassifier()
 

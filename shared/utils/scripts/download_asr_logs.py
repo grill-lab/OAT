@@ -14,24 +14,24 @@ def read_database(db, filter):
     return items_list
 
 
-prefix = 'production'
-database_url = None
+if __name__ == "__main__":
+    prefix = 'production'
+    database_url = None
 
-search_logs_db = ComposedDB(
-    proto_class=ASRLog,
-    url=database_url,
-    prefix=prefix,
-    primary_key="id",
-    sub_proto_config={}
-)
+    search_logs_db = ComposedDB(
+        proto_class=ASRLog,
+        url=database_url,
+        prefix=prefix,
+        primary_key="id",
+        sub_proto_config={}
+    )
 
-search_logs_filter = (
-    ~Key("id").begins_with("amzn1.")
-    & ~Key("id").begins_with("test_")
-    & ~Key("id").begins_with("local_")
-)
+    search_logs_filter = (
+        ~Key("id").begins_with("test_")
+        & ~Key("id").begins_with("local_")
+    )
 
-search_logs_list = read_database(search_logs_db, search_logs_filter)
+    search_logs_list = read_database(search_logs_db, search_logs_filter)
 
-with open('asr_logs.json', "w") as file:
-    json.dump(search_logs_list, file, indent=2)
+    with open('asr_logs.json', "w") as file:
+        json.dump(search_logs_list, file, indent=2)

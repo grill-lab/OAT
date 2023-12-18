@@ -4,7 +4,7 @@ formatters:
   simple:
     format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
   full:
-    format: "[%(asctime)s] - %(levelname)s - %(name)s - %(funcName)s:%(lineno)s - %(message)s"
+    format: "[%(asctime)s] - %(levelname)s - %(name)s - %(filename)s.%(funcName)s:%(lineno)s - %(message)s"
 handlers:
   console:
     class: logging.StreamHandler
@@ -15,15 +15,15 @@ handlers:
     class: logging.handlers.RotatingFileHandler
     level: DEBUG
     formatter: full
-    filename: /shared/file_system/logs/db.log
+    filename: /shared/logs/db.log
     maxBytes: 100000000
     backupCount: 3
   watchtower:
     class: watchtower.CloudWatchLogHandler
     formatter: full
     level: DEBUG
-    log_group: watchtower
-    stream_name: "{logger_name}"
+    log_group_name: watchtower
+    log_stream_name: "{logger_name}"
     send_interval: 10
     create_log_group: False
 loggers:

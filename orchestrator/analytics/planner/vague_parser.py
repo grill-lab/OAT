@@ -1,6 +1,6 @@
 from ..abstract_parser import AbstractParser
 from taskmap_pb2 import Session
-from utils import indri_stop_words, theme_recommendations
+from utils import indri_stop_words, theme_recommendations, VAGUE_WORDS
 
 
 class VagueParser(AbstractParser):
@@ -10,16 +10,10 @@ class VagueParser(AbstractParser):
 
         """ Assert whether query a theme query (i.e. words map to specified theme). """
         # Find specific words by removing stopwords.
-        vague_words = [
-            'build', 'bake', 'quick', '', 
-            'home', 'improvement', 'homeimprovement', 
-            'fix', 'eat', 'search', 'stuff', "recommend",
-            "okay"
-        ]
         disfluencies = [
             "uh", "um", "uhm"
         ]
-        stopwords = indri_stop_words + vague_words + disfluencies
+        stopwords = indri_stop_words + VAGUE_WORDS + disfluencies
         specific_words = [s.lower() for s in query.split(" ") if s.lower() not in stopwords]
 
         themes = theme_recommendations.keys()

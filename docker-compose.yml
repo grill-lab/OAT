@@ -10,6 +10,30 @@ services:
       - ./builder:/source
       - ./shared:/shared
 
+  downloader:
+    container_name: downloader
+    profiles: ["downloader"]
+    build:
+      context: ./
+      dockerfile: downloader/Dockerfile
+    volumes:
+      - ./shared:/shared
+      - ./downloader:/source
+      # services which have downloads.toml at the moment
+      - ./offline:/offline
+      - ./llm_functionalities:/llm_functionalities
+      - ./neural_functionalities:/neural_functionalities
+      - ./functionalities:/functionalities
+      - ./training:/training
+    environment:
+      - CONTAINER_NAME=downloader
+    depends_on:
+      - builder
+      - oat_common
+    networks:
+      - internal
+      - external
+
   local_client:
     container_name: local_client
     build:
@@ -27,14 +51,15 @@ services:
       - internal
       - external
     depends_on:
-      - orchestrator
+      - builder
+      - oat_common
 
-  grill_common:
-    container_name: grill_common
+  oat_common:
+    container_name: oat_common
     build:
       context: ./
-      dockerfile: grill_common/Dockerfile
-    image: grill_common
+      dockerfile: oat_common/Dockerfile
+    image: oat_common
 
   orchestrator:
     container_name: orchestrator
@@ -49,11 +74,12 @@ services:
       - FUNCTIONALITIES_URL=functionalities:8000
       - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
       - NEURAL_FUNCTIONALITIES_URL=neural_functionalities:8000
+      - LLM_FUNCTIONALITIES_URL=llm_functionalities:8000
     networks:
       - internal
     depends_on:
       - builder
-      - grill_common
+      - oat_common
       - functionalities
       - external_functionalities
       - neural_functionalities
@@ -64,19 +90,20 @@ services:
       context: ./
       dockerfile: functionalities/Dockerfile
     volumes:
-    - ./functionalities:/source
-    - ./shared:/shared
+      - ./functionalities:/source
+      - ./shared:/shared
     environment:
       - CONTAINER_NAME=functionalities
       - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
       - FUNCTIONALITIES_URL=functionalities:8000
       - NEURAL_FUNCTIONALITIES_URL=neural_functionalities:8000
+      - LLM_FUNCTIONALITIES_URL=llm_functionalities:8000
     networks:
       - internal
       - external
     depends_on:
       - builder
-      - grill_common
+      - oat_common
 
   external_functionalities:
     container_name: external_functionalities
@@ -88,14 +115,15 @@ services:
       - ./shared:/shared
     environment:
       - CONTAINER_NAME=external_functionalities
-      - DATABASE_URL=http://172.17.0.1:8888
+      - DATABASE_URL=http://dynamodb-local:8000
+      - FUNCTIONALITIES_URL=functionalities:8000
     networks:
       - internal
       - external
     depends_on:
       - builder
-      - grill_common
-      - dynamodb_local
+      - oat_common
+      - dynamodb-local
 
   neural_functionalities:
     container_name: neural_functionalities
@@ -114,10 +142,14 @@ services:
       - internal
       - external
     depends_on:
-      - builder
+      builder:
+        condition: service_started
+      oat_common:
+        condition: service_started
 
-  dynamodb_local:
-    container_name: dynamodb_local
+
+  dynamodb-local:
+    container_name: dynamodb-local
     image: "amazon/dynamodb-local:latest"
     ports:
       - "8888:8000"
@@ -130,30 +162,9 @@ services:
       - internal
       - external
 
-  taskmap_generation:
-    container_name: taskmap_generation
-    profiles: [ "taskmap_generation" ]
-    build:
-      context: ./
-      dockerfile: taskmap_generation/Dockerfile
-    ports:
-      - "7777:8888"
-    volumes:
-    - ./taskmap_generation:/source
-    - ./shared:/shared
-    environment:
-      - FUNCTIONALITIES_URL=functionalities:8000
-      - CONTAINER_NAME=taskmap_generation
-      - NEURAL_FUNCTIONALITIES_URL=neural_functionalities:8000
-      - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
-    command: 'jupyter-lab --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token= --notebook-dir="/source/"'
-    networks:
-      - internal
-      - external
-
   dashboard:
     container_name: dashboard
-    profiles: [ "dashboard" ]
+    profiles: ["dashboard"]
     build:
       context: ./
       dockerfile: dashboard/Dockerfile
@@ -165,16 +176,141 @@ services:
     environment:
       - CONTAINER_NAME=dashboard
       - DB_ENVIRONMENT=Undefined
-      - DATABASE_URL=http://172.17.0.1:8888
+      - DATABASE_URL=http://dynamodb-local:8000
     networks:
       - internal
       - external
     depends_on:
       - builder
-      - dynamodb_local
+      - dynamodb-local
+      - oat_common
+
+  tester:
+    container_name: tester
+    profiles: ["tester"]
+    build:
+      context: ./
+      dockerfile: tester/Dockerfile
+    volumes:
+      - ./tester:/source
+      - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=tester
+      - FUNCTIONALITIES_URL=functionalities:8000
+      - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
+      - NEURAL_FUNCTIONALITIES_URL=neural_functionalities:8000
+      - DISTRIBUTOR_URL=http://orchestrator:8000
+    networks:
+      - external
+      - internal
+    depends_on:
+      - builder
+      - oat_common
+
+  offline:
+    container_name: offline
+    profiles: ["offline"]
+    build:
+      context: ./
+      dockerfile: offline/Dockerfile
+    volumes:
+      - ./offline:/source
+      - ./shared:/shared
+      - ./testing/integration_tests:/integration_tests
+    environment:
+      - CONTAINER_NAME=offline
+      - FUNCTIONALITIES_URL=functionalities:8000
+    networks:
+      - internal
+      - external
+    depends_on:
+      - oat_common
+      - dynamodb-local
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+
+
+  sphinx_docs:
+    container_name: sphinx_docs
+    profiles: ["sphinx_docs"]
+    build:
+      context: ./
+      dockerfile: sphinx_docs/Dockerfile
+    volumes:
+      # this is a bit different from the other containers in that it mounts
+      # the entire OAT folder at /source. this allows Sphinx to have
+      # access to the entire codebase instead of a subfolder
+      - ./:/source
+      # shared is accessible through the /source mount, but to make the paths
+      # work as expected mount it separately too
+      - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=sphinx_docs
+    depends_on:
+      - builder
+
+  training:
+    container_name: training
+    profiles: ["training"]
+    build:
+      context: ./
+      dockerfile: training/Dockerfile
+    volumes:
+      - ./training:/source
+      - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=training
+    networks:
+      - internal
+      - external
+    depends_on:
+      - builder
+      - oat_common
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  llm_functionalities:
+    container_name: llm_functionalities
+    build:
+      context: ./
+      dockerfile: llm_functionalities/Dockerfile
+    volumes:
+      - ./llm_functionalities:/source
+      - ./shared:/shared
+    environment:
+      - CONTAINER_NAME=llm_functionalities
+      - NEURAL_FUNCTIONALITIES_URL=llm_functionalities:8000
+      - FUNCTIONALITIES_URL=functionalities:8000
+      - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
+    networks:
+      - internal
+      - external
+    depends_on:
+      builder:
+        condition: service_started
+      oat_common:
+        condition: service_started
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
 
 networks:
   internal:
     internal: true
   external:
     internal: false
+

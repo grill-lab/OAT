@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.3
-FROM grill_common:latest
+FROM oat_common:latest
 
 MAINTAINER Iain & Sophie :)
 
@@ -13,7 +13,6 @@ RUN --mount=type=cache,mode=0755,target=/root/.cache/pip \
     && aws configure set region us-east-1 \
     && aws configure set aws_access_key_id abc \
     && aws configure set aws_secret_access_key abc
-
 
 COPY external_functionalities/ /source
 COPY shared/ /shared

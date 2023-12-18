@@ -1,7 +1,6 @@
-from semantic_searcher_pb2 import SemanticQuery, ThemeDocument, ThemeMapping
+from semantic_searcher_pb2 import SemanticQuery, ThemeMapping
 from semantic_searcher_pb2_grpc import SemanticSearcherServicer, add_SemanticSearcherServicer_to_server
 from . import DefaultSemanticSearcher
-from utils import logger
 
 
 class Servicer(SemanticSearcherServicer):

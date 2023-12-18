@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       grill_app: functionalities
-  replicas: 1 # tells deployment to run 2 pods matching the template
+  replicas: 4 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
@@ -15,14 +15,11 @@ spec:
     spec:
       containers:
       - name: functionalities
-        imagePullPolicy: Never # makes sure to pull from the local docker registry
-        image: functionalities:latest
+        imagePullPolicy: Always # makes sure to pull from the local docker registry
+        image: 103324463696.dkr.ecr.us-east-1.amazonaws.com/alexa_oat-functionalities:latest
         ports:
           - containerPort: 8000
         workingDir: /source # the directory to go to when ssh'ing in
-        volumeMounts:
-          - mountPath: /shared/file_system  # this takes the volume name defined bellow and mounts it in the pod
-            name: persistent-storage
         env:
           - name: CONTAINER_NAME
             value: "functionalities"
@@ -34,10 +31,10 @@ spec:
             value: "neural-functionalities:8000"
           - name: USE_ASR
             value: "TRUE"
-      volumes:
-        - name: persistent-storage # this is taking the file system from minikube and giving it a volume name
-          hostPath:
-            path: /shared/file_system # this is actually in the minikube vm
+          - name: LLM_FUNCTIONALITIES_URL
+            value: "llm-functionalities:8000"
+      nodeSelector:
+        node_type: cpu
 ---
 apiVersion: v1
 kind: Service
