@@ -240,9 +240,14 @@ pushd "${script_path}" > /dev/null
 
 if [[ "${1}" == "destroy" ]]
 then
+    echo_color "> Removing firewall rule...\n"
+    if ! gcloud compute firewall-rules delete local-client-access --quiet 
+    then
+        echo_color "> Failed to remove firewall rule\n" "${YELLOW}"
+    fi
     # dispose of VM
     echo_color "> Deleting VM instance ${vm_name}...\n"
-     if ! gcloud compute instances delete "${vm_name}" --zone="${zone}" --quiet 
+    if ! gcloud compute instances delete "${vm_name}" --zone="${zone}" --quiet 
     then
         echo_color "> Failed to delete VM instance\n" "${YELLOW}"
     fi
@@ -305,6 +310,16 @@ then
     run_ssh_command "${vm_name}" "${zone}" "echo n | ./setup.sh -s" "> Running OAT setup script..."
     # finally build the images and start the deployment
     run_ssh_command "${vm_name}" "${zone}" "sudo docker compose up -d --build" "> Running docker compose up..."
+
+    # create a firewall rule that allows connections to port 9000, so the local_client instance
+    # running inside the VM can be accessed 
+    echo_color "> Creating firewall rule for access to local_client\n"
+    gcloud compute firewall-rules create local-client-access --allow tcp:9000
+
+    # get the instance's external IP
+    instance_ip=$(gcloud compute instances describe "${vm_name}" --zone="${zone}" --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+    echo_color "> Setup completed. Connect to the local_client at http://${instance_ip}:9000\n"
+
 
     # for exit_handler, see above
     deployment_ok=true
