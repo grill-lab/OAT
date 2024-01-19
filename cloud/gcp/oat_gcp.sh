@@ -189,7 +189,7 @@ run_ssh_command() {
         echo "${4}"
         if ! gcloud compute ssh "${1}" --zone="${2}" --command "${3}"
         then
-            echo "    (retry #${i}/${num_retries})"
+            echo_color "    (retry #${i}/${num_retries})" "${YELLOW}"
             sleep "${retry_delay}"
         else
             return_code=0
