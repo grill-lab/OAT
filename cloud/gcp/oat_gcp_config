@@ -1,10 +1,10 @@
 # OAT Google Cloud deployment parameters
 # 
-# This file is parsed by oat_setup.sh to obtain default
+# This file is parsed by oat_gcp.sh to obtain default
 # values for all the parameters. You can override any of
 # them by running the script with the appropriate environment
 # variable set, e.g.
-#    > VM_NAME=foobar ./oat_setup.sh create
+#    > VM_NAME=foobar ./oat_gcp.sh create
 # to override the value of vm_name below.
 
 # compute region for the deployment, e.g. europe-west2. Different zones may have different
