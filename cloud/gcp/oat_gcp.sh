@@ -266,7 +266,7 @@ then
 
         # give the VM a bit of time to start up
         echo_color "> Giving the VM time to start up..."
-        sleep 10
+        sleep 15
         echo_color "> Continuing"
     fi
 
