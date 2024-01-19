@@ -300,7 +300,11 @@ then
     pushd "${tmp}" > /dev/null
     git clone -b "${branch}" --single-branch git@github.com:grill-lab/OAT.git
     rm -fr OAT/.git
-    gcloud compute scp --zone "${zone}" --recurse --compress OAT/* "${vm_name}:."
+    # works, but is quite slow
+    #gcloud compute scp --zone "${zone}" --recurse --compress OAT/* "${vm_name}:."
+    # get the hostname of the instance
+    hostname=$(gcloud compute config-ssh --dry-run | grep "${vm_name}.${zone}" | sed 's/Host //')
+    rsync -ave ssh OAT/ "${hostname}:."
     popd > /dev/null
     rm -fr "${tmp}"
  
