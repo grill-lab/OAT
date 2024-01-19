@@ -308,10 +308,8 @@ then
     popd > /dev/null
     rm -fr "${tmp}"
  
-    # run the OAT setup script on the VM *without* using the auto-install
-    # dependencies option, that seems to confuse Ubuntu with Debian
-    # TODO remove the "echo" after TY2-53 merged
-    run_ssh_command "${vm_name}" "${zone}" "echo n | ./setup.sh -s" "> Running OAT setup script..."
+    # build the oat_common base image
+    run_ssh_command "${vm_name}" "${zone}" "sudo docker compose build oat_common" "> Building oat_common base image..."
     # finally build the images and start the deployment
     run_ssh_command "${vm_name}" "${zone}" "sudo docker compose up -d --build" "> Running docker compose up..."
 
