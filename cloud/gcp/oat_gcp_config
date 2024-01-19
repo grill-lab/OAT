@@ -20,7 +20,7 @@ declare -a required_services=( compute.googleapis.com )
 # Default is e2-standard-4 (4 cores, 16GB)
 machine_type="${MACHINE_TYPE:-e2-standard-4}"
 # OS image for the VM. Defaults to Ubuntu 22.04
-os_image="${OS_IMAGE:-projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20221123}"
+os_image="${OS_IMAGE:-projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20240112}"
 # Boot disk size (in gigabytes) for the cluster nodes. 
 # Increasing this will increase costs! 50GB is enough, but gcloud warns that a disk
 # under 200GB might be slower so use that as the default for now
