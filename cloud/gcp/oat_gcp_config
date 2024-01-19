@@ -15,10 +15,26 @@ zone="${ZONE:-europe-west2-a}"
 # the names of the services that are required for the deployment:
 # - Compute Engine API
 declare -a required_services=( compute.googleapis.com )
+# enable or disable GPU support in the GCP VM. OAT can run without a GPU by limiting
+# some functionality, but if you want to run the full system you can enable GPU support
+# here. It defaults to being disabled because a GPU-enabled VM instance will have a 
+# significantly higher hourly cost than a standard instance. 
+#
+# To enable GPU support, set the value of this variable to "true".
+# *** This will cost significantly more per-hour than a non-GPU E2 instance! ***
+enable_gpu="${ENABLE_GPU:-}"
 # machine-type value for the GCP VM.
 # These are described at https://cloud.google.com/compute/docs/machine-types
-# Default is e2-standard-4 (4 cores, 16GB)
+# The default is e2-standard-4 (4 cores, 16GB). This should be sufficient for running out
+# *WITHOUT* GPU support. 
 machine_type="${MACHINE_TYPE:-e2-standard-4}"
+# Running OAT with GPU support requires a GPU with 24GB VRAM. If you enable the 
+# enable_gpu option above, this variable sets the machine-type that will be used. 
+# There are limitations on the available machine types that can be used with GPUs,
+# see the GCP documentation for details. The default is "g2-standard-4", which is
+# basically equivalent to e2-standard-4 but with GPU support. The selected GPU
+# type will be "nvidia-l4" by default (https://www.nvidia.com/en-gb/data-center/l4/)
+gpu_machine_type="${GPU_MACHINE_TYPE:-g2-standard-4}"
 # OS image for the VM. Defaults to Ubuntu 22.04
 os_image="${OS_IMAGE:-projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20240112}"
 # Boot disk size (in gigabytes) for the cluster nodes. 
@@ -31,3 +47,9 @@ vm_name="${VM_NAME:-oat-vm-1}"
 # to the VM instance. Set this to the name of the branch that you want to checkout and 
 # run in the VM.
 branch="${BRANCH:-main}"
+# version of the nvidia-headless-<version> package to install from the Ubuntu repo
+# when GPU support is enabled
+gpu_driver_version="${GPU_DRIVER_VERSION:-535}"
+# GCP accelerator type to use for GPU support. To find the GPU types available in your
+# zone: gcloud compute accelerator-types list | grep <zone>
+gpu_type="${GPU_TYPE:-nvidia-l4}"
