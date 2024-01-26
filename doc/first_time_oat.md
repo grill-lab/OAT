@@ -44,11 +44,10 @@ docker compose build
 
 The second command may take significant time to complete, as it needs to download several gigabytes of data and build several Docker images. It may be helpful to run this step on a fast machine with a good internet connection. Subsequent builds of the system should be much faster due to Docker's caching of image layers. 
 
-Once the build has completed, you can view the created images and their sizes by running the command `docker compose images`. 
-
 ## Part 2: Running OAT
 
 #### Downloading data files
+
 When OAT starts up for the first time, some of its services will need to download models and other artefacts from an S3 bucket. This will happen automatically and the files only need to be downloaded once. 
 
 However, if you have a slow internet connection you may find it easier to download all of these files before launching OAT to reduce the amount of time required before the system actually becomes usable. This can also make it easier to track the progress information displayed as the files are downloaded. 
@@ -62,11 +61,12 @@ docker compose run downloader functionalities neural_functionalities llm_functio
 
 #### GPU requirements
 
-The OAT features implemented in the `neural_functionalities` service all require a GPU, but not a particularly powerful one. Most recent NVIDIA consumer-level GPUs beyond the most basic devices are likely to work. 
+The OAT features implemented in the `neural_functionalities` service all require a GPU, but not a particularly powerful one. Most recent NVIDIA consumer-level GPUs beyond the most basic devices are likely to work (a 1080 Ti and a 1660 Super are both known to work).
 
 However, OAT also has some Large Language Model (LLM) features implemented in the `llm_functionalities` service. This requires a more powerful GPU with up to 24GB of VRAM. To make it easier to run the system on less powerful hardware, this service is designed to gracefully fail to start if it isn't able to find a suitable GPU. In this case you can still use OAT, but the LLM-backed features will not be available. 
 
 #### Starting the OAT online system
+
 To start the OAT online system, simply run the command:
 
 ```sh
@@ -99,8 +99,11 @@ To view logging output from the system, you can use `docker compose logs`:
 docker compose logs -f
 ```
 
-Alternatively you can view the log file OAT creates at `OAT/shared/logs/db.log`.
+Alternatively you can view the log file OAT creates at `OAT/shared/logs/db.log`. If you want a live feed of the logging output from the file:
 
+```sh
+tail -f shared/logs/db.log
+```
 
 ## Part 3: Using OAT
 
