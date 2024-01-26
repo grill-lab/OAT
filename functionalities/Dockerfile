@@ -14,7 +14,6 @@ RUN --mount=type=cache,mode=0755,target=/root/.cache/pip \
 
 COPY functionalities/ /source
 COPY shared/ /shared
-COPY credentials.csv* credentials.csv
 
 WORKDIR /source
 CMD PYTHONPATH=/shared:/shared/compiled_protobufs python3 -u main.py

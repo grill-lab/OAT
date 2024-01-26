@@ -43,7 +43,6 @@ ENV TRANSFORMERS_CACHE /shared/file_system/cache/huggingface
 
 
 COPY neural_functionalities/requirements.txt /source/requirements.txt
-COPY credentials.csv* credentials.csv
 
 # uses a buildkit cache mount to try and share pip's cache between containers
 # during the build process
