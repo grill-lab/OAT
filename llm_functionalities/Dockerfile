@@ -42,7 +42,6 @@ ENV LANGUAGE en_US:en
 ENV TRANSFORMERS_CACHE /shared/file_system/cache/huggingface
 
 COPY llm_functionalities/requirements.txt /source/requirements.txt
-COPY credentials.csv* credentials.csv
 
 # uses a buildkit cache mount to try and share pip's cache between containers
 # during the build process

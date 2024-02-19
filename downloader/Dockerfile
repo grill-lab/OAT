@@ -5,7 +5,6 @@ COPY downloader/ /source
 # stop watchtower logging errors
 RUN  aws configure set region us-east-1
 
-COPY credentials.csv* /root/credentials.csv
 WORKDIR /source
 ENV PYTHONPATH=/shared:/shared/compiled_protobufs
 

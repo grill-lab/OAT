@@ -6,13 +6,10 @@ MAINTAINER Sophie Fischer
 COPY dashboard/requirements.txt /source/requirements.txt
 RUN pip3 install -r /source/requirements.txt
 
-# TODO remove
-RUN mkdir ~/.aws
-COPY credentials.csv credentials.csv
-RUN echo [default] > ~/.aws/credentials
-RUN echo aws_access_key_id=$(awk -F',' 'FNR==2{print $1}' credentials.csv) >> ~/.aws/credentials
-RUN echo aws_secret_access_key=$(awk -F',' 'FNR==2{print $2}' credentials.csv) >> ~/.aws/credentials
-RUN aws configure set region us-east-1
+# Dummy credentials, not really needed to run locally DynamoDB but requested by the botocore API
+RUN aws configure set region us-east-1 \
+    && aws configure set aws_access_key_id abc \
+    && aws configure set aws_secret_access_key abc
 
 COPY dashboard/ /source
 WORKDIR /source

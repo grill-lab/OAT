@@ -17,7 +17,6 @@ RUN --mount=type=cache,mode=0755,target=/root/.cache/pip \
     && aws configure set region us-east-1
 
 COPY tester/ /source
-COPY credentials.csv* credentials.csv
 
 WORKDIR /source
 
