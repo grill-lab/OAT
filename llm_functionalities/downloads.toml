@@ -16,7 +16,7 @@ urls = [
     ["https://oat-2-data-backup.s3.amazonaws.com/models/alpaca_llm/special_tokens_map.json", "alpaca_llm/special_tokens_map.json"],
     ["https://oat-2-data-backup.s3.amazonaws.com/models/alpaca_llm/tokenizer.json", "alpaca_llm/tokenizer.json"],
     ["https://oat-2-data-backup.s3.amazonaws.com/models/alpaca_llm/tokenizer.model", "alpaca_llm/tokenizer.model"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/models/alpaca_llm/tokenizer.config.json", "alpaca_llm/tokenizer.config.json"],
+    ["https://oat-2-data-backup.s3.amazonaws.com/models/alpaca_llm/tokenizer_config.json", "alpaca_llm/tokenizer_config.json"],
 ]
 
 artefacts = [
