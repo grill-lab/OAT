@@ -292,14 +292,16 @@ services:
       - NEURAL_FUNCTIONALITIES_URL=llm_functionalities:8000
       - FUNCTIONALITIES_URL=functionalities:8000
       - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
+      - INFERENCE_ENDPOINT_URL=tgi:80
     networks:
       - internal
       - external
     depends_on:
       builder:
         condition: service_started
-      oat_common:
+      tgi:
         condition: service_started
+
   tgi:
     platform: linux/x86_64
     container_name: tgi
