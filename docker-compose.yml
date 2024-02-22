@@ -300,6 +300,20 @@ services:
         condition: service_started
       oat_common:
         condition: service_started
+  tgi:
+    platform: linux/x86_64
+    container_name: tgi
+    build:
+      context: ./
+      dockerfile: hg_tgi/Dockerfile
+    volumes:
+      # the container downloads weights and other files to this path
+      - ./shared/file_system/tgi:/data
+    environment:
+      - MODEL_ID=google/flan-t5-base
+    networks:
+      - internal
+      - external
     deploy:
       resources:
         reservations:
