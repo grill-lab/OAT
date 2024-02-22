@@ -18,8 +18,6 @@ def serve():
 
     add_llm_runner_to_server(LLM_Runner_Servicer(), server)
 
-    logger.info('Finished loading all LLM functionalities')
-
     server.add_insecure_port("[::]:8000")
     server.start()
     server.wait_for_termination()

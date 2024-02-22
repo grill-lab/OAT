@@ -1,73 +1,93 @@
+import os
+import sys
+import concurrent.futures
+import time
 
-import torch
+from huggingface_hub import InferenceClient
 
-from transformers import AutoModelForCausalLM, AutoTokenizer
-from torch.cuda import OutOfMemoryError
-
-from utils import logger, Downloader
-from compiled_protobufs.llm_pb2 import ModelRequest, ModelResponse, ModelBatchRequest, ModelBatchResponse
+from utils import logger
+from compiled_protobufs.llm_pb2 import (
+    ModelRequest,
+    ModelResponse,
+    ModelBatchRequest,
+    ModelBatchResponse,
+)
 
 
 class LLMRunner:
     def __init__(self):
-        if torch.cuda.is_available():
-            artefact_id = "alpaca_llm"
-            downloader = Downloader()
-            downloader.download([artefact_id])
-            model_name = downloader.get_artefact_path(artefact_id)
-            self.model = AutoModelForCausalLM.from_pretrained(
-                model_name,
-                torch_dtype=torch.float16,
-                device_map="auto",
-                max_memory={i: '24000MB' for i in range(torch.cuda.device_count())},
-            )
-            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        endpoint_url = os.environ.get("INFERENCE_ENDPOINT_URL", None)
+        if endpoint_url is None:
+            logger.error("No INFERENCE_ENDPOINT_URL defined, container will exit")
+            sys.exit(-1)
 
-            self.batch_tokenizer = AutoTokenizer.from_pretrained(model_name)
-            self.batch_tokenizer.padding_side = "left"
-            self.batch_tokenizer.pad_token = self.batch_tokenizer.eos_token
+        if not endpoint_url.startswith("http://"):
+            endpoint_url = f"http://{endpoint_url}"
 
-            logger.info("Finished loading Alpaca model")
-        else:
-            logger.info('No GPU available, not loading LLM...')
-            exit(1)
+        self.client = None
+        retries = 0
+        while retries < 10:
+            client = self._connect_to_endpoint(endpoint_url)
+            if client is None:
+                logger.info(f"LLMRunner retrying connection to {endpoint_url}")
+                time.sleep(5)
+                retries += 1
+            else:
+                logger.info("LLMRunner connected to endpoint!")
+                self.client = client
+                break
+
+    def _connect_to_endpoint(self, endpoint_url: str) -> InferenceClient:
+        client = InferenceClient(model=endpoint_url)
+        try:
+            # creating the object doesn't appear to actually make a connection, so
+            # try something that will fail if it can't connect
+            client.text_generation(prompt="hello?", max_new_tokens=10)
+        except Exception:
+            return None
+        return client
 
     def call_model(self, model_request: ModelRequest) -> ModelResponse:
         model_response: ModelResponse = ModelResponse()
 
-        try:
-            formatted_prompt = model_request.formatted_prompt
-            max_tokens = model_request.max_tokens
-            inputs = self.tokenizer(formatted_prompt, return_tensors="pt").to("cuda:0")
-            outputs = self.model.generate(inputs=inputs.input_ids, max_new_tokens=max_tokens)
-            response_text = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        if self.client is None:
+            raise Exception("llm_functionalities isn't connected to an endpoint!")
 
-            model_response.text = str(response_text)
+        try:
+            response = self.client.text_generation(
+                prompt=model_request.formatted_prompt,
+                max_new_tokens=model_request.max_tokens,
+            )
+            logger.info(f"LLM response text: {response}")
+            model_response.text = response
 
         except Exception as e:
-            logger.info(f'Running LLM failed: {e}')
+            logger.warning(f"Call to inference endpoint failed: {e}")
 
         return model_response
 
     def batch_call_model(self, model_request: ModelBatchRequest) -> ModelBatchResponse:
         model_responses: ModelBatchResponse = ModelBatchResponse()
 
+        if self.client is None:
+            raise Exception("llm_functionalities isn't connected to an endpoint!")
+
         try:
             formatted_prompts = list(model_request.formatted_prompts)
             max_tokens = model_request.max_tokens
+            params = [
+                {"prompt": p, "max_new_tokens": max_tokens} for p in formatted_prompts
+            ]
 
-            encodings = self.batch_tokenizer(formatted_prompts, padding=True, return_tensors='pt').to("cuda:0")
+            logger.info(f"Submitting a batch of {len(params)} calls to TGI")
+            with concurrent.futures.ThreadPoolExecutor(max_workers=12) as pool:
+                results = pool.map(lambda p: self.client.text_generation(**p), params)
 
-            with torch.no_grad():
-                generated_ids = self.model.generate(**encodings, max_new_tokens=max_tokens, do_sample=False)
-            generated_texts = self.batch_tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
+                for response in results:
+                    logger.info(f"LLM response text: {response}")
+                    model_responses.text.append(response)
 
-            for text in generated_texts:
-                model_responses.text.append(text)
+        except Exception as e:
+            logger.warning(f"Call to inference endpoint failed: {e}")
 
-        except OutOfMemoryError as e:
-            logger.info(f'We ran out of GPU memory: {e}')
-            torch.cuda.empty_cache()
-            exit(1)
-        
         return model_responses
