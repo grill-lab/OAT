@@ -37,6 +37,10 @@ class LLMRunner:
                 self.client = client
                 break
 
+        if self.client is None:
+            logger.error(f"LLMRunner failed to connect to the endpoint at {endpoint_url}")
+            sys.exit(-1)
+
     def _connect_to_endpoint(self, endpoint_url: str) -> InferenceClient:
         client = InferenceClient(model=endpoint_url)
         try:
