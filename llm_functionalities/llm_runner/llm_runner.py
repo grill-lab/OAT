@@ -1,7 +1,7 @@
 import os
 import sys
-import concurrent.futures
 import time
+import concurrent.futures
 
 from huggingface_hub import InferenceClient
 
@@ -38,11 +38,13 @@ class LLMRunner:
                 break
 
         if self.client is None:
-            logger.error(f"LLMRunner failed to connect to the endpoint at {endpoint_url}")
+            logger.error(
+                f"LLMRunner failed to connect to the endpoint at {endpoint_url}"
+            )
             sys.exit(-1)
 
     def _connect_to_endpoint(self, endpoint_url: str) -> InferenceClient:
-        client = InferenceClient(model=endpoint_url)
+        client = InferenceClient(model=endpoint_url, timeout=10.0)
         try:
             # creating the object doesn't appear to actually make a connection, so
             # try something that will fail if it can't connect
