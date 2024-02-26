@@ -308,20 +308,33 @@ services:
     build:
       context: ./
       dockerfile: hg_tgi/Dockerfile
+    ports:
+      # this isn't needed for llm_functionalities (it uses the internal network),
+      # but might be useful to be able to submit requests to the instance from
+      # external scripts for testing/debugging
+      - "8081:80"
     volumes:
       # the container downloads weights and other files to this path
       - ./shared/file_system/tgi:/data
     environment:
-      - MODEL_ID=google/flan-t5-base
+      # setting the value of MODEL_ID is equivalent to passing "--model-id" parameter
+      # to the TGI launcher
+      - MODEL_ID=${MODEL_ID:-google/flan-t5-xxl}
+      # any other TGI launcher parameters can be set in this env var, e.g.:
+      # TGI_PARAMS="--param1 param1_value --param2 param2_value" docker compose up
+      - TGI_PARAMS=${TGI_PARAMS:-}
     networks:
       - internal
       - external
+    # larger sharded models will need this increased from the default (usually 64MB)
+    shm_size: ${SHM_SIZE:-2gb}
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              # set the number of GPUs available to the container, default to 1
+              count: ${GPU_COUNT:-1}
               capabilities: [ gpu ]
 
 networks:
