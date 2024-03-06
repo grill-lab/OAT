@@ -164,8 +164,14 @@ The different containers and their required artefacts and models. They are pulle
 
 ## ✨ References
 
-If you use OAT, please cite the following paper: 
+If you use OAT, please cite the following [paper](https://arxiv.org/abs/2403.00586): 
 
 ```
-@INPROCEEDINGS{}
+@misc{OATv2_2024,
+      title={Open Assistant Toolkit -- version 2}, 
+      author={Sophie Fischer and Federico Rossetto and Carlos Gemmell and Andrew Ramsay and Iain Mackie and Philip Zubel and Niklas Tecklenburg and Jeffrey Dalton},
+      year={2024},
+      eprint={2403.00586},
+      archivePrefix={arXiv}
+}
 ```
