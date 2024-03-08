@@ -4,6 +4,8 @@ This document contains a guide to implementing a new website parser for the offl
 
 ## 1. Creating the new parser class
 
+For the remainder of this document the parser will be assumed to be for `website.com` and called `WebsiteParser`. Substitute the name of the real website you want to add anywhere you see `website_parser` or `WebsiteParser` below (e.g. `allrecipes_parser` for an [allrecipes.com](https://www.allrecipes.com) parser).
+
 Once you've decided which website you want to add to the pipeline, create a new file called `<name of website>_parser.py` in the `offline/document_parsers/` directory. 
 
 Inside this file, create a new Python class subclassing `AbstractParser` and add empty placeholders for the abstract methods:
@@ -173,20 +175,25 @@ This tells Docker to run the `offline` container with a different entrypoint, an
 
 ## 4. Integrating the parser
 
-Once your parser is working, there are a few simple steps required to make the rest of the pipeline aware of it:
+Once your parser is working, there are a few steps required to make the rest of the pipeline aware of it:
 
-1. Open `offline/config.py` and create a new `dict` matching the format of the existing set:
+First, you need to create a parser definition in `offline/config.py`. Create a pair of new `dicts` matching the format of the existing set:
 
 ```python
 website_config = {
     "file_path": "website",
-    "parser": WebsiteParser # (remember to add an import for the parser class)
+    "parser": "WebsiteParser" # (remember to add an import for the parser class)
+}
+
+website_scraped_config = {
+    "file_path": "website_scraped",
+    "parser": "WebsiteParser",
 }
 ```
 
-2. Still in `offline/config.py`, look for the pipeline component definitions for the `CommonCrawl`, `TaskGraphConstruction` and `AugmentationsIterator` classes. Each of these has a parameter consisting of a list of parser dicts. Add the new dict to each of these. 
+These are used to define a mapping between a domain and the its corresponding parser class in different contexts.
 
-3. Next, open `offline/document_parsers/mappings.py`. This defines 2 `dict`s that map domains to parsers and website names to domains. Add a new `import` statement for the new parser, and then insert a new entry into each of the dicts following the same format:
+Next, open `offline/document_parsers/mappings.py`. This defines 2 `dict`s that map domains to parsers and website names to domains. Add a new `import` statement for the new parser, and then insert a new entry into each of the dicts following the same format:
 
 ```python
 ...
@@ -202,3 +209,50 @@ document_websites = {
     "website": "website.com",
 }
 ```
+
+Finally, you need to decide how you want OAT to retrieve URLs from this website: sourcing the data from CommonCrawl, or scraping the content directly.
+
+### 4.1 Using CommonCrawl
+
+If you want to retrieve the data from CommonCrawl, see the documentation in [README.md](./README.md) that explains how to generate a CSV file in the appropriate format.
+
+Once you have a suitable CSV file, you will need to edit `offline/config.py` again. The `offline_config` dict has a `steps` field that defines the list of pipeline components and the order they will be executed in. 
+
+Find the entry for the `CommonCrawl` component (it should be first in the list), and append an entry to the `domains_to_run` list for the new domain, e.g.:
+
+```python
+    'domains_to_run': [wikihow_config, seriouseat_config, ..., website_config],
+```
+
+### 4.2 Using scraping
+
+The other option is to perform direct scraping of URLs. OAT has an existing pipeline component to do this, but again it will require some configuration.
+
+The component is called `Scraper`. Find the instance of this component in the `offline/config.py` file. Note that there are 2 instances; edit the one described as "Get HTML data via direct scraping". 
+
+Update the `domains_to_run` and `scraper_csv_path` parameters:
+
+```python
+    # path to a CSV file which lists the URLs you want to scrape
+    'scraper_csv_path': os.path.join(get_file_system(), 'offline/scraper_urls.csv'),
+    # note that this should be website_scraped_config, not website_config!
+    'domains_to_run': [website_scraped_config],
+```
+In some cases you may find the target site requires extra headers on each HTTP request, otherwise errors will be returned. If this happens, you can examine the headers your browser is sending using the browser console, and copy them into the `custom_headers` parameter of the `Scraper` component. For example, to add a user agent parameter:
+
+```python
+    'custom_headers': {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0',
+    }
+```
+
+### 4.3 Common configuration
+
+Regardless of how you retrieve the HTML data, you will also need to make some of the other OAT pipeline components aware of your new parser:
+
+* In the definition of the `TaskgraphConstruction` component, add `website_config` to the `parsers` list
+* In the same component, add `website_config` and `website_scraped_config` to the `parse_domains` list
+* In the definition of the `AugmentationsIterator` component, add `website_config` and `website_scraped_config` to the `augment_domains` list
+
+Now you can try running the pipeline with `docker compose run offline` and check if the URLs are retrieved successfully.
+
