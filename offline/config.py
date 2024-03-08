@@ -190,11 +190,13 @@ offline_config = {
                 'html_proto_path': os.path.join(get_file_system(), 'offline/protos/htmls'),
                 # keep consistent with *build corpus -> html_proto_path*
                 'taskgraph_proto_path': os.path.join(get_file_system(), 'offline/protos/taskgraphs'),
+                # only change when adding a new parser
                 'parsers': [wikihow_config, seriouseats_config, epicurious_config, food52_config, foodnetwork_config,
-                            foodandwine_config],  # DO NOT CHANGE
+                            foodandwine_config, allrecipes_config],
+                # change this to determine which domains you want to parse
                 'parse_domains': [wikihow_config, seriouseats_config, epicurious_config, food52_config,
                                   foodnetwork_config, foodandwine_config,
-                                  seriouseats_scraped_config, wikihow_scraped_config],
+                                  seriouseats_scraped_config, wikihow_scraped_config, allrecipes_scraped_config],
                 # select which domains to parse (leave empty if you wish to parse all)
             }
         },
@@ -254,7 +256,7 @@ offline_config = {
                                StepSplittingAugmenter, JokeAugmenter, FactAugmenter],  # AudioVideoStepAlignment
                 'augment_domains': [wikihow_config, seriouseats_config, epicurious_config, food52_config,
                                     foodnetwork_config, foodandwine_config,
-                                    seriouseats_scraped_config, wikihow_scraped_config],
+                                    seriouseats_scraped_config, wikihow_scraped_config, allrecipes_scraped_config],
                 # select which domains to parse (leave empty if you wish to parse all)
             }
         },
