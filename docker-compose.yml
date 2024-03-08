@@ -292,7 +292,16 @@ services:
       - NEURAL_FUNCTIONALITIES_URL=llm_functionalities:8000
       - FUNCTIONALITIES_URL=functionalities:8000
       - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
+      # the location of the TGI endpoint (note that it's using the internal
+      # Docker network, so it's port 80 rather than 8081)
       - INFERENCE_ENDPOINT_URL=tgi:80
+      # these values can be used to control how long this service waits
+      # for the TGI endpoint to become available. this might take a significant
+      # amount of time in some cases, e.g. if it has to download a large model
+      # Number of retries (default 10)
+      - TGI_CONNECTION_RETRY_LIMIT=${TGI_CONNECTION_RETRY_LIMIT:-10}
+      # delay between retries in seconds
+      - TGI_CONNECTION_RETRY_DELAY=${TGI_CONNECTION_RETRY_DELAY:-10}
     networks:
       - internal
       - external
