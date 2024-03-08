@@ -1,1 +1,2 @@
-huggingface-hub==0.20.3
+# summarization seems to be broken in the recent released versions
+git+https://github.com/huggingface/huggingface_hub.git
