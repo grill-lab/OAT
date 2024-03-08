@@ -55,8 +55,17 @@ class AllRecipesParser(AbstractParser):
                 filter(lambda x: isinstance(x, Tag), recipe_detail_element.children)
             )
             if children[0].text == "Total Time:":
-                # format is "x mins", but might break on longer recipes?
-                duration_mins = int(children[1].text.split(" ")[0])
+                # format is "x mins", or "x hr, y mins"
+                duration_text = children[1].text.split(" ")
+                hours, mins = 0, 0
+
+                if "hr" in duration_text[1]:
+                    hours = int(duration_text[0])
+                    mins = int(duration_text[2])
+                else:
+                    mins = int(duration_text[1])
+                    
+                duration_mins = (hours * 60) + mins
                 return duration_mins
 
     def get_tags(self) -> List[CustomDocument.Tag]:
