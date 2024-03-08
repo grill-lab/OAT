@@ -117,11 +117,13 @@ class Scraper(DownloadBase):
         scraper_csv_path: str,
         html_proto_path: str,
         domains_to_run: dict,
+        custom_headers: dict = {},
         protos_per_file: int = 1000,
     ) -> None:
         self.scraper_csv_path = scraper_csv_path
         self.html_proto_path = html_proto_path
         self.domains_to_run = domains_to_run
+        self.custom_headers = custom_headers
         self.protos_per_file = protos_per_file
 
     def download(self) -> None:
@@ -162,7 +164,7 @@ class Scraper(DownloadBase):
                     chunk += 1
 
                 logger.debug(f"Scraping {url}")
-                resp = self.get(url, {})
+                resp = self.get(url, self.custom_headers)
                 if resp is None:
                     logger.error(f"Failed to retrieve {url}")
                     self.failed_urls.append(url)
