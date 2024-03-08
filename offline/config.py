@@ -22,6 +22,7 @@ from document_parsers.food52_parser import Food52Parser
 from document_parsers.epicurious_parser import EpicuriousParser
 from document_parsers.foodandwine_parser import FoodAndWineParser
 from document_parsers.foodnetwork_parser import FoodNetworkParser
+from document_parsers.allrecipes_parser import AllRecipesParser
 
 from url_downloaders import CommonCrawl, Scraper
 from taskgraph_construction import TaskgraphConstruction
@@ -110,11 +111,20 @@ wikihow_scraped_config = {
     'parser': WikihowTaxonomyBuilder,
 }
 
+allrecipes_config = {
+    'file_path': 'allrecipes',
+    'parser': AllRecipesParser,
+}
+
+allrecipes_scraped_config = {
+    'file_path': 'allrecipes_scraped',
+    'parser': AllRecipesParser,
+}
 
 offline_config = {
     'steps': [
         {
-            'enable': True,
+            'enable': False,
             'step': 'Get HTMLs from Common Crawl',
             'class': CommonCrawl,
             'kwargs': {
