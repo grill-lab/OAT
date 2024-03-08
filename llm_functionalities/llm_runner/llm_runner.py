@@ -61,11 +61,14 @@ class LLMRunner:
             return None
         return client
 
+    def _check_connectivity(self) -> None:
+        if self.client is None:
+            raise Exception("llm_functionalities isn't connected to an endpoint!")
+
     def call_model(self, model_request: ModelRequest) -> ModelResponse:
         model_response: ModelResponse = ModelResponse()
 
-        if self.client is None:
-            raise Exception("llm_functionalities isn't connected to an endpoint!")
+        self._check_connectivity()
 
         try:
             response = self.client.text_generation(
@@ -83,8 +86,7 @@ class LLMRunner:
     def batch_call_model(self, model_request: ModelBatchRequest) -> ModelBatchResponse:
         model_responses: ModelBatchResponse = ModelBatchResponse()
 
-        if self.client is None:
-            raise Exception("llm_functionalities isn't connected to an endpoint!")
+        self._check_connectivity()
 
         try:
             formatted_prompts = list(model_request.formatted_prompts)
