@@ -68,6 +68,22 @@ message MultipleSummaryGenerationResponse {
     repeated string summary = 1;
 }
 
+message TGISummaryRequest {
+    string input_text = 1;
+}
+
+message TGISummaryResponse { 
+    string summary_text = 1;
+}
+
+message TGIMultipleSummaryRequest {
+    repeated string input_text = 1;
+}
+
+message TGIMultipleSummaryResponse {
+    repeated string summary_text = 1;
+}
+
 message ProactiveQuestionGenerationRequest {
     repeated string task_title = 1;
     repeated string previous_steps = 2;
@@ -145,4 +161,6 @@ service LLMReplacementGeneration {
 service LLMRunner {
     rpc call_model(ModelRequest) returns (ModelResponse) {}
     rpc batch_call_model(ModelBatchRequest) returns (ModelBatchResponse) {}
+    rpc generate_summary(TGISummaryRequest) returns (TGISummaryResponse) {}
+    rpc generate_summaries(TGIMultipleSummaryRequest) returns (TGIMultipleSummaryResponse) {}
 }
