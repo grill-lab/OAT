@@ -26,11 +26,19 @@ class LLMRunner:
 
         self.client = None
         retries = 0
-        while retries < 10:
+        retry_limit = int(os.environ.get("TGI_CONNECTION_RETRY_LIMIT", 10))
+        retry_delay = int(os.environ.get("TGI_CONNECTION_RETRY_DELAY", 10))
+        logger.info(
+            f"Connecting to TGI (max {retry_limit} connections, {retry_delay}s apart)"
+        )
+
+        # might have to wait for the TGI container to finish starting up, especially if it
+        # needs to download model files first
+        while retries < retry_limit:
             client = self._connect_to_endpoint(endpoint_url)
             if client is None:
                 logger.info(f"LLMRunner retrying connection to {endpoint_url}")
-                time.sleep(5)
+                time.sleep(retry_delay)
                 retries += 1
             else:
                 logger.info("LLMRunner connected to endpoint!")
