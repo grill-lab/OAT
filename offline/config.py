@@ -137,6 +137,27 @@ offline_config = {
         },
         {
             'enable': True,
+            'step': 'Get HTML data via direct scraping',
+            'class': Scraper,
+            'kwargs': {
+                'scraper_csv_path': os.path.join(get_file_system(), 'offline/non_cc_urls.csv'),
+                'html_proto_path': os.path.join(get_file_system(), 'offline/protos/htmls'),
+                'domains_to_run': [allrecipes_scraped_config],
+                # add any custom HTTP headers required (default is an empty dict)
+                # these are required for allrecipes.com
+                'custom_headers': {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0",
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                    "Accept-Encoding": "gzip, deflate, br",
+                    "Accept-Language": "en-GB,en;q=0.5",
+                    "DNT": "1",
+                    "Connection": "keep-alive",
+                    "Upgrade-Insecure-Requests": "1",
+                    "Pragma": "no-cache",
+                    "Cache-Control": "no-cache",
+                },
+            }
+        },
             'step': 'Categories Corpus Construction',
             'class': TaxonomyBuildRunner,
             'kwargs': {
