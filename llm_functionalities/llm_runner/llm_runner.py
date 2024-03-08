@@ -11,6 +11,10 @@ from compiled_protobufs.llm_pb2 import (
     ModelResponse,
     ModelBatchRequest,
     ModelBatchResponse,
+    TGISummaryRequest,
+    TGISummaryResponse,
+    TGIMultipleSummaryRequest,
+    TGIMultipleSummaryResponse,
 )
 
 
@@ -107,3 +111,44 @@ class LLMRunner:
             logger.warning(f"Call to inference endpoint failed: {e}")
 
         return model_responses
+
+    def generate_summary(self, request: TGISummaryRequest) -> TGISummaryResponse:
+        response = TGISummaryResponse()
+
+        self._check_connectivity()
+
+        logger.info(f"generating summary from: {request.input_text}")
+
+        try:
+            summarization_output = self.client.summarization(text=str(request.input_text))
+            if summarization_output.summary_text is None:
+                # TODO raise exception? different string response?
+                response.summary_text = ""
+            else:
+                response.summary_text = summarization_output.summary_text
+        except Exception as e:
+            logger.warning(f"Call to summarization failed: {e}")
+
+        return response
+
+    def generate_summaries(
+        self, request: TGIMultipleSummaryRequest
+    ) -> TGIMultipleSummaryResponse:
+        response = TGIMultipleSummaryResponse()
+
+        self._check_connectivity()
+
+        try:
+            params = list(request.input_text)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=len(params)) as pool:
+                results = pool.map(lambda p: self.client.summarization(p), params)
+
+                for result in results:
+                    if result.summary_text is None:
+                        response.summary_text.append("") # TODO see comment above
+                    else:
+                        response.summary_text.append(result.summary_text)
+        except Exception as e:
+            logger.warning(f"Call to summarization failed: {e}")
+
+        return response
