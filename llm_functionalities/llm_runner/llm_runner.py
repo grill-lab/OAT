@@ -96,7 +96,7 @@ class LLMRunner:
             ]
 
             logger.info(f"Submitting a batch of {len(params)} calls to TGI")
-            with concurrent.futures.ThreadPoolExecutor(max_workers=12) as pool:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=len(params)) as pool:
                 results = pool.map(lambda p: self.client.text_generation(**p), params)
 
                 for response in results:
