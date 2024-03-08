@@ -38,9 +38,11 @@ class Extractor():
         df["headless"] = df["headless"].map(
             {True: "Headless", False: "Screen"}
         )
-
-        # if there's no domain, then it was not selected
-        df["domain"].fillna(value="NOT SELECTED", inplace=True)
+        if "domain" not in df.columns:
+            df["domain"] = ["NOT SELECTED"] * len(df)  # fill it with None if it is empty
+        else:
+            # if there's no domain, then it was not selected
+            df["domain"].fillna(value="NOT SELECTED", inplace=True)
 
         # if there's no state, then the session is still open
         if "state" not in df.columns:
