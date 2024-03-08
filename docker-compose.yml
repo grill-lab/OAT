@@ -328,7 +328,7 @@ services:
     environment:
       # setting the value of MODEL_ID is equivalent to passing "--model-id" parameter
       # to the TGI launcher
-      - MODEL_ID=${MODEL_ID:-google/flan-t5-xxl}
+      - MODEL_ID=${MODEL_ID:-google/flan-t5-large}
       # any other TGI launcher parameters can be set in this env var, e.g.:
       # TGI_PARAMS="--param1 param1_value --param2 param2_value" docker compose up
       - TGI_PARAMS=${TGI_PARAMS:-}
