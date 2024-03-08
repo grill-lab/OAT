@@ -158,6 +158,7 @@ offline_config = {
                 },
             }
         },
+        {
             'step': 'Categories Corpus Construction',
             'class': TaxonomyBuildRunner,
             'kwargs': {
