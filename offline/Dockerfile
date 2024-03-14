@@ -18,7 +18,6 @@ RUN apt-get update \
 
 WORKDIR /source
 
-COPY credentials.csv* /root/credentials.csv
 COPY offline/requirements.txt /source/requirements.txt
 
 # uses a buildkit cache mount to try and share pip's cache between containers

@@ -4,7 +4,12 @@ We present OAT, a task oriented agent capable of guiding users through complex t
 
 In the following README you'll find more information on how the Open Assistant Toolkit works, how to run and deploy it, and how to extend or customise its components to enable your own research into task oriented agents.
 
-For additional details, [our paper](https://assets.amazon.science/f3/75/cbd31079434eaf0c171a1ae0c8a8/grill-tb2-final-2023.pdf) provides a nice overview.
+For additional details, our [paper](https://arxiv.org/pdf/2403.00586.pdf) provides a nice overview.
+OAT is the basis for the following projects:
+- [GRILLBot v2 System Overview](https://assets.amazon.science/f3/75/cbd31079434eaf0c171a1ae0c8a8/grill-tb2-final-2023.pdf)
+- [GRILLBot In Practice: Lessons and Tradeoffs Deploying Large Language Models for Adaptable Conversational Task Assistants](https://arxiv.org/pdf/2402.07647.pdf)
+- [GRILLBot v1 System Overview](https://assets.amazon.science/7c/99/e7a8d35a43c88cf0e8ad59b92dfc/grillbot-a-flexible-conversational-agent-for-solving-complex-real-world-tasks.pdf)
+- [VILT: Video Instructions Linking for Complex Tasks](https://dl.acm.org/doi/pdf/10.1145/3552467.3554794)
 
 ## 🎬 Installation
 
@@ -164,8 +169,14 @@ The different containers and their required artefacts and models. They are pulle
 
 ## ✨ References
 
-If you use OAT, please cite the following paper: 
+If you use OAT, please cite the following [paper](https://arxiv.org/pdf/2403.00586.pdf): 
 
 ```
-@INPROCEEDINGS{}
+@misc{OATv2_2024,
+      title={Open Assistant Toolkit -- version 2}, 
+      author={Sophie Fischer and Federico Rossetto and Carlos Gemmell and Andrew Ramsay and Iain Mackie and Philip Zubel and Niklas Tecklenburg and Jeffrey Dalton},
+      year={2024},
+      eprint={2403.00586},
+      archivePrefix={arXiv}
+}
 ```
