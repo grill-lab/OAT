@@ -11,7 +11,7 @@ The instructions assume that Linux is being used as the host operating system, b
 1. Check you have at least 40-50GB of free disk space. On Linux you can do this from the terminal by running `df -hT`. This space is required both to build and store the OAT Docker images and to accommodate data files downloaded by OAT services when they are launched for the first time.
 2. Install Docker. On Linux you only need to install [Docker Engine](https://docs.docker.com/engine/install/), but you can install [Docker Desktop](https://docs.docker.com/desktop/) instead if you prefer or are working on Windows/MacOS.
 3. Install Docker Compose. If you have installed Docker Desktop, Compose should be included. If you've installed Docker Engine, you will probably need to [install Compose separately](https://docs.docker.com/compose/install/linux/).
-4. Check that you can run `docker version` and `docker compose version` successfully. 
+4. Check that you can run `docker version` and `docker compose version` successfully to verify that both Docker and Docker Compose are working.
 5. OAT requires a GPU for some of its functionality. An NVIDIA GPU is strongly recommended. You will need to install [the NVIDIA driver](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) and [the NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html), which allows Docker containers access to GPUs on the host system. 
 6. Test your configuration by following the instructions under "Running a Sample Workload with Docker" on [this page](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/sample-workload.html). If your system is configured correctly you should see the `nvidia-smi` output listing your GPU device.
 
@@ -122,6 +122,7 @@ The "Finished loading" message is logged by each of the services that have signi
 ```sh
 functionalities           | [2024-01-26 15:42:11,853] - INFO - local.functionalities - main.py.serve:90 - Finished loading all models
 neural_functionalities    | [2024-01-26 15:42:16,088] - INFO - local.neural_functionalities - main.py.serve:75 - Finished loading all models
+llm_functionalities       | [2024-01-26 15:45:11,146] - INFO - local.llm_functionalities - main.py.serve:21 - Finished loading all LLM functionalities
 ```
 
 Note that you may not see `llm_functionalities` listed here if your system doesn't have a compatible GPU (see the "GPU requirements" section above for details). The 2 other services should always appear if the system has successfully started up.
