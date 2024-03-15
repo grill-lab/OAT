@@ -173,7 +173,7 @@ offline_config = {
             }
         },
         {
-            'enable': True,
+            'enable': False,
             'step': 'Build Scraped HTMLS',
             'class': Scraper,
             'kwargs': {
