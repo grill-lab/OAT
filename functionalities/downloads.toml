@@ -5,7 +5,7 @@ base_path = "/shared/file_system/downloads/functionalities/"
 [[sources]]
 id = "extra_info_data_recent"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/misc/extra_info_data/jokes_images.json", "extra_info_data/jokes_images.json"],
+    ["https://oatfiles.grill.science/functionalities/extra_info_data/jokes_images.json", "extra_info_data/jokes_images.json"],
 ]
 
 artefacts = [
@@ -15,7 +15,7 @@ artefacts = [
 [[sources]]
 id = "system_indexes_objects_idx"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/indexes/system_indexes/objects_idx.zip", "system_indexes/objects_idx.zip"],
+    ["https://oatfiles.grill.science/functionalities/system_indexes/objects_idx.zip", "system_indexes/objects_idx.zip"],
 ]
 
 artefacts = [
@@ -25,7 +25,7 @@ artefacts = [
 [[sources]]
 id = "system_indexes_search_idx_sparse"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/indexes/system_indexes/search_idx/sparse.zip", "system_indexes/search_idx/sparse.zip"],
+    ["https://oatfiles.grill.science/functionalities/system_indexes/search_idx/sparse.zip", "system_indexes/search_idx/sparse.zip"],
 ]
 
 artefacts = [
@@ -35,7 +35,7 @@ artefacts = [
 [[sources]]
 id = "system_indexes_search_idx_dense"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/indexes/system_indexes/search_idx/dense.zip", "system_indexes/search_idx/dense.zip"],
+    ["https://oatfiles.grill.science/functionalities/system_indexes/search_idx/dense.zip", "system_indexes/search_idx/dense.zip"],
 ]
 
 artefacts = [
@@ -45,7 +45,7 @@ artefacts = [
 [[sources]]
 id = "category_index_objects_idx"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/indexes/category_index/objects_idx.zip", "category_index/objects_idx.zip"],
+    ["https://oatfiles.grill.science/functionalities/category_index/objects_idx.zip", "category_index/objects_idx.zip"],
 ]
 
 artefacts = [
@@ -55,7 +55,7 @@ artefacts = [
 [[sources]]
 id = "tags"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/misc/tags/tag_counts.json", "tags/tag_counts.json"],
+    ["https://oatfiles.grill.science/functionalities/tags/tag_counts.json", "tags/tag_counts.json"],
 ]
 
 artefacts = [
@@ -66,10 +66,10 @@ artefacts = [
 [[sources]]
 id = "domain_classifier"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/domain_classifier/domain_list.json", "domain_classifier/domain_list.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/domain_classifier/id_to_domain.json", "domain_classifier/id_to_domain.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/domain_classifier/naive_bayes.pkl", "domain_classifier/naive_bayes.pkl"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/domain_classifier/tfidf.pkl", "domain_classifier/tfidf.pkl"],
+    ["https://oatfiles.grill.science/functionalities/domain_classifier/domain_list.json", "domain_classifier/domain_list.json"],
+    ["https://oatfiles.grill.science/functionalities/domain_classifier/id_to_domain.json", "domain_classifier/id_to_domain.json"],
+    ["https://oatfiles.grill.science/functionalities/domain_classifier/naive_bayes.pkl", "domain_classifier/naive_bayes.pkl"],
+    ["https://oatfiles.grill.science/functionalities/domain_classifier/tfidf.pkl", "domain_classifier/tfidf.pkl"],
 ]
 
 artefacts = [
