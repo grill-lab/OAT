@@ -41,6 +41,10 @@ class KnowledgeConstruction:
             # follow common crawl's standard
             processed_urls.append([url, host, "2023-04-18 00:39:39.000","200","","","","",""])
         
+        dir_path = os.path.dirname(self.tasks_that_require_scraping_path)
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path, exist_ok=True)
+
         with open(self.tasks_that_require_scraping_path, 'w') as f:
             writer = csv.writer(f)
             for row in processed_urls:

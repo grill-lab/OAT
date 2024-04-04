@@ -5,10 +5,10 @@ base_path = "/shared/file_system/downloads/offline/"
 [[sources]]
 id = "whisper_transcripts"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/whisper_transcripts/whisper_transcript_diy_1.jsonl", "whisper_transcripts/whisper_transcript_diy_1.jsonl"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/whisper_transcripts/whisper_transcript_food.jsonl", "whisper_transcripts/whisper_transcript_food.jsonl"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/whisper_transcripts/whisper_transcript_how_tos_2.jsonl", "whisper_transcripts/whisper_transcript_how_tos_2.jsonl"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/whisper_transcripts/whisper_transcript_wikihow.jsonl", "whisper_transcripts/whisper_transcript_wikihow.jsonl"],
+    ["https://oatfiles.grill.science/offline/whisper_transcripts/whisper_transcript_diy_1.jsonl", "whisper_transcripts/whisper_transcript_diy_1.jsonl"],
+    ["https://oatfiles.grill.science/offline/whisper_transcripts/whisper_transcript_food.jsonl", "whisper_transcripts/whisper_transcript_food.jsonl"],
+    ["https://oatfiles.grill.science/offline/whisper_transcripts/whisper_transcript_how_tos_2.jsonl", "whisper_transcripts/whisper_transcript_how_tos_2.jsonl"],
+    ["https://oatfiles.grill.science/offline/whisper_transcripts/whisper_transcript_wikihow.jsonl", "whisper_transcripts/whisper_transcript_wikihow.jsonl"],
 ]
 
 artefacts = [
@@ -18,9 +18,9 @@ artefacts = [
 [[sources]]
 id = "video_metadata"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/video_metadata/meta_data_cooking.json", "video_metadata/meta_data_cooking.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/video_metadata/meta_data_diy.json", "video_metadata/meta_data_diy.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/video_metadata/meta_data_how_tos.json", "video_metadata/meta_data_how_tos.json"],
+    ["https://oatfiles.grill.science/offline/video_metadata/meta_data_cooking.json", "video_metadata/meta_data_cooking.json"],
+    ["https://oatfiles.grill.science/offline/video_metadata/meta_data_diy.json", "video_metadata/meta_data_diy.json"],
+    ["https://oatfiles.grill.science/offline/video_metadata/meta_data_how_tos.json", "video_metadata/meta_data_how_tos.json"],
 ]
 
 artefacts = [
@@ -30,7 +30,7 @@ artefacts = [
 [[sources]]
 id = "indexes"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/indexes/image_index.faiss", "indexes/image_index.faiss"],
+    ["https://oatfiles.grill.science/offline/indexes/image_index.faiss", "indexes/image_index.faiss"],
 ]
 
 artefacts = [
@@ -41,8 +41,8 @@ artefacts = [
 [[sources]]
 id = "lookup_files"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/lookup_files/image_list.pkl", "lookup_files/image_list.pkl"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/lookup_files/image_url_lookup.json", "lookup_files/image_url_lookup.json"],
+    ["https://oatfiles.grill.science/offline/lookup_files/image_list.pkl", "lookup_files/image_list.pkl"],
+    ["https://oatfiles.grill.science/offline/lookup_files/image_url_lookup.json", "lookup_files/image_url_lookup.json"],
 ]
 
 artefacts = [
@@ -53,8 +53,8 @@ artefacts = [
 [[sources]]
 id = "extra_info_data_recent"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/extra_info_data/facts_images.json", "extra_info_data/facts_images.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/offline/extra_info_data/jokes_images.json", "extra_info_data/jokes_images.json"],
+    ["https://oatfiles.grill.science/offline/extra_info_data/facts_images.json", "extra_info_data/facts_images.json"],
+    ["https://oatfiles.grill.science/offline/extra_info_data/jokes_images.json", "extra_info_data/jokes_images.json"],
 ]
 
 artefacts = [
@@ -65,10 +65,10 @@ artefacts = [
 [[sources]]
 id = "domain_classifier"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/domain_classifier/domain_list.json", "domain_classifier/domain_list.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/domain_classifier/id_to_domain.json", "domain_classifier/id_to_domain.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/domain_classifier/naive_bayes.pkl", "domain_classifier/naive_bayes.pkl"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/domain_classifier/tfidf.pkl", "domain_classifier/tfidf.pkl"],
+    ["https://oatfiles.grill.science/offline/domain_classifier/domain_list.json", "domain_classifier/domain_list.json"],
+    ["https://oatfiles.grill.science/offline/domain_classifier/id_to_domain.json", "domain_classifier/id_to_domain.json"],
+    ["https://oatfiles.grill.science/offline/domain_classifier/naive_bayes.pkl", "domain_classifier/naive_bayes.pkl"],
+    ["https://oatfiles.grill.science/offline/domain_classifier/tfidf.pkl", "domain_classifier/tfidf.pkl"],
 ]
 
 artefacts = [

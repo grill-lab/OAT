@@ -6,8 +6,8 @@ base_path = "/shared/file_system/downloads/neural_functionalities"
 [[sources]]
 id = "question_type_classifier"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/question_type_classifier/labels.json", "question_type_classifier/labels.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/classifiers/question_type_classifier/model.state_dict", "question_type_classifier/model.state_dict"],
+    ["https://oatfiles.grill.science/neural_functionalities/question_type_classifier/labels.json", "question_type_classifier/labels.json"],
+    ["https://oatfiles.grill.science/neural_functionalities/question_type_classifier/model.state_dict", "question_type_classifier/model.state_dict"],
 ]
 
 artefacts = [
@@ -17,9 +17,9 @@ artefacts = [
 [[sources]]
 id = "policy_classification_UQA_intent_model_1076"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/models/policy_classification/UQA_intent_model_1076/config.json", "policy_classification/UQA_intent_model_1076/config.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/models/policy_classification/UQA_intent_model_1076/generation_config.json", "policy_classification/UQA_intent_model_1076/generation_config.json"],
-    ["https://oat-2-data-backup.s3.amazonaws.com/models/policy_classification/UQA_intent_model_1076/pytorch_model.bin", "policy_classification/UQA_intent_model_1076/pytorch_model.bin"],
+    ["https://oatfiles.grill.science/neural_functionalities/policy_classification/UQA_intent_model_1076/config.json", "policy_classification/UQA_intent_model_1076/config.json"],
+    ["https://oatfiles.grill.science/neural_functionalities/policy_classification/UQA_intent_model_1076/generation_config.json", "policy_classification/UQA_intent_model_1076/generation_config.json"],
+    ["https://oatfiles.grill.science/neural_functionalities/policy_classification/UQA_intent_model_1076/pytorch_model.bin", "policy_classification/UQA_intent_model_1076/pytorch_model.bin"],
 ]
 
 artefacts = [
@@ -29,7 +29,7 @@ artefacts = [
 [[sources]]
 id = "general_question_answering"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/models/general_question_answering.zip", "general_question_answering.zip"],
+    ["https://oatfiles.grill.science/neural_functionalities/general_question_answering.zip", "general_question_answering.zip"],
 ]
 
 artefacts = [
@@ -39,7 +39,7 @@ artefacts = [
 [[sources]]
 id = "task_question_answering"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/models/task_question_answering.zip", "task_question_answering.zip"],
+    ["https://oatfiles.grill.science/neural_functionalities/task_question_answering.zip", "task_question_answering.zip"],
 ]
 
 artefacts = [
@@ -49,7 +49,7 @@ artefacts = [
 [[sources]]
 id = "sentiment_analysis"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/models/sentiment_analysis.zip", "sentiment_analysis.zip"],
+    ["https://oatfiles.grill.science/neural_functionalities/sentiment_analysis.zip", "sentiment_analysis.zip"],
 ]
 
 artefacts = [
@@ -59,7 +59,7 @@ artefacts = [
 [[sources]]
 id = "sBERT"
 urls = [
-    ["https://oat-2-data-backup.s3.amazonaws.com/models/sBERT.zip", "sBERT.zip"],
+    ["https://oatfiles.grill.science/neural_functionalities/sBERT.zip", "sBERT.zip"],
 ]
 
 artefacts = [

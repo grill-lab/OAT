@@ -189,7 +189,7 @@ run_ssh_command() {
         echo "${4}"
         if ! gcloud compute ssh "${1}" --zone="${2}" --command "${3}"
         then
-            echo "    (retry #${i}/${num_retries})"
+            echo_color "    (retry #${i}/${num_retries})" "${YELLOW}"
             sleep "${retry_delay}"
         else
             return_code=0
@@ -240,9 +240,14 @@ pushd "${script_path}" > /dev/null
 
 if [[ "${1}" == "destroy" ]]
 then
+    echo_color "> Removing firewall rule...\n"
+    if ! gcloud compute firewall-rules delete local-client-access --quiet 
+    then
+        echo_color "> Failed to remove firewall rule\n" "${YELLOW}"
+    fi
     # dispose of VM
     echo_color "> Deleting VM instance ${vm_name}...\n"
-     if ! gcloud compute instances delete "${vm_name}" --zone="${zone}" --quiet 
+    if ! gcloud compute instances delete "${vm_name}" --zone="${zone}" --quiet 
     then
         echo_color "> Failed to delete VM instance\n" "${YELLOW}"
     fi
@@ -257,16 +262,28 @@ then
 
     if ! does_vm_exist "${vm_name}" "${zone}"
     then
-        echo_color "> Creating a VM instance called ${vm_name}...\n"
-        gcloud compute instances create "${vm_name}" \
-            --boot-disk-size="${boot_disk_size}" \
-            --image="${os_image}" \
-            --machine-type="${machine_type}" \
-            --zone="${zone}"
+        if [[ ${enable_gpu} == "true" ]]
+        then
+            echo_color "> Creating a GPU-ENABLED VM instance called ${vm_name}...\n"
+            gcloud compute instances create "${vm_name}" \
+                --boot-disk-size="${boot_disk_size}" \
+                --image="${os_image}" \
+                --machine-type="${gpu_machine_type}" \
+                --zone="${zone}" \
+                --maintenance-policy TERMINATE \
+                --accelerator="count=1,type=${gpu_type}"
+        else
+            echo_color "> Creating a VM instance called ${vm_name}...\n"
+            gcloud compute instances create "${vm_name}" \
+                --boot-disk-size="${boot_disk_size}" \
+                --image="${os_image}" \
+                --machine-type="${machine_type}" \
+                --zone="${zone}"
+        fi
 
         # give the VM a bit of time to start up
         echo_color "> Giving the VM time to start up..."
-        sleep 10
+        sleep 15
         echo_color "> Continuing"
     fi
 
@@ -276,17 +293,33 @@ then
         exit 1
     fi
 
-    # install system packages that we need (retry 4x at 10s intervals, this seems to
+    # install system packages that we need (retry 4x at 15s intervals, this seems to
     # fail fairly frequently if the VM is newly launched)
     run_ssh_command "${vm_name}" "${zone}" \
         "sudo apt update && sudo apt install -y --no-install-recommends apt-transport-https ca-certificates curl gnupg2 lsb-release software-properties-common unzip" \
         "> Installing system packages for OAT..." \
         4 \
-        10
+        15
 
     # install Docker using the repo method: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
     gcloud compute scp --zone "${zone}" docker_install.sh "${vm_name}:."
     run_ssh_command "${vm_name}" "${zone}" "/bin/bash docker_install.sh" "> Installing Docker..."
+
+    if [[ ${enable_gpu} == "true" ]]
+    then
+        # in GPU mode, we also need to install the nvidia driver and the nvidia-container-toolkit package
+        run_ssh_command "${vm_name}" "${zone}" \
+            "sudo apt install -y nvidia-headless-${gpu_driver_version} && sudo modprobe nvidia" \
+            "> Installing GPU driver..." 
+
+        run_ssh_command "${vm_name}" "${zone}" \
+            "curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt update && sudo apt install -y nvidia-container-toolkit" \
+            "> Installing NVIDIA container toolkit..." 
+
+        run_ssh_command "${vm_name}" "${zone}" \
+            "sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker" \
+            "> Configuring Docker container runtime"
+    fi
     
     # create a local temporary folder, clone a fresh copy of the repo into it, and
     # check out the selected branch at the same time. then copy the files to the VM,
@@ -295,16 +328,40 @@ then
     pushd "${tmp}" > /dev/null
     git clone -b "${branch}" --single-branch git@github.com:grill-lab/OAT.git
     rm -fr OAT/.git
-    gcloud compute scp --zone "${zone}" --recurse --compress OAT/* "${vm_name}:."
+    # works, but is quite slow
+    #gcloud compute scp --zone "${zone}" --recurse --compress OAT/* "${vm_name}:."
+    # get the hostname of the instance
+    hostname=$(gcloud compute config-ssh --dry-run | grep "${vm_name}.${zone}" | sed 's/Host //')
+    rsync -ave ssh OAT/ "${hostname}:."
     popd > /dev/null
     rm -fr "${tmp}"
+
+    if [[ ${enable_gpu} != "true" ]]
+    then
+        # if no GPU is available, need to remove the section of the docker-compose configuration for the
+        # llm_functionalities service (it will generate an error when Docker tries to launch this if
+        # no GPU is found, even though the code in the service itself handles this gracefully).
+        # for simplicity this command actually removes all the "deploy:" sections for the GPU-enabled
+        # services (llm_functionalities, offline, training)
+        run_ssh_command "${vm_name}" "${zone}" \
+            "sed -ie '/\s\+deploy/,/\s\+capabilities/d' docker-compose.yml" \
+            "> Disabling GPU configuration in docker-compose.yml"
+    fi
  
-    # run the OAT setup script on the VM *without* using the auto-install
-    # dependencies option, that seems to confuse Ubuntu with Debian
-    # TODO remove the "echo" after TY2-53 merged
-    run_ssh_command "${vm_name}" "${zone}" "echo n | ./setup.sh -s" "> Running OAT setup script..."
+    # build the oat_common base image
+    run_ssh_command "${vm_name}" "${zone}" "sudo docker compose build oat_common" "> Building oat_common base image..."
     # finally build the images and start the deployment
     run_ssh_command "${vm_name}" "${zone}" "sudo docker compose up -d --build" "> Running docker compose up..."
+
+    # create a firewall rule that allows connections to port 9000, so the local_client instance
+    # running inside the VM can be accessed 
+    echo_color "> Creating firewall rule for access to local_client\n"
+    gcloud compute firewall-rules create local-client-access --allow tcp:9000
+
+    # get the instance's external IP
+    instance_ip=$(gcloud compute instances describe "${vm_name}" --zone="${zone}" --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+    echo_color "> Setup completed. Connect to the local_client at http://${instance_ip}:9000\n"
+
 
     # for exit_handler, see above
     deployment_ok=true

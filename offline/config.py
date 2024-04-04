@@ -22,6 +22,7 @@ from document_parsers.food52_parser import Food52Parser
 from document_parsers.epicurious_parser import EpicuriousParser
 from document_parsers.foodandwine_parser import FoodAndWineParser
 from document_parsers.foodnetwork_parser import FoodNetworkParser
+from document_parsers.allrecipes_parser import AllRecipesParser
 
 from url_downloaders import CommonCrawl, Scraper
 from taskgraph_construction import TaskgraphConstruction
@@ -110,11 +111,20 @@ wikihow_scraped_config = {
     'parser': WikihowTaxonomyBuilder,
 }
 
+allrecipes_config = {
+    'file_path': 'allrecipes',
+    'parser': AllRecipesParser,
+}
+
+allrecipes_scraped_config = {
+    'file_path': 'allrecipes_scraped',
+    'parser': AllRecipesParser,
+}
 
 offline_config = {
     'steps': [
         {
-            'enable': True,
+            'enable': False,
             'step': 'Get HTMLs from Common Crawl',
             'class': CommonCrawl,
             'kwargs': {
@@ -123,6 +133,29 @@ offline_config = {
                 'html_proto_path': os.path.join(get_file_system(), 'offline/protos/htmls'),
                 'domains_to_run': [wikihow_config, seriouseats_config, epicurious_config, food52_config,
                                    foodnetwork_config, foodandwine_config, wholefoods_config],
+            }
+        },
+        {
+            'enable': True,
+            'step': 'Get HTML data via direct scraping',
+            'class': Scraper,
+            'kwargs': {
+                'scraper_csv_path': os.path.join(get_file_system(), 'offline/non_cc_urls.csv'),
+                'html_proto_path': os.path.join(get_file_system(), 'offline/protos/htmls'),
+                'domains_to_run': [allrecipes_scraped_config],
+                # add any custom HTTP headers required (default is an empty dict)
+                # these are required for allrecipes.com
+                'custom_headers': {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0",
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                    "Accept-Encoding": "gzip, deflate, br",
+                    "Accept-Language": "en-GB,en;q=0.5",
+                    "DNT": "1",
+                    "Connection": "keep-alive",
+                    "Upgrade-Insecure-Requests": "1",
+                    "Pragma": "no-cache",
+                    "Cache-Control": "no-cache",
+                },
             }
         },
         {
@@ -140,7 +173,7 @@ offline_config = {
             }
         },
         {
-            'enable': True,
+            'enable': False,
             'step': 'Build Scraped HTMLS',
             'class': Scraper,
             'kwargs': {
@@ -158,11 +191,13 @@ offline_config = {
                 'html_proto_path': os.path.join(get_file_system(), 'offline/protos/htmls'),
                 # keep consistent with *build corpus -> html_proto_path*
                 'taskgraph_proto_path': os.path.join(get_file_system(), 'offline/protos/taskgraphs'),
+                # only change when adding a new parser
                 'parsers': [wikihow_config, seriouseats_config, epicurious_config, food52_config, foodnetwork_config,
-                            foodandwine_config],  # DO NOT CHANGE
+                            foodandwine_config, allrecipes_config],
+                # change this to determine which domains you want to parse
                 'parse_domains': [wikihow_config, seriouseats_config, epicurious_config, food52_config,
                                   foodnetwork_config, foodandwine_config,
-                                  seriouseats_scraped_config, wikihow_scraped_config],
+                                  seriouseats_scraped_config, wikihow_scraped_config, allrecipes_scraped_config],
                 # select which domains to parse (leave empty if you wish to parse all)
             }
         },
@@ -222,7 +257,7 @@ offline_config = {
                                StepSplittingAugmenter, JokeAugmenter, FactAugmenter],  # AudioVideoStepAlignment
                 'augment_domains': [wikihow_config, seriouseats_config, epicurious_config, food52_config,
                                     foodnetwork_config, foodandwine_config,
-                                    seriouseats_scraped_config, wikihow_scraped_config],
+                                    seriouseats_scraped_config, wikihow_scraped_config, allrecipes_scraped_config],
                 # select which domains to parse (leave empty if you wish to parse all)
             }
         },

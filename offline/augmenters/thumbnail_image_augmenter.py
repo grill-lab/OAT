@@ -33,11 +33,8 @@ class ImageThumbnailAugmenter(AbstractBatchTaskGraphAugmenter):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model, _ = clip.load("ViT-B/32", device=self.device, download_root=self.cache)
 
-        self.url_lookup_dict = {}
         with open(downloader.get_artefact_path('image_url_lookup'), 'rb') as url_lookup_file:
-            lookup_data = json.load(url_lookup_file)
-            for file_url_pair in lookup_data:
-                self.url_lookup_dict.update(file_url_pair)
+            self.url_lookup_dict = json.load(url_lookup_file)
 
         with open(downloader.get_artefact_path('image_list'), 'rb') as fp:
             self.all_images_list = pickle.load(fp)
