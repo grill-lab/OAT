@@ -7,6 +7,7 @@ from .general import init
 from .general import log_latency
 from .general import get_file_system
 from .general import get_taskmap_id
+from .general import get_image_url
 
 from .session import get_credit_from_taskmap
 from .session import get_credit_from_url

@@ -2,6 +2,7 @@ import hashlib
 from typing import Any, Callable, ClassVar, Type
 import time
 import os
+from urllib.parse import urljoin
 
 import grpc
 from grpc_interceptor import ServerInterceptor
@@ -68,6 +69,28 @@ def get_file_system() -> str:
     """
     return "/shared/file_system"
 
+def get_image_url(image_path: str) -> str:
+    """Returns a URL for an OAT image.
+
+    Given a string containing a partial image path like 
+        "/multimodal_images/jokes/jokes_bowl.png"
+    this method will return a complete URL for the image by
+    prepending the current "https://somehost.com/..." string defined
+    in the method body.
+
+    A full URL will have the form:
+        https://somehost.com/images/<image_path>
+
+    The base URL should only only need to be updated if the image hosting
+    is changed. 
+
+    Returns:
+        the full URL for the given image path (str)
+    """
+    OAT_IMAGE_URL = "https://oatfiles.grill.science/images/"
+
+    return urljoin(OAT_IMAGE_URL, image_path)
+    
 
 class ExceptionInterceptor(ServerInterceptor):
 
