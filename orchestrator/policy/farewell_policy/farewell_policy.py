@@ -27,7 +27,8 @@ from utils import (
     build_farewell_screen,
     DIY_FAREWELL,
     USER_OPTIONS_PROMPTS,
-    STOP_SCREEN_PROMPTS
+    STOP_SCREEN_PROMPTS,
+    get_image_url
 )
 
 
@@ -35,7 +36,7 @@ def populate_stop_screen(output):
     output.screen.format = ScreenInteraction.ScreenFormat.TEXT_IMAGE
     output.screen.headline = "Goodbye!"
     image: Image = output.screen.image_list.add()
-    image.path = "https://oat-2-data.s3.amazonaws.com/images/gifs/bye.gif"
+    image.path = get_image_url("gifs/bye.gif")
     output.speech_text = random.choice(STOP_SCREEN_PROMPTS)
     output.screen.paragraphs.append("Hope to speak to you soon!")
     return output
