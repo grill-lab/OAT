@@ -6,7 +6,7 @@ from searcher_pb2 import SearchQuery, CandidateList, SearchResults, ScoreCandida
 from taskmap_pb2 import Session
 from searcher_pb2_grpc import ScoreCandidateStub
 
-from utils import logger, indri_stop_words, jaccard_sim
+from utils import logger, indri_stop_words, jaccard_sim, get_image_url
 from pyserini.analysis import Analyzer, get_lucene_analyzer
 
 
@@ -213,7 +213,7 @@ class FeatureReRanker:
             l2r_score += weights['rating_score'] * rating_score
 
             # >>> has image <<<
-            image_score = 1.0 if candidate.thumbnail_url and "https://oat-2-data.s3.amazonaws.com/" != candidate.thumbnail_url else 0.0
+            image_score = 1.0 if candidate.thumbnail_url and get_image_url() != candidate.thumbnail_url else 0.0
             l2r_score += weights['image_score'] * image_score
 
             # >>> rating count <<<
