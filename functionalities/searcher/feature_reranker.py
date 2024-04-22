@@ -213,7 +213,7 @@ class FeatureReRanker:
             l2r_score += weights['rating_score'] * rating_score
 
             # >>> has image <<<
-            image_score = 1.0 if candidate.thumbnail_url and get_image_url() != candidate.thumbnail_url else 0.0
+            image_score = 1.0 if candidate.thumbnail_url and not candidate.thumbnail_url.startswith(get_image_url()) else 0.0
             l2r_score += weights['image_score'] * image_score
 
             # >>> rating count <<<
