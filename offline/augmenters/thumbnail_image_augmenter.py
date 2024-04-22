@@ -9,7 +9,7 @@ import random
 
 from taskmap_pb2 import TaskMap, Session
 from .abstract_augmenter import AbstractBatchTaskGraphAugmenter
-from utils import get_file_system, logger, Downloader
+from utils import get_file_system, logger, Downloader, get_image_url
 
 CACHE_PATH = 'cache/neural_functionalities/ImageSearcher'
 
@@ -51,9 +51,8 @@ class ImageThumbnailAugmenter(AbstractBatchTaskGraphAugmenter):
         thumbnail_url = taskmap.thumbnail_url
         if taskmap.thumbnail_url == "":
             # make default
-            default_cooking = [f'https://oat-2-data.s3.amazonaws.com/images/cooking-{i}.jpg' for i in
-                               range(1, 17)]
-            default_diy = [f'https://oat-2-data.s3.amazonaws.com/images/diy-{i}.jpg' for i in range(1, 8)]
+            default_cooking = [get_image_url(f"cooking-{i}.jpg") for i in range(1, 17)]
+            default_diy = [get_image_url(f"diy-{i}.jpg") for i in range(1, 8)]
 
             if taskmap.domain_name == Session.Domain.COOKING:
                 thumbnail_url = random.choice(default_cooking)

@@ -56,7 +56,7 @@ const renderScreen = (screen_interaction, extra_template) => {
         const image_list = screen_interaction['imageList']
 
         if (format === 'text_image' || format === 'summary' || format === "farewell") {
-            let image_path = 'https://oat-2-data.s3.amazonaws.com/images/multi_domain_default.jpg'
+            let image_path = 'https://oatfiles.grill.science/images/multi_domain_default.jpg'
             if (image_list.length > 0) {
                 image_path = image_list[0]['path']
             }
