@@ -1,4 +1,4 @@
-FROM ghcr.io/huggingface/text-generation-inference:latest
+FROM ghcr.io/huggingface/text-generation-inference:1.4.5
 RUN apt-get update && apt-get install -y curl
 
 # wrapper script for the TGI launcher which just unpacks
