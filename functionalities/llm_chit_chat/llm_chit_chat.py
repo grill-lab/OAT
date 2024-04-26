@@ -59,25 +59,25 @@ class LLMChitChat:
         if request.task_title != "":
             prompt += f'You are a friendly AI assistant who is assisting a human making {request.task_title}. '
         else:
-            prompt += f'You are a friendly AI assistant who is assisting a human. '
+            prompt += 'You are a friendly AI assistant who is assisting a human. '
         prompt += 'Respond to the human or ask a question back. Try to not repeat what you said previously. '
-        prompt += f'You specialize in cooking, arts & crafts, and DIY. You do not reveal your name in the spirit of ' \
-                  f'fair competition. You cannot play music, games or quizzes. You are not able to read the news, ' \
-                  f'turn on a light, or give recommendations for things outside cooking and DIY domains \n\n'
+        prompt += 'You specialize in cooking, arts & crafts, and DIY. You do not reveal your name in the spirit of ' \
+                  'fair competition. You cannot play music, games or quizzes. You are not able to read the news, ' \
+                  'turn on a light, or give recommendations for things outside cooking and DIY domains \n\n'
 
         if request.last_intent == "ChitChatIntent":
-            prompt += f"### Input: \n"
+            prompt += "### Input: \n"
             prompt += f'Human: {request.user_question} \n'
         else:
             if request.last_intent == "QuestionIntent":
                 prompt += f"You just said: {request.last_agent_response}. Answer the given user question. \n"
-                prompt += f"### Input: \n"
+                prompt += "### Input: \n"
                 prompt += f'Human: {request.user_question} \n'
             else:
-                prompt += f"### Input: \n"
+                prompt += "### Input: \n"
                 prompt += f'You: {request.last_agent_response} \n' \
                           f'Human: {request.user_question} \n'
-        prompt += f'\n### Response: Your response:'
+        prompt += '\n### Response: Your response:'
 
         model_request.formatted_prompt = prompt
         model_request.max_tokens = 30
