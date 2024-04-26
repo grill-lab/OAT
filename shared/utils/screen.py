@@ -7,7 +7,7 @@ from theme_pb2 import ThemeResults
 from datetime import datetime
 
 from utils import (
-    set_source, logger, repeat_screen_response, is_in_user_interaction
+    set_source, logger, repeat_screen_response, is_in_user_interaction, get_image_url
 )
 
 from .constants.global_variables.joke_trigger_words import JOKE_TRIGGER_WORDS
@@ -33,7 +33,7 @@ def build_chat_screen(policy_output: OutputInteraction, session: Session, user_u
         else:
             background = session.task.taskmap.thumbnail_url
     else:
-        background = "https://oat-2-data.s3.amazonaws.com/images/background.jpg"
+        background = get_image_url("background.jpg")
 
     screen.background = background
 
@@ -44,7 +44,7 @@ def build_chat_screen(policy_output: OutputInteraction, session: Session, user_u
 
 def build_help_grid_screen(session: Session, theme_result=None) -> OutputInteraction:
     logger.info('Building help corner')
-    base_path = "https://oat-2-data.s3.amazonaws.com/images"
+    base_path = get_image_url()
     help_options_image = {
         "next": f"{base_path}/help_next.png",
         "back": f"{base_path}/help_back.png",
@@ -96,7 +96,7 @@ def build_help_grid_screen(session: Session, theme_result=None) -> OutputInterac
 
     for keyword, prompt in help_options.items():
         image: Image = Image()
-        image.path = help_options_image.get(keyword, "https://oat-2-data.s3.amazonaws.com/images/multi_domain_default.jpg")
+        image.path = help_options_image.get(keyword, get_image_url("multi_domain_default.jpg"))
         image.title = keyword
         image.alt_text = prompt
         image.description = different_hint_texts.get(keyword, "")
@@ -134,12 +134,11 @@ def build_farewell_screen(theme_result: ThemeResults, session: Session) -> Scree
     # image.path = session.task.taskmap.thumbnail_url
     if session.domain == Session.Domain.COOKING:
         image_options = [
-            "https://oat-2-data.s3.amazonaws.com/images/gifs/baking_cat.gif",
-            # "https://oat-2-data.s3.amazonaws.com/images/gifs/kid_eating.gif"
+            get_image_url("gifs/baking_cat.gif"),
         ]
     else:
         image_options = [
-            "https://oat-2-data.s3.amazonaws.com/images/gifs/drawing_cat.gif"
+            get_image_url("gifs/drawing_cat.gif"),
         ]
     image.path = random.choice(image_options)
 
@@ -348,7 +347,7 @@ def build_default_screen(output_interaction: OutputInteraction) -> OutputInterac
     extra_info.text = joke['joke']
     extra_info.image_url = joke.get('image', '')
     default_images = [
-        "https://oat-2-data.s3.amazonaws.com/images/gifs/dancing_robot.gif",
+        get_image_url("gifs/dancing_robot.gif"),
     ]
     image_url = extra_info.image_url if extra_info.image_url != "" else random.choice(default_images)
     compile_joke_screen(extra_info, image_url=image_url, output=output_interaction)
@@ -390,7 +389,7 @@ def build_joke_screen(session, extra_info) -> OutputInteraction:
                 and session.turn[-2].agent_response.interaction.screen.format in [
             ScreenInteraction.ScreenFormat.TEXT_IMAGE, ScreenInteraction.ScreenFormat.TEXT_ONLY
         ]:
-            image_url = "https://oat-2-data.s3.amazonaws.com/images/gifs/dancing_robot.gif"
+            image_url = get_image_url("gifs/dancing_robot.gif")
 
     if image_url != "":
         compile_joke_screen(extra_info, image_url, output)

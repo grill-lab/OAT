@@ -13,7 +13,8 @@ from taskmap_pb2 import Image, OutputInteraction, ScreenInteraction, Session, Ta
 from utils import (
     DANGEROUS_TASK_RESPONSES, close_session, consume_intents, is_in_user_interaction, set_source,
     repeat_screen_response, logger, INTRO_PROMPTS, build_chat_screen, should_trigger_theme, PAUSING_PROMPTS,
-    JOKE_TRIGGER_WORDS
+    JOKE_TRIGGER_WORDS,
+    get_image_url
 )
 from theme_pb2 import ThemeResults
 from phase_intent_classifier_pb2 import IntentRequest
@@ -77,7 +78,7 @@ class DomainPolicy(AbstractPolicy):
         cooking_image_options = ['cooking-15', 'cooking-11', 'cooking-9', 'cooking-7', 'cooking-6', 'cooking-1']
         selected_cooking_image = random.choice(cooking_image_options)
         cooking_image: Image = screen.image_list.add()
-        cooking_image.path = f'https://oat-2-data.s3.amazonaws.com/images/{selected_cooking_image}.jpg'
+        cooking_image.path = get_image_url(f"{selected_cooking_image}.jpg")
         cooking_image.title = 'Cooking'
         cooking_image.description = '\"Creamy Zucchini Pasta\"'
         # cooking_image.response_on_click = 'cook a pizza'
@@ -85,7 +86,7 @@ class DomainPolicy(AbstractPolicy):
         diy_image_options = ['diy-6', 'diy-7', 'diy-5', 'diy-4', 'diy-3', 'diy-2']
         selected_diy_image = random.choice(diy_image_options)
         diy_image: Image = screen.image_list.add()
-        diy_image.path = f'https://oat-2-data.s3.amazonaws.com/images/{selected_diy_image}.jpg'
+        diy_image.path = get_image_url(f"{selected_diy_image}.jpg")
         diy_image.title = 'Home Improvement'
         diy_image.description = '\"How to paint a wall\"'
         # diy_image.response_on_click = 'paint a wall'
@@ -98,7 +99,7 @@ class DomainPolicy(AbstractPolicy):
             # theme_choices = self.FALLBACK_THEMES
             # selected_theme = random.choice(theme_choices)
             selected_theme = "Joke of the day"
-            suggest_image.path = f'https://oat-2-data.s3.amazonaws.com/images/surprise.jpg'
+            suggest_image.path = get_image_url("surprise.jpg")
             suggest_image.description = "Can a robot be funny?"
         else:
             if len(current_theme.results.candidates) > 0:
@@ -106,7 +107,7 @@ class DomainPolicy(AbstractPolicy):
             elif current_theme.thumbnail != "":
                 suggest_image.path = current_theme.thumbnail
             else:
-                suggest_image.path = f'https://oat-2-data.s3.amazonaws.com/images/surprise.jpg'
+                suggest_image.path = get_image_url("surprise.jpg")
 
             sub_caption = self.theme_suggester.get_subcaption(current_theme)
             suggest_image.description = sub_caption

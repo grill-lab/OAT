@@ -88,7 +88,7 @@ button:hover {
 }
 
 .background {
-   background-image: url('https://oat-2-data.s3.amazonaws.com/images/multi_domain_default.jpg');
+   background-image: url('https://oatfiles.grill.science/images/multi_domain_default.jpg');
 
   /* Add the blur effect */
   filter: blur(8px);
