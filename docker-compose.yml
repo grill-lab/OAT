@@ -333,6 +333,8 @@ services:
       # any other TGI launcher parameters can be set in this env var, e.g.:
       # TGI_PARAMS="--param1 param1_value --param2 param2_value" docker compose up
       - TGI_PARAMS=${TGI_PARAMS:-}
+      # this is required for Mistral or other gated models
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN:-}
     networks:
       - internal
       - external
