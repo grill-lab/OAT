@@ -44,8 +44,7 @@ def pytest_collection_modifyitems(config, items):
 def new_session_obj():
     test_id = "test_" + str(uuid.uuid4())
     session = {
-        "text": "",
-        "id": test_id,
+        "session_id": test_id,
         "headless": False,
     }
     return session
