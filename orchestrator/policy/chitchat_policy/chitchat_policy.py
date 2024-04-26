@@ -138,7 +138,7 @@ class ChitChatPolicy(AbstractPolicy):
                     output.speech_text = f'{helpful_prompt} '
                 else:
                     output.speech_text = f'{chitchat_response.text}{helpful_prompt} '
-
+                set_source(output)
             elif got_llm_response:
                 logger.info(f'CHIT CHAT LLM RESPONSE GIVEN: {chitchat_response.text}')
                 keyword_helpful_prompt = self.__get_helpful_prompt(chitchat_request.text)
@@ -149,9 +149,10 @@ class ChitChatPolicy(AbstractPolicy):
                     output.speech_text = f'{chitchat_response.text} {random.choice(transition_options)} {keyword_helpful_prompt.lower()}'
                 else:
                     output.speech_text = f'{chitchat_response.text} {random.choice(transition_options)} {helpful_prompt.lower()}'
+                set_source(output)
             elif chitchat_response.text != "":
                 output.speech_text = chitchat_response.text
-
+                set_source(output)
             if output.speech_text == "":
                 # chitchat responses are bad, so fallback to confused
                 session.turn[-1].user_request.interaction.intents.append("ConfusedIntent")
@@ -160,6 +161,6 @@ class ChitChatPolicy(AbstractPolicy):
                 raise PhaseChangeException()
             else:
                 output = repeat_screen_response(session, output)
+                set_source(output)
 
-            set_source(output)
             return session, output
