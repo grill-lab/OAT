@@ -135,7 +135,7 @@ class OATInteractionHelper(InteractionHelper):
         Returns:
             a JSON dict generated from the HTTP response
         """
-        response = self.send_request(input_text, intent, session['id'], session['headless'])
+        response = self.send_request(input_text, intent, session['session_id'], session['headless'])
         response_json = response.json()
         print(f'USER: {input_text}')
         try:
