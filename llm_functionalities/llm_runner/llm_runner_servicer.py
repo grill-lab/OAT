@@ -3,10 +3,6 @@ from compiled_protobufs.llm_pb2 import (
     ModelResponse,
     ModelBatchRequest,
     ModelBatchResponse,
-    TGISummaryRequest,
-    TGISummaryResponse,
-    TGIMultipleSummaryRequest,
-    TGIMultipleSummaryResponse,
 )
 from compiled_protobufs.llm_pb2_grpc import (
     LLMRunnerServicer,
@@ -23,11 +19,3 @@ class Servicer(LLMRunnerServicer):
 
     def batch_call_model(self, query: ModelBatchRequest, context) -> ModelBatchResponse:
         return self.model.batch_call_model(query)
-
-    def generate_summary(self, query: TGISummaryRequest, context) -> TGISummaryResponse:
-        return self.model.generate_summary(query)
-
-    def generate_summaries(
-        self, query: TGIMultipleSummaryRequest, context
-    ) -> TGIMultipleSummaryResponse:
-        return self.model.generate_summaries(query)
