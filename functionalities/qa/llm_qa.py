@@ -1,13 +1,10 @@
 import os
-import grpc
-import time
 import random
 import re
-import spacy
+from typing import Optional
 
-from grpc._channel import _InactiveRpcError
-from concurrent.futures import TimeoutError, ThreadPoolExecutor
-from typing import List
+import spacy
+import grpc
 
 from taskmap_pb2 import Session, Task, ExecutionStep
 from qa_pb2 import QAQuery, QARequest, QAResponse, DocumentList
@@ -15,7 +12,6 @@ from llm_pb2 import ModelRequest, ModelResponse
 from llm_pb2_grpc import LLMRunnerStub
 from .abstract_qa import AbstractQA
 
-from chitchat_classifier_pb2 import ChitChatResponse
 
 from task_graph import TaskGraph
 from utils import (
@@ -44,7 +40,7 @@ class LLMQA(AbstractQA):
         logger.info('LLM QA SpaCy initialized')
 
     @staticmethod
-    def __get_helpful_prompt(user_query: str) -> str:
+    def __get_helpful_prompt(user_query: str) -> Optional[str]:
         for word in user_query.split(" "):
             for keyword, answer in HELPFUL_PROMPT_PAIRS:
                 if word == keyword:
@@ -53,6 +49,8 @@ class LLMQA(AbstractQA):
         for keyword, answer in HELPFUL_PROMPT_PAIRS:
             if keyword in user_query:
                 return answer
+
+        return None
 
     def process_last_sentence(self, last_sentence: str) -> str:
 
@@ -76,7 +74,7 @@ class LLMQA(AbstractQA):
 
         return f" {last_sentence}".strip()
 
-    def extract_qa_answer(self, generated_answer):
+    def extract_qa_answer(self, generated_answer: str) -> str:
         start_token = "Your response: "
         end_token_1 = "Human"
         end_token_2 = "#"
@@ -102,11 +100,10 @@ class LLMQA(AbstractQA):
         pass
 
     @staticmethod
-    def strip_newlines(text):
+    def strip_newlines(text: str) -> str:
         return text.replace('\n', " ").replace("  ", " ")
 
     def __build_context_task_selected(self, task_graph: TaskGraph, query: str, question_type: str) -> str:
-
         context = []
 
         if task_graph.author != "":
@@ -208,7 +205,6 @@ class LLMQA(AbstractQA):
         return " ".join(context)
 
     def build_prompt(self, request: QARequest) -> ModelRequest:
-
         task_graph: TaskGraph = TaskGraph(request.query.taskmap)
         user_question: str = request.query.text
         model_request: ModelRequest = ModelRequest()

@@ -10,7 +10,6 @@ from compiled_protobufs.llm_pb2 import (
 )
 from compiled_protobufs.taskmap_pb2 import Session, Task, ReplacedIngredient
 
-from grpc._channel import _InactiveRpcError
 from utils import logger
 from spacy.matcher import Matcher
 from pyserini.analysis import Analyzer, get_lucene_analyzer
@@ -41,7 +40,7 @@ class LLMIngredientStepTextRewriter:
                     return str_item
         return ""
 
-    def extract_response(self, generated_answer) -> str:
+    def extract_response(self, generated_answer) -> dict:
         valid_dict = {}
         start_token = "{"
         end_token = "}"

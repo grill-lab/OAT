@@ -10,7 +10,6 @@ from compiled_protobufs.llm_pb2_grpc import LLMRunnerStub
 from taskmap_pb2 import ExtraInfo
 
 from utils import logger
-from grpc._channel import _InactiveRpcError
 
 
 def extract_question(generated_question):

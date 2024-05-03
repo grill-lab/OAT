@@ -1,16 +1,15 @@
 import grpc
 import os
 import json
-import time
 
 from compiled_protobufs.llm_pb2_grpc import LLMRunnerStub
 from compiled_protobufs.llm_pb2 import (
-    IngredientReplacementRequest, IngredientReplacementResponse, ModelRequest, ModelResponse
+    IngredientReplacementRequest,
+    IngredientReplacementResponse,
+    ModelRequest,
+    ModelResponse,
 )
 from compiled_protobufs.taskmap_pb2 import Ingredient
-
-from grpc._channel import _InactiveRpcError
-from concurrent.futures import TimeoutError, ThreadPoolExecutor
 
 from utils import logger
 
@@ -26,14 +25,14 @@ def extract_replacement_response(generated_answer, original_ing: Ingredient) -> 
         generated_answer = "{" + generated_answer.split(start_token)[-1]
 
     try:
-        generated_answer = generated_answer.replace(' \n   ', '').replace('\n', '')
+        generated_answer = generated_answer.replace(" \n   ", "").replace("\n", "")
         valid_dict = json.loads(generated_answer)
-        logger.info(f'Managed to parse ingredient: {valid_dict}')
+        logger.info(f"Managed to parse ingredient: {valid_dict}")
 
         if "name" in list(valid_dict.keys()) and "amount" in list(valid_dict.keys()):
             return valid_dict
         else:
-            logger.debug(f'Dictionary contents not valid: {valid_dict}')
+            logger.debug(f"Dictionary contents not valid: {valid_dict}")
 
     except Exception as e:
         if '"amount"' in generated_answer and "name" in generated_answer:
@@ -43,20 +42,20 @@ def extract_replacement_response(generated_answer, original_ing: Ingredient) -> 
                 if "}" in generated_answer:
                     second_part = generated_answer.split('"amount"')[1].replace(":", "").replace("}", "").strip()
                     valid_dict["amount"] = second_part
-                    logger.info(f'Managed to parse ingredient (2nd try): {valid_dict}')
+                    logger.info(f"Managed to parse ingredient (2nd try): {valid_dict}")
                     return valid_dict
                 else:
                     second_part = generated_answer.split('"amount"')[1]
                     if second_part.replace(":", "").strip() in original_ing.name:
                         valid_dict["amount"] = original_ing.name
-                        logger.info(f'Managed to parse ingredient (3rd try): {valid_dict}')
+                        logger.info(f"Managed to parse ingredient (3rd try): {valid_dict}")
                         return valid_dict
                     if second_part.replace(":", "").strip() in original_ing.amount:
                         valid_dict["amount"] = original_ing.amount
-                        logger.info(f'Managed to parse ingredient (3rd try): {valid_dict}')
+                        logger.info(f"Managed to parse ingredient (3rd try): {valid_dict}")
                         return valid_dict
             except Exception as e:
-                logger.debug(f'Second parsing did not work.')
+                logger.debug(f"Second parsing did not work.")
         return valid_dict
 
 
@@ -75,16 +74,18 @@ class LLMIngredientSubstitutionGenerator:
             original_ing = ""
         orginal_ing_amount = "" if request.original_ingredient.amount == "" else request.original_ingredient.amount
 
-        prompt = f"### Instruction: You are a friendly AI assistant who is assisting a human making " \
-                 f"{request.task_title}. You are helping the user to replace an ingredient in the recipe. " \
-                 f"If the amount is not specified in your earlier suggestion, extract the amount from the " \
-                 f"original ingredient. If your earlier suggestion responds that this substitution is not possible, " \
-                 f"please respond with an empty ingredient.\n " \
-                 f"Respond in this format: {{\"name\": \"\", \"amount\": \"{orginal_ing_amount}\"}}\n\n " \
-                 f"### Input:\n{original_ing}" \
-                 f"User: {request.user_question}\n" \
-                 f"Your suggestion: {request.agent_response}\n\n" \
-                 f"### Response:{{\"name\""
+        prompt = (
+            f"### Instruction: You are a friendly AI assistant who is assisting a human making "
+            f"{request.task_title}. You are helping the user to replace an ingredient in the recipe. "
+            f"If the amount is not specified in your earlier suggestion, extract the amount from the "
+            f"original ingredient. If your earlier suggestion responds that this substitution is not possible, "
+            f"please respond with an empty ingredient.\n "
+            f'Respond in this format: {{"name": "", "amount": "{orginal_ing_amount}"}}\n\n '
+            f"### Input:\n{original_ing}"
+            f"User: {request.user_question}\n"
+            f"Your suggestion: {request.agent_response}\n\n"
+            f'### Response:{{"name"'
+        )
 
         model_request.formatted_prompt = prompt
         model_request.max_tokens = 20

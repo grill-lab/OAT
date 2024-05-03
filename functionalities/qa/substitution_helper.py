@@ -1,20 +1,19 @@
 import grpc
 import os
 import random
-import spacy
+from typing import Tuple
 
-from utils import logger, REPLACE_SUGGESTION, jaccard_sim, NOT_POSSIBLE, indri_stop_words
+import spacy
+from spacy.matcher import Matcher
+from pyserini.analysis import Analyzer, get_lucene_analyzer
 
 from qa_pb2 import QARequest, QAResponse
 from llm_pb2 import IngredientReplacementRequest, IngredientReplacementResponse
 from llm_pb2_grpc import LLMReplacementGenerationStub
 from taskmap_pb2 import ReplacedIngredient, Ingredient
 
-from grpc._channel import _InactiveRpcError
-from spacy.matcher import Matcher
-from pyserini.analysis import Analyzer, get_lucene_analyzer
-from typing import Tuple
 
+from utils import logger, REPLACE_SUGGESTION, jaccard_sim, NOT_POSSIBLE, indri_stop_words
 
 class SubstitutionHelper:
     def __init__(self):

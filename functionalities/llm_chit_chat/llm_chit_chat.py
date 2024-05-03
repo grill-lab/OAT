@@ -1,18 +1,15 @@
 import grpc
 import os
 import re
-import time
 
 from compiled_protobufs.chitchat_classifier_pb2 import ChitChatResponse
 from compiled_protobufs.llm_pb2 import ModelRequest, ModelResponse, LLMChitChatRequest
 from compiled_protobufs.llm_pb2_grpc import LLMRunnerStub
 
-from grpc._channel import _InactiveRpcError
-from concurrent.futures import TimeoutError, ThreadPoolExecutor
 from utils import logger
 
 
-def extract_qa_answer(generated_answer):
+def extract_qa_answer(generated_answer: str) -> str:
     start_token = "Your response:"
     end_token_1 = "Human"
     end_token_2 = "#"
