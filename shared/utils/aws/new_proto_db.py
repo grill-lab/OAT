@@ -140,6 +140,16 @@ class ProtoDB:
         else:
             return proto_dict
 
+    def delete(self, item_id: str) -> None:
+        try:
+            self.__table.delete_item(
+                Key={
+                    self.primary_key: item_id,
+                }
+            )
+        except Exception as e:
+            pass
+
     def batch_put(self,
                   proto_obj_list: List[Message],
                   check_for_changes: bool = True) -> List[str]:

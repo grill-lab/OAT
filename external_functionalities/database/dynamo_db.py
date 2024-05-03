@@ -60,11 +60,17 @@ class DynamoDB(AbstractDB):
         else:
             return session
 
+    def delete_session(self, session_id:str) -> None:
+        self.session_db.delete(session_id)
+
     def save_taskmap(self, session_id: str, session: Session) -> None:
         self.taskmap_db.put(session)
 
     def load_taskmap(self, taskmap_id: str) -> TaskMap:
         return self.taskmap_db.get(taskmap_id)
+
+    def delete_taskmap(self, taskmap_id: str) -> None:
+        self.taskmap_db.delete(taskmap_id)
 
     def save_search_log(self, search_log: SearchLog) -> None:
         self.search_logs_db.put(search_log)
