@@ -283,7 +283,7 @@ class LLMQA(AbstractQA):
 
         return model_request
 
-    def call_llm_qa(self, request: QAQuery) -> ChitChatResponse:
+    def generate_qa_response(self, request: QARequest, default_timeout: int = 1500) -> QAResponse:
         model_request = self.build_prompt(request)
         llm_response: ModelResponse = self.llm.call_model(model_request)
         logger.info(llm_response.text)
@@ -295,45 +295,6 @@ class LLMQA(AbstractQA):
             logger.info(f'EXTRACTED QA RESPONSE: {agent_response.text}')
 
         return agent_response
-
-    def generate_qa_response(self, request: QARequest, default_timeout=1500) -> QAResponse:
-        # CALL LLM SERVICE FROM HERE
-
-        with ThreadPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(self.call_llm_qa, request)
-            timeout: float = default_timeout / 1000 + time.monotonic()
-            try:
-                if future.done() or timeout - time.monotonic() > 0:
-                    response = future.result(timeout=timeout - time.monotonic())
-                    return response
-
-                else:
-                    future.cancel()
-                    logger.warning(f"Timeout for LLM QA")
-                    response = QAResponse()
-                    response.text = ""
-                    return response
-
-            except TimeoutError as e:
-                future.cancel()
-                logger.warning("TimeoutError while running LLM QA", exc_info=e)
-                response = QAResponse()
-                response.text = ""
-                return response
-
-            except _InactiveRpcError as e:
-                future.cancel()
-                logger.warning("LLM Channel is down")
-                response = QAResponse()
-                response.text = ""
-                return response
-
-            except Exception as e:
-                future.cancel()
-                logger.info(e)
-                response = QAResponse()
-                response.text = ""
-                return response
 
     def synth_response(self, request: QARequest) -> QAResponse:
         qa_response = self.generate_qa_response(request)

@@ -101,16 +101,12 @@ class SubstitutionHelper:
         original_req = self.get_original_ingredient(request)
         if not self.includes_amount(response):
             replacement_request.original_ingredient.MergeFrom(original_req)
-        try:
-            replacement: IngredientReplacementResponse = self.replacement_generator.generate_replacement(
-                replacement_request)
-            return replacement.new_ingredient, original_req
-        except _InactiveRpcError as e:
-            logger.info(e)
-            logger.warning("Replacement LLM Channel is down")
-            return Ingredient(), Ingredient()
 
-    def create_substitution_idea(self, request, qa_response):
+        replacement: IngredientReplacementResponse = self.replacement_generator.generate_replacement(
+            replacement_request)
+        return replacement.new_ingredient, original_req
+
+    def create_substitution_idea(self, request: QARequest, qa_response: QAResponse) -> QAResponse:
         replacement_ingredient, original_ingredient = self.generate_replacement(request, qa_response)
         if replacement_ingredient.name != "":
             if original_ingredient.name.lower() != replacement_ingredient.name.lower():
