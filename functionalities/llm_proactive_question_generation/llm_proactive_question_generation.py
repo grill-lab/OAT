@@ -72,11 +72,8 @@ class LLMProactiveQuestionGeneration:
                           f"or how the results turned out.\n\n" \
                           f"### Response: "
             model_batch_request.formatted_prompts.append(model_input)
-        try:
-            llm_responses: ModelBatchResponse = self.llm.batch_call_model(model_batch_request)
-        except _InactiveRpcError as e:
-            logger.info('LLM Channel is down during proactive question generation')
-            llm_responses = ModelBatchResponse()
+
+        llm_responses: ModelBatchResponse = self.llm.batch_call_model(model_batch_request)
 
         llm_questions: ProactiveQuestionGenerationResponse = ProactiveQuestionGenerationResponse()
         for text in llm_responses.text:

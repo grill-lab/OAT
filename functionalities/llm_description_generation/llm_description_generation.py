@@ -60,12 +60,7 @@ class LLMDescriptionGeneration:
 
             model_batch_request.formatted_prompts.append(str(prompt))
 
-        try:
-            llm_responses: ModelBatchResponse = self.llm.batch_call_model(model_batch_request)
-        except _InactiveRpcError as e:
-            logger.info('LLM Channel is down during description generation')
-            llm_responses = ModelBatchResponse()
-
+        llm_responses: ModelBatchResponse = self.llm.batch_call_model(model_batch_request)
         llm_descriptions: MultipleDescriptionGenerationResponse = MultipleDescriptionGenerationResponse()
         for text in llm_responses.text:
             llm_descriptions.description.append(extract_description(text))

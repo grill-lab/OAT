@@ -72,12 +72,13 @@ class ExecutionSearchManager:
         model_request.max_tokens = 20
         return model_request
 
-    def llm_generate_search_decision(self, request: ExecutionSearchRequest) -> ExecutionSearchResponse:
+    def generate_decision(self, request: ExecutionSearchRequest, default_timeout: int = 1000) -> ExecutionSearchResponse:
+        default_timeout = default_timeout if request.timeout == 0 else request.timeout
         model_request = self.build_prompt(request)
 
         llm_response: ModelResponse = self.llm.call_model(model_request)
 
-        llm_classification: ExecutionSearchRequest = ExecutionSearchResponse()
+        llm_classification: ExecutionSearchResponse = ExecutionSearchResponse()
         parsed_result = self.extract_classification_response(llm_response.text)
         if parsed_result == {}:
             return llm_classification
@@ -85,32 +86,3 @@ class ExecutionSearchManager:
         llm_classification.intent_classification = parsed_result.get("intent", "")
         llm_classification.ai_response = parsed_result.get("ai_response", "")
         return llm_classification
-
-    def generate_decision(self, request: ExecutionSearchRequest, default_timeout=1000) -> ExecutionSearchResponse:
-        default_timeout = default_timeout if request.timeout == 0 else request.timeout
-
-        with ThreadPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(self.llm_generate_search_decision, request)
-            timeout: float = default_timeout / 1000 + time.monotonic()
-            try:
-                if future.done() or timeout - time.monotonic() > 0:
-                    response = future.result(timeout=timeout - time.monotonic())
-                    return response
-
-                else:
-                    future.cancel()
-                    logger.warning(f"Timeout for Execution Search Decision Generation")
-                    response = ExecutionSearchResponse()
-                    return response
-
-            except TimeoutError as e:
-                future.cancel()
-                logger.warning("TimeoutError while running Execution Search Decision Generation", exc_info=e)
-                response = ExecutionSearchResponse()
-                return response
-
-            except _InactiveRpcError as e:
-                future.cancel()
-                logger.warning("Execution Search Decision Generation Channel is down")
-                response = ExecutionSearchResponse()
-                return response

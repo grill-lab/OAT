@@ -189,18 +189,14 @@ class LLMIngredientStepTextRewriter:
 
         llm_step_texts: AdjustedStepGenerationResponse = AdjustedStepGenerationResponse()
 
-        try:
-            for step, ingredient in zip(request.step, request.ingredient):
-                model_input = self.build_prompt(request.task_title, step.response.speech_text, ingredient)
-                ids.append(step.unique_id)
-                model_batch_request.formatted_prompts.append(model_input)
+        for step, ingredient in zip(request.step, request.ingredient):
+            model_input = self.build_prompt(request.task_title, step.response.speech_text, ingredient)
+            ids.append(step.unique_id)
+            model_batch_request.formatted_prompts.append(model_input)
 
-            llm_responses = self.llm.batch_call_model(model_batch_request)
+        llm_responses = self.llm.batch_call_model(model_batch_request)
 
-            for idx, text in enumerate(llm_responses.text):
-                llm_step_texts.step_text.append(self.extract_response(text).get('step_text', ''))
-                llm_step_texts.ids.append(ids[idx])
-            return llm_step_texts
-        except _InactiveRpcError as e:
-            logger.warning("Step Text Rewriter Channel is down")
-            return llm_step_texts
+        for idx, text in enumerate(llm_responses.text):
+            llm_step_texts.step_text.append(self.extract_response(text).get('step_text', ''))
+            llm_step_texts.ids.append(ids[idx])
+        return llm_step_texts

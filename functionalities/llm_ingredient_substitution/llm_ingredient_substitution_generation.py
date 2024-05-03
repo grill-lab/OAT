@@ -90,7 +90,7 @@ class LLMIngredientSubstitutionGenerator:
         model_request.max_tokens = 20
         return model_request
 
-    def llm_generate_search_decision(self, request: IngredientReplacementRequest) -> IngredientReplacementResponse:
+    def generate_replacement(self, request: IngredientReplacementRequest) -> IngredientReplacementResponse:
         model_request = self.build_prompt(request)
 
         llm_response: ModelResponse = self.llm.call_model(model_request)
@@ -106,31 +106,3 @@ class LLMIngredientSubstitutionGenerator:
 
         llm_replacement.new_ingredient.MergeFrom(ingredient)
         return llm_replacement
-
-    def generate_replacement(self, request: IngredientReplacementRequest, default_timeout=1000) -> \
-            IngredientReplacementResponse:
-        with ThreadPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(self.llm_generate_search_decision, request)
-            timeout: float = default_timeout / 1000 + time.monotonic()
-            try:
-                if future.done() or timeout - time.monotonic() > 0:
-                    response = future.result(timeout=timeout - time.monotonic())
-                    return response
-
-                else:
-                    future.cancel()
-                    logger.warning(f"Timeout for Ingredient Replacement Generation")
-                    response = IngredientReplacementResponse()
-                    return response
-
-            except TimeoutError as e:
-                future.cancel()
-                logger.warning("TimeoutError while running Ingredient Replacement Generation", exc_info=e)
-                response = IngredientReplacementResponse()
-                return response
-
-            except _InactiveRpcError as e:
-                future.cancel()
-                logger.warning("Ingredient Replacement Generation Channel is down")
-                response = IngredientReplacementResponse()
-                return response
