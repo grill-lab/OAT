@@ -70,7 +70,7 @@ class LLMQA(AbstractQA):
             return ""
 
         if last_sentence.endswith((',', ":", ";")):
-            last_sentence[-1] = "."
+            last_sentence = last_sentence[:-1] + "."
 
         return f" {last_sentence}".strip()
 
