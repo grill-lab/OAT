@@ -149,7 +149,7 @@ class ChitChatPolicy(AbstractPolicy):
                     output.speech_text = f'{chitchat_response.text} {random.choice(transition_options)} {keyword_helpful_prompt.lower()}'
                 else:
                     output.speech_text = f'{chitchat_response.text} {random.choice(transition_options)} {helpful_prompt.lower()}'
-                set_source(output)
+                set_source(output, msg="chitchat from LLM")
             elif chitchat_response.text != "":
                 output.speech_text = chitchat_response.text
                 set_source(output)
