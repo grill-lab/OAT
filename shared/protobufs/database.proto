@@ -38,6 +38,8 @@ service Database{
   rpc save_session(SessionRequest) returns (Void) {}
   rpc delete_session(SessionRequest) returns (Void) {}
 
+  rpc delete_stagedoutput(TaskMapRequest) returns (Void) {}
+
   rpc save_search_logs(SearchLog) returns(Void) {}
   rpc save_asr_logs(ASRLog) returns(Void) {}
 

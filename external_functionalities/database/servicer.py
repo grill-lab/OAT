@@ -32,6 +32,10 @@ class Servicer (DatabaseServicer):
         self.instance.delete_taskmap(request.id)
         return Void()
 
+    def delete_stagedoutput(self, request, context) -> None:
+        self.instance.delete_stagedoutput(request.id)
+        return Void()
+
     def save_search_logs(self, request, context) -> None:
         self.instance.save_search_log(request)
         return Void()
