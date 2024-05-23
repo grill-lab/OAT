@@ -18,6 +18,10 @@ from utils import logger
 
 
 def process_response_text(response_text: str) -> str:
+    if len(response_text) == 0:
+        logger.warn("Empty response from LLMSummaryGeneration")
+        return ""
+
     # remove whitespace
     text = " ".join(response_text.split("\n"))
     if not re.search(r"[.!?]", text[-1]):
