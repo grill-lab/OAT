@@ -12,10 +12,18 @@ class AbstractDB(ABC):
     def save_session(self, session_id: str, session: Session) -> None:
         pass
 
+    @abstractmethod 
+    def delete_session(self, session_id: str) -> None:
+        pass
+
     @abstractmethod
     def load_taskmap(self, taskmap_id: str) -> TaskMap:
         pass
 
     @abstractmethod
     def save_taskmap(self, session_id: str, session: Session) -> None:
+        pass
+ 
+    @abstractmethod
+    def delete_taskmap(self, taskmap_id: str) -> None:
         pass

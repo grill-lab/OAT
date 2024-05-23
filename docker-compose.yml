@@ -1,4 +1,3 @@
-version: "3.9"  # optional since v1.27.0
 services:
 
   builder:
@@ -293,20 +292,64 @@ services:
       - NEURAL_FUNCTIONALITIES_URL=llm_functionalities:8000
       - FUNCTIONALITIES_URL=functionalities:8000
       - EXTERNAL_FUNCTIONALITIES_URL=external_functionalities:8000
+      # the location of the TGI endpoint (note that it's using the internal
+      # Docker network, so it's port 80 rather than 8081). this could also be
+      # set to a remote location not managed by the current Compose instance,
+      # in which case the URL should reference port 8081 instead.
+      - INFERENCE_ENDPOINT_URL=tgi:80
     networks:
       - internal
       - external
     depends_on:
       builder:
         condition: service_started
-      oat_common:
+      tgi:
         condition: service_started
+
+  tgi:
+    platform: linux/x86_64
+    container_name: tgi
+    build:
+      context: ./
+      dockerfile: tgi/Dockerfile
+    ports:
+      # this isn't needed for llm_functionalities (it uses the internal network),
+      # but might be useful to be able to submit requests to the instance from
+      # external scripts for testing/debugging, or if the TGI service is running
+      # in a different location than the rest of the system.
+      - "8081:80"
+    volumes:
+      # if the model is downloaded from huggingface, the files will be stored
+      # in this location
+      - ./shared/file_system/downloads/tgi/huggingface:/data
+      # this volume is used to allow the use of the existing Alpaca LLM
+      # that OAT is currently set up to use. setting MODEL_ID below to a 
+      # path instead of a huggingface model ID will cause TGI to load model
+      # files from that location
+      - ./shared/file_system/downloads/tgi/local:/models
+    environment:
+      # setting the value of MODEL_ID is equivalent to passing "--model-id" parameter
+      # to the TGI launcher. the default is to use the Alpaca LLM model that OAT
+      # has previously used
+      - MODEL_ID=${MODEL_ID:-/models/alpaca_llm/}
+      # any other TGI launcher parameters can be set in this env var, e.g.:
+      # TGI_PARAMS="--param1 param1_value --param2 param2_value" docker compose up
+      - TGI_PARAMS=${TGI_PARAMS:-}
+      # this is required for Mistral or other gated models. you can find your
+      # tokens by browsing to https://huggingface.co/settings/tokens
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN:-}
+    networks:
+      - internal
+      - external
+    # larger sharded models will need this increased from the Docker default of 64MB
+    shm_size: ${SHM_SIZE:-1gb}
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              # set the number of GPUs available to the container, default to 1
+              count: ${GPU_COUNT:-1}
               capabilities: [ gpu ]
 
 networks:

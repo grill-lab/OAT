@@ -7,7 +7,6 @@ from compiled_protobufs.llm_pb2 import (
 )
 from compiled_protobufs.llm_pb2_grpc import LLMRunnerStub
 
-from grpc._channel import _InactiveRpcError
 from utils import logger
 
 
@@ -47,11 +46,11 @@ class LLMDescriptionGeneration:
         model_batch_request: ModelBatchRequest = ModelBatchRequest()
         model_batch_request.max_tokens = 64
                         
-        for title, ingredients, domain in zip(request.task_title, request.ingredients, request.domains):
+        for title, _, domain in zip(request.task_title, request.ingredients, request.domains):
             if domain == "wikihow":
                 domain = ""
             else:
-                domain = f"Domain: Cooking\n"
+                domain = "Domain: Cooking\n"
             prompt = f"### Instruction:\n" \
                      f"Generate a 2 sentence description. It should be fun entertaining, sell the task and make the " \
                      f"user wanna start it. Imagine it being the intro that just sells the task.\n\n" \
@@ -60,12 +59,7 @@ class LLMDescriptionGeneration:
 
             model_batch_request.formatted_prompts.append(str(prompt))
 
-        try:
-            llm_responses: ModelBatchResponse = self.llm.batch_call_model(model_batch_request)
-        except _InactiveRpcError as e:
-            logger.info('LLM Channel is down during description generation')
-            llm_responses = ModelBatchResponse()
-
+        llm_responses: ModelBatchResponse = self.llm.batch_call_model(model_batch_request)
         llm_descriptions: MultipleDescriptionGenerationResponse = MultipleDescriptionGenerationResponse()
         for text in llm_responses.text:
             llm_descriptions.description.append(extract_description(text))

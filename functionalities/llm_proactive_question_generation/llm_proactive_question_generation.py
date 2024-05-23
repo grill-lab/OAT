@@ -10,7 +10,6 @@ from compiled_protobufs.llm_pb2_grpc import LLMRunnerStub
 from taskmap_pb2 import ExtraInfo
 
 from utils import logger
-from grpc._channel import _InactiveRpcError
 
 
 def extract_question(generated_question):
@@ -27,6 +26,10 @@ def extract_question(generated_question):
 
 
 def process_response_text(response_text: str) -> str:
+    if len(response_text) == 0:
+        logger.warn("Empty response from LLMProactiveQuestionGeneration")
+        return ""
+
     # remove whitespace
     text = ' '.join(response_text.split("\n"))
     if not re.search(r'[.!?]', text[-1]):
@@ -72,11 +75,8 @@ class LLMProactiveQuestionGeneration:
                           f"or how the results turned out.\n\n" \
                           f"### Response: "
             model_batch_request.formatted_prompts.append(model_input)
-        try:
-            llm_responses: ModelBatchResponse = self.llm.batch_call_model(model_batch_request)
-        except _InactiveRpcError as e:
-            logger.info('LLM Channel is down during proactive question generation')
-            llm_responses = ModelBatchResponse()
+
+        llm_responses: ModelBatchResponse = self.llm.batch_call_model(model_batch_request)
 
         llm_questions: ProactiveQuestionGenerationResponse = ProactiveQuestionGenerationResponse()
         for text in llm_responses.text:

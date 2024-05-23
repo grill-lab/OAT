@@ -1,4 +1,3 @@
-peft==0.4.0
-accelerate==0.21.0
-transformers==4.31.0
-scipy
+# summarization seems to be broken in the recent released versions
+git+https://github.com/huggingface/huggingface_hub.git
+dnspython==2.6.1

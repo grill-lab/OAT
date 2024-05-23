@@ -1,13 +1,10 @@
 import os
-import grpc
-import time
 import random
 import re
-import spacy
+from typing import Optional
 
-from grpc._channel import _InactiveRpcError
-from concurrent.futures import TimeoutError, ThreadPoolExecutor
-from typing import List
+import spacy
+import grpc
 
 from taskmap_pb2 import Session, Task, ExecutionStep
 from qa_pb2 import QAQuery, QARequest, QAResponse, DocumentList
@@ -15,7 +12,6 @@ from llm_pb2 import ModelRequest, ModelResponse
 from llm_pb2_grpc import LLMRunnerStub
 from .abstract_qa import AbstractQA
 
-from chitchat_classifier_pb2 import ChitChatResponse
 
 from task_graph import TaskGraph
 from utils import (
@@ -44,7 +40,7 @@ class LLMQA(AbstractQA):
         logger.info('LLM QA SpaCy initialized')
 
     @staticmethod
-    def __get_helpful_prompt(user_query: str) -> str:
+    def __get_helpful_prompt(user_query: str) -> Optional[str]:
         for word in user_query.split(" "):
             for keyword, answer in HELPFUL_PROMPT_PAIRS:
                 if word == keyword:
@@ -53,6 +49,8 @@ class LLMQA(AbstractQA):
         for keyword, answer in HELPFUL_PROMPT_PAIRS:
             if keyword in user_query:
                 return answer
+
+        return None
 
     def process_last_sentence(self, last_sentence: str) -> str:
 
@@ -72,11 +70,11 @@ class LLMQA(AbstractQA):
             return ""
 
         if last_sentence.endswith((',', ":", ";")):
-            last_sentence[-1] = "."
+            last_sentence = last_sentence[:-1] + "."
 
         return f" {last_sentence}".strip()
 
-    def extract_qa_answer(self, generated_answer):
+    def extract_qa_answer(self, generated_answer: str) -> str:
         start_token = "Your response: "
         end_token_1 = "Human"
         end_token_2 = "#"
@@ -102,11 +100,10 @@ class LLMQA(AbstractQA):
         pass
 
     @staticmethod
-    def strip_newlines(text):
+    def strip_newlines(text: str) -> str:
         return text.replace('\n', " ").replace("  ", " ")
 
     def __build_context_task_selected(self, task_graph: TaskGraph, query: str, question_type: str) -> str:
-
         context = []
 
         if task_graph.author != "":
@@ -208,7 +205,6 @@ class LLMQA(AbstractQA):
         return " ".join(context)
 
     def build_prompt(self, request: QARequest) -> ModelRequest:
-
         task_graph: TaskGraph = TaskGraph(request.query.taskmap)
         user_question: str = request.query.text
         model_request: ModelRequest = ModelRequest()
@@ -283,7 +279,7 @@ class LLMQA(AbstractQA):
 
         return model_request
 
-    def call_llm_qa(self, request: QAQuery) -> ChitChatResponse:
+    def generate_qa_response(self, request: QARequest, default_timeout: int = 1500) -> QAResponse:
         model_request = self.build_prompt(request)
         llm_response: ModelResponse = self.llm.call_model(model_request)
         logger.info(llm_response.text)
@@ -295,45 +291,6 @@ class LLMQA(AbstractQA):
             logger.info(f'EXTRACTED QA RESPONSE: {agent_response.text}')
 
         return agent_response
-
-    def generate_qa_response(self, request: QARequest, default_timeout=1500) -> QAResponse:
-        # CALL LLM SERVICE FROM HERE
-
-        with ThreadPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(self.call_llm_qa, request)
-            timeout: float = default_timeout / 1000 + time.monotonic()
-            try:
-                if future.done() or timeout - time.monotonic() > 0:
-                    response = future.result(timeout=timeout - time.monotonic())
-                    return response
-
-                else:
-                    future.cancel()
-                    logger.warning(f"Timeout for LLM QA")
-                    response = QAResponse()
-                    response.text = ""
-                    return response
-
-            except TimeoutError as e:
-                future.cancel()
-                logger.warning("TimeoutError while running LLM QA", exc_info=e)
-                response = QAResponse()
-                response.text = ""
-                return response
-
-            except _InactiveRpcError as e:
-                future.cancel()
-                logger.warning("LLM Channel is down")
-                response = QAResponse()
-                response.text = ""
-                return response
-
-            except Exception as e:
-                future.cancel()
-                logger.info(e)
-                response = QAResponse()
-                response.text = ""
-                return response
 
     def synth_response(self, request: QARequest) -> QAResponse:
         qa_response = self.generate_qa_response(request)

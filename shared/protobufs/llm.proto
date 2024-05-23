@@ -5,6 +5,7 @@ import "taskmap.proto";
 message ModelRequest {
     string formatted_prompt = 1;
     int32 max_tokens = 2;
+    int32 timeout = 3;
 }
 
 message ModelResponse {
@@ -14,6 +15,7 @@ message ModelResponse {
 message ModelBatchRequest {
     repeated string formatted_prompts = 1;
     int32 max_tokens = 2;
+    int32 timeout = 3;
 }
 
 message ModelBatchResponse {

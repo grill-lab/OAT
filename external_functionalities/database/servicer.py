@@ -17,11 +17,23 @@ class Servicer (DatabaseServicer):
         self.instance.save_session(request.id, request.session)
         return Void()
 
+    def delete_session(self, request, context) -> None:
+        self.instance.delete_session(request.id)
+        return Void()
+
     def load_taskmap(self, request, context) -> TaskMap:
         return self.instance.get_taskmap(request.id)
 
     def save_taskmap(self, request, context) -> None:
         self.instance.save_session(request.id, request.taskmap)
+        return Void()
+
+    def delete_taskmap(self, request, context) -> None:
+        self.instance.delete_taskmap(request.id)
+        return Void()
+
+    def delete_stagedoutput(self, request, context) -> None:
+        self.instance.delete_stagedoutput(request.id)
         return Void()
 
     def save_search_logs(self, request, context) -> None:

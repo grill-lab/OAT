@@ -53,18 +53,39 @@ class DynamoDB(AbstractDB):
 
     def load_session(self, session_id: str) -> Session:
         session = self.session_db.get(session_id)
+
         if self.taskmap_enhancer.trigger(session):
+            # this is triggered if the taskmap has a wikihow URL and it hasn't already been enhanced
+            # (i.e. session.task.state.enhanced is False).
+            # Calling .enhance here with questions_only defaulting to False will peform two types
+            # of enhancement:
+            #   - step summarization
+            #   - proactive question enhancement
+            logger.info("Taskmap Enhancement triggered: Summarization and Proactive QA")
             return self.taskmap_enhancer.enhance(session)
         elif session.task.state.enhanced is False and session.task.taskmap.taskmap_id != "":
+            # in this case (not a wikihow URL, not already enhanced, non-empty taskmap ID),
+            # calling enhance with questions_only set to True will *only* run the 
+            # proactive_question_enhancement part
+            logger.info("Taskmap Enhancement triggered: Proactive QA only")
             return self.taskmap_enhancer.enhance(session, questions_only=True)
         else:
             return session
+
+    def delete_session(self, session_id:str) -> None:
+        self.session_db.delete(session_id)
 
     def save_taskmap(self, session_id: str, session: Session) -> None:
         self.taskmap_db.put(session)
 
     def load_taskmap(self, taskmap_id: str) -> TaskMap:
         return self.taskmap_db.get(taskmap_id)
+
+    def delete_taskmap(self, taskmap_id: str) -> None:
+        self.taskmap_db.delete(taskmap_id)
+
+    def delete_stagedoutput(self, taskmap_id: str) -> None:
+        self.taskmap_enhancer.db.delete(taskmap_id)
 
     def save_search_log(self, search_log: SearchLog) -> None:
         self.search_logs_db.put(search_log)

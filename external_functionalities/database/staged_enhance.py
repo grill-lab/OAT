@@ -73,6 +73,8 @@ class StagedEnhance:
         taskmaps_to_enhance = []
         request: LLMMultipleDescriptionGenerationRequest = LLMMultipleDescriptionGenerationRequest()
 
+        logger.info("Enhancing descriptions")
+
         for i, candidate in enumerate(session.task_selection.candidates_union):
             # avoid categories
             if candidate.HasField('category'):
@@ -99,6 +101,7 @@ class StagedEnhance:
             return
 
         # Generate Descriptions and update session     
+        logger.info(f"Enhancing descriptions: {len(request.task_title)} candidates found")
         descriptions = self.llm_desc_generator.generate_descriptions(request)
 
         for taskmap, description in zip(taskmaps_to_enhance, descriptions.description):

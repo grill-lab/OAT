@@ -51,7 +51,6 @@ class LLMTaskMapEnhancer:
         return list(indices)
 
     def proactive_question_enhancement(self, taskmap, staged_db):
-        logger.info("GENERATE QUESTIONS")
         request: ProactiveQuestionGenerationRequest = ProactiveQuestionGenerationRequest()
         indices = self.__get_indices_with_criteria(len(taskmap.steps))
 

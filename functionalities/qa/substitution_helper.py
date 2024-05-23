@@ -1,20 +1,19 @@
 import grpc
 import os
 import random
-import spacy
+from typing import Tuple
 
-from utils import logger, REPLACE_SUGGESTION, jaccard_sim, NOT_POSSIBLE, indri_stop_words
+import spacy
+from spacy.matcher import Matcher
+from pyserini.analysis import Analyzer, get_lucene_analyzer
 
 from qa_pb2 import QARequest, QAResponse
 from llm_pb2 import IngredientReplacementRequest, IngredientReplacementResponse
 from llm_pb2_grpc import LLMReplacementGenerationStub
 from taskmap_pb2 import ReplacedIngredient, Ingredient
 
-from grpc._channel import _InactiveRpcError
-from spacy.matcher import Matcher
-from pyserini.analysis import Analyzer, get_lucene_analyzer
-from typing import Tuple
 
+from utils import logger, REPLACE_SUGGESTION, jaccard_sim, NOT_POSSIBLE, indri_stop_words
 
 class SubstitutionHelper:
     def __init__(self):
@@ -101,16 +100,12 @@ class SubstitutionHelper:
         original_req = self.get_original_ingredient(request)
         if not self.includes_amount(response):
             replacement_request.original_ingredient.MergeFrom(original_req)
-        try:
-            replacement: IngredientReplacementResponse = self.replacement_generator.generate_replacement(
-                replacement_request)
-            return replacement.new_ingredient, original_req
-        except _InactiveRpcError as e:
-            logger.info(e)
-            logger.warning("Replacement LLM Channel is down")
-            return Ingredient(), Ingredient()
 
-    def create_substitution_idea(self, request, qa_response):
+        replacement: IngredientReplacementResponse = self.replacement_generator.generate_replacement(
+            replacement_request)
+        return replacement.new_ingredient, original_req
+
+    def create_substitution_idea(self, request: QARequest, qa_response: QAResponse) -> QAResponse:
         replacement_ingredient, original_ingredient = self.generate_replacement(request, qa_response)
         if replacement_ingredient.name != "":
             if original_ingredient.name.lower() != replacement_ingredient.name.lower():

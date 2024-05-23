@@ -1,6 +1,6 @@
 name = "llm_functionalities"
 
-base_path = "/shared/file_system/downloads/llm_functionalities"
+base_path = "/shared/file_system/downloads/tgi/local/"
 
 # from model_requirements.txt
 [[sources]]

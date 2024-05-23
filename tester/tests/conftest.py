@@ -1,4 +1,5 @@
 import os
+import json
 import uuid
 
 import pytest
@@ -44,8 +45,7 @@ def pytest_collection_modifyitems(config, items):
 def new_session_obj():
     test_id = "test_" + str(uuid.uuid4())
     session = {
-        "text": "",
-        "id": test_id,
+        "session_id": test_id,
         "headless": False,
     }
     return session
@@ -79,3 +79,13 @@ def invalid_downloads_path() -> str:
 @pytest.fixture
 def missing_values_downloads_path() -> str:
     return "/shared/test_data/missing_values_downloads.toml"
+
+@pytest.fixture
+def sample_taskmap_json_wikihow() -> str:
+    # returns a JSON dump of a TaskMap extracted from the default index
+    return open("/shared/test_data/sample_taskmap_wikihow.json", "r").read()
+
+@pytest.fixture
+def sample_taskmap_json_seriouseats() -> str:
+    # returns a JSON dump of a TaskMap extracted from the default index
+    return open("/shared/test_data/sample_taskmap_seriouseats.json", "r").read()

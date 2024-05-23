@@ -10,7 +10,6 @@ from compiled_protobufs.llm_pb2 import (
 )
 from compiled_protobufs.taskmap_pb2 import Session, Task, ReplacedIngredient
 
-from grpc._channel import _InactiveRpcError
 from utils import logger
 from spacy.matcher import Matcher
 from pyserini.analysis import Analyzer, get_lucene_analyzer
@@ -41,51 +40,9 @@ class LLMIngredientStepTextRewriter:
                     return str_item
         return ""
 
-    def extract_response(self, generated_answer) -> str:
-        valid_dict = {}
-        start_token = "{"
-        end_token = "}"
-        if end_token not in generated_answer:
-            return valid_dict
-
-        if start_token in generated_answer:
-            generated_answer = "{" + generated_answer.split(start_token)[-1]
-
-        try:
-            generated_answer = generated_answer.replace(' \n   ', '').replace('\n', '')
-            valid_dict = json.loads(generated_answer)
-            logger.info(f'Managed to parse rewritten step text: {valid_dict}')
-
-            if "step_text" in list(valid_dict.keys()):
-                return valid_dict
-            else:
-                logger.info(f'Dictionary contents not valid: {valid_dict}')
-        except Exception as e:
-            logger.info(f'Could not parse response >{generated_answer}<: {e}')
-            return valid_dict
-
-    def process_response_text(self, response_text: str) -> str:
-        # remove whitespace
-        text = ' '.join(response_text.split("\n"))
-        if not re.search(r'[.!?]', text[-1]):
-            # If not, add a period (.) to the end of the text
-            text += '.'
-
-        # split at punctuation
-        sentences = re.split(r'(?<=[.!?])\s+', text)
-
-        complete_sentences = []
-        for sentence in sentences:
-            if sentence.endswith(('.', '!', '?')):
-                # remove numbered lists
-                sentence = re.sub(r'\d+\.', '', sentence)
-                complete_sentences.append(sentence.strip())
-        return ' '.join(complete_sentences)
-
     def build_prompt(self, task_title: str, step_text: str, ingredient: ReplacedIngredient) -> str:
         model_input = f"""Below is an instruction that describes a task, paired with an input that provides further 
         context. Write a response that appropriately completes the request.
-        Follow this format: {{\"step_text\": \"\"}}
 
         ### Instruction: Adjust the step text to replace the original ingredient with the replacement ingredient.
 
@@ -95,7 +52,7 @@ class LLMIngredientStepTextRewriter:
         Replacement ingredient:{ingredient.replacement.amount} {ingredient.replacement.name}
         Step: {step_text}
 
-        ### Response: {{\"step_text\": \""""
+        ### Response: """
         return model_input
 
     def adjust_step_texts(self, request: Session) -> Session:
@@ -132,6 +89,7 @@ class LLMIngredientStepTextRewriter:
         if len(adjusting_request.step) == 0:
             logger.info('Nothing rewritten because no matches in steps')
         else:
+            logger.info("Rewriting steps via LLM")
             adjusted_step_response: AdjustedStepGenerationResponse = self.rewrite_steps(adjusting_request)
             for step, id in zip(adjusted_step_response.step_text, adjusted_step_response.ids):
                 rewritten_steps[id] = step
@@ -189,18 +147,14 @@ class LLMIngredientStepTextRewriter:
 
         llm_step_texts: AdjustedStepGenerationResponse = AdjustedStepGenerationResponse()
 
-        try:
-            for step, ingredient in zip(request.step, request.ingredient):
-                model_input = self.build_prompt(request.task_title, step.response.speech_text, ingredient)
-                ids.append(step.unique_id)
-                model_batch_request.formatted_prompts.append(model_input)
+        for step, ingredient in zip(request.step, request.ingredient):
+            model_input = self.build_prompt(request.task_title, step.response.speech_text, ingredient)
+            ids.append(step.unique_id)
+            model_batch_request.formatted_prompts.append(model_input)
 
-            llm_responses = self.llm.batch_call_model(model_batch_request)
+        llm_responses = self.llm.batch_call_model(model_batch_request)
 
-            for idx, text in enumerate(llm_responses.text):
-                llm_step_texts.step_text.append(self.extract_response(text).get('step_text', ''))
-                llm_step_texts.ids.append(ids[idx])
-            return llm_step_texts
-        except _InactiveRpcError as e:
-            logger.warning("Step Text Rewriter Channel is down")
-            return llm_step_texts
+        for idx, text in enumerate(llm_responses.text):
+            llm_step_texts.step_text.append(text)
+            llm_step_texts.ids.append(ids[idx])
+        return llm_step_texts

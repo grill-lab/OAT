@@ -32,9 +32,13 @@ message QueryList{
 service Database{
   rpc load_taskmap(TaskMapRequest) returns (TaskMap) {}
   rpc save_taskmap(TaskMapRequest) returns (Void) {}
+  rpc delete_taskmap(TaskMapRequest) returns (Void) {}
 
   rpc load_session(SessionRequest) returns (Session) {}
   rpc save_session(SessionRequest) returns (Void) {}
+  rpc delete_session(SessionRequest) returns (Void) {}
+
+  rpc delete_stagedoutput(TaskMapRequest) returns (Void) {}
 
   rpc save_search_logs(SearchLog) returns(Void) {}
   rpc save_asr_logs(ASRLog) returns(Void) {}
