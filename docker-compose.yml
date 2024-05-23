@@ -311,7 +311,7 @@ services:
     container_name: tgi
     build:
       context: ./
-      dockerfile: hg_tgi/Dockerfile
+      dockerfile: tgi/Dockerfile
     ports:
       # this isn't needed for llm_functionalities (it uses the internal network),
       # but might be useful to be able to submit requests to the instance from
