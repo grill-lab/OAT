@@ -14,15 +14,15 @@ from compiled_protobufs.taskmap_pb2 import Ingredient
 from utils import logger
 
 
-def extract_replacement_response(generated_answer, original_ing: Ingredient) -> dict:
+def extract_replacement_response(generated_answer: str, original_ing: Ingredient) -> dict:
     valid_dict = {}
-    start_token = "{"
     end_token = "}"
+    # the part of the response format included in the prompt
+    prefix = "{\"name\""
     if end_token not in generated_answer:
         return valid_dict
 
-    if start_token in generated_answer:
-        generated_answer = "{" + generated_answer.split(start_token)[-1]
+    generated_answer = f"{prefix}{generated_answer}"
 
     try:
         generated_answer = generated_answer.replace(" \n   ", "").replace("\n", "")
