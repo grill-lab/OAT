@@ -7,7 +7,7 @@ from typing import Optional, Callable, Dict, Any
 import dns.resolver
 from huggingface_hub import InferenceClient
 
-from utils import logger
+from utils import logger, Downloader
 from compiled_protobufs.llm_pb2 import (
     ModelRequest,
     ModelResponse,
@@ -23,6 +23,11 @@ DEFAULT_TGI_TIMEOUT_MS = DEFAULT_TGI_TIMEOUT * 1000
 
 class LLMRunner:
     def __init__(self):
+        downloader = Downloader()
+        logger.info(f"Found {len(downloader.sources)} enabled download sources, retrieving them...")
+        # just download any defined sources
+        downloader.download()
+
         endpoint_url = os.environ.get("INFERENCE_ENDPOINT_URL", None)
         if endpoint_url is None:
             logger.error("No INFERENCE_ENDPOINT_URL defined, container will exit")
