@@ -39,7 +39,7 @@ class LLMRunner:
 
         self.endpoint_url = endpoint_url
         self.client = None
-        self._connect_to_endpoint()
+        logger.info("llm_functionalities initialized")
 
     def _connect_to_endpoint(self) -> bool:
         """Attempt to make a connection to the configured TGI endpoint.
