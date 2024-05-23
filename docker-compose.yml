@@ -321,12 +321,12 @@ services:
     volumes:
       # if the model is downloaded from huggingface, the files will be stored
       # in this location
-      - ./shared/file_system/tgi:/data
+      - ./shared/file_system/downloads/tgi/huggingface:/data
       # this volume is used to allow the use of the existing Alpaca LLM
       # that OAT is currently set up to use. setting MODEL_ID below to a 
       # path instead of a huggingface model ID will cause TGI to load model
       # files from that location
-      - ./shared/file_system/downloads/llm_functionalities/:/models
+      - ./shared/file_system/downloads/tgi/local:/models
     environment:
       # setting the value of MODEL_ID is equivalent to passing "--model-id" parameter
       # to the TGI launcher. the default is to use the Alpaca LLM model that OAT
